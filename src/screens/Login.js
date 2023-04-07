@@ -5,12 +5,24 @@ import { SIZES, COLORS } from '../constants/theme';
 import { Text, View, Image, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import fonts from '../constants/fonts';
+import { isValidateEmail, isValidatePassword } from '../untilies';
 const { height } = Dimensions.get('window');
 
 
 const Login = ({ navigation }) => {
+
+    const [errorEmail, setErrorEmail] = useState('');
+    const [errorPassword, setErrorPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const isValidIsOk = () => email.length > 0 && password.length > 0 && isValidateEmail(email) == true && isValidatePassword(password) == true;
+
     function clickRes() {
         navigation.navigate('Register');
+    }
+    function clickLogin() {
+
     }
     return <SafeAreaView>
         <View style={styles.textView}>
@@ -20,21 +32,56 @@ const Login = ({ navigation }) => {
             </View>
             <View style={styles.inputView}>
                 <TextInput
+                    onChangeText={(text) => {
+                        if (isValidateEmail(text) == false) {
+                            setErrorEmail('Sai định dạng email !');
+                        }
+                        else {
+                            setErrorEmail(null);
+                        }
+                        setEmail(text)
+                    }}
                     placeholder='Email'
                     style={styles.inputEmail}
                 />
+                <Text style={styles.valid}>{errorEmail}</Text>
                 <TextInput
+                    onChangeText={(text) => {
+                        if (isValidatePassword(text) == false) {
+                            setErrorPassword('Mật khẩu tối thiểu 4 kí tự !');
+                        }
+                        else {
+                            setErrorPassword(null);
+                        }
+                        setPassword(text)
+                    }}
                     placeholder='Password'
                     style={styles.inputEmail}
                     secureTextEntry
                 />
+                <Text style={styles.valid}>{errorPassword}</Text>
             </View>
             <View>
                 <Text style={styles.forgotPassText}>
                     Quên mật khẩu ?
                 </Text>
             </View>
-            <TouchableOpacity style={styles.btnLogin}>
+            <TouchableOpacity
+                disabled={isValidIsOk() == false}
+                onPress={() => clickLogin()}
+                style={{
+                    padding: 20,
+                    backgroundColor: isValidIsOk() == true ? COLORS.primary : '#9da19e',
+                    marginVertical: 30,
+                    borderRadius: 10,
+                    shadowColor: COLORS.black,
+                    shadowOffset: {
+                        width: 0,
+                        height: 10,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 10,
+                }}>
                 <Text style={styles.btnLoginText}>Đăng nhập</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => clickRes()} style={styles.btnRes}>
@@ -77,9 +124,15 @@ const Login = ({ navigation }) => {
             </View>
         </View>
 
-    </SafeAreaView>
+    </SafeAreaView >
 };
 const styles = StyleSheet.create({
+    valid: {
+        color: COLORS.red,
+        textAlign: 'right',
+        marginHorizontal: 10,
+        fontSize: 12,
+    },
     LoginWithText: {
         color: COLORS.primary,
         fontWeight: '900',
@@ -102,19 +155,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
     },
-    btnLogin: {
-        padding: 20,
-        backgroundColor: COLORS.primary,
-        marginVertical: 30,
-        borderRadius: 10,
-        shadowColor: COLORS.black,
-        shadowOffset: {
-            width: 0,
-            height: 10,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 10,
-    },
     forgotPassText: {
         color: COLORS.primary,
         fontWeight: '900',
@@ -130,7 +170,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: COLORS.primary,
         marginVertical: 30,
-        fontFamily:fonts.POPPINS_BOLD,
+        fontFamily: fonts.POPPINS_BOLD,
     },
     textWelcome: {
         fontWeight: '900',

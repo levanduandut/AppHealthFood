@@ -3,7 +3,7 @@ import { Alert, Dimensions, SafeAreaView, StyleSheet } from 'react-native';
 import images from '../constants/images';
 import { SIZES, COLORS } from '../constants/theme';
 import { Text, View, Image, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
-
+import fonts from '../constants/fonts';
 const { height } = Dimensions.get('window');
 
 
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 30,
         color: COLORS.primary,
-        fontWeight: '900',
+        fontFamily:fonts.POPPINS_BOLD,
         textAlign: 'center',
     },
     description: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textLogin: {
-        fontWeight: '900',
+        fontFamily:fonts.POPPINS_BOLD,
         fontSize: 18,
         color: '#ffffff',
         textAlign: 'center',
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textRes: {
-        fontWeight: '900',
+        fontFamily:fonts.POPPINS_BOLD,
         fontSize: 18,
         color: COLORS.black,
         textAlign: 'center',

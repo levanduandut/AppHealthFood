@@ -5,10 +5,19 @@ import { SIZES, COLORS } from '../constants/theme';
 import { Text, View, Image, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import fonts from '../constants/fonts';
+import { isValidateEmail, isValidatePassword } from '../untilies';
 const { height } = Dimensions.get('window');
 
 
 const Register = ({ navigation }) => {
+    const [errorEmail, setErrorEmail] = useState('');
+    const [errorPassword, setErrorPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorRePassword, setErrorRePassword] = useState('');
+    const [rePassword, setRePassword] = useState('');
+    const isValidIsOk = () => email.length > 0 && password.length > 0 && isValidateEmail(email) == true && isValidatePassword(password) == true;
+
     function clickLogin() {
         navigation.navigate('Login');
     }
@@ -20,22 +29,62 @@ const Register = ({ navigation }) => {
             </View>
             <View style={styles.inputView}>
                 <TextInput
+                    onChangeText={(text) => {
+                        if (isValidateEmail(text) == false) {
+                            setErrorEmail('Sai định dạng email !');
+                        }
+                        else {
+                            setErrorEmail(null);
+                        }
+                        setEmail(text)
+                    }}
                     placeholder='Email'
                     style={styles.inputEmail}
                 />
+                <Text style={styles.valid}>{errorEmail}</Text>
                 <TextInput
+                    onChangeText={(text) => {
+                        if (isValidatePassword(text) == false) {
+                            setErrorPassword('Mật khẩu tối thiểu 4 kí tự !');
+                        }
+                        else {
+                            setErrorPassword(null);
+                        }
+                        setPassword(text)
+                    }}
                     placeholder='Mật khẩu'
                     style={styles.inputEmail}
                     secureTextEntry
                 />
+                <Text style={styles.valid}>{errorPassword}</Text>
                 <TextInput
+                    onChangeText={(text) => {
+                        setRePassword(text);
+                    }}
                     placeholder='Nhập lại mật khẩu'
                     style={styles.inputEmail}
                     secureTextEntry
                 />
+                <Text style={styles.valid}>{errorRePassword}</Text>
             </View>
 
-            <TouchableOpacity style={styles.btnLogin}>
+            <TouchableOpacity
+                disabled={isValidIsOk() == false}
+                onPress={()=> clickLogin()}
+                style={{
+                    padding: 20,
+                    backgroundColor: isValidIsOk() == true ? COLORS.primary : '#9da19e',
+                    marginVertical: 30,
+                    borderRadius: 10,
+                    shadowColor: COLORS.black,
+                    shadowOffset: {
+                        width: 0,
+                        height: 10,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 10,
+                }}
+            >
                 <Text style={styles.btnLoginText}>Đăng ký</Text>
             </TouchableOpacity>
             <Text onPress={() => clickLogin()} style={styles.btnResText}>Đã có tài khoản?</Text>
@@ -80,6 +129,12 @@ const Register = ({ navigation }) => {
     </SafeAreaView>
 };
 const styles = StyleSheet.create({
+    valid: {
+        color: COLORS.red,
+        textAlign: 'right',
+        marginHorizontal: 10,
+        fontSize: 12,
+    },
     LoginWithText: {
         color: COLORS.primary,
         fontWeight: '900',
@@ -97,7 +152,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     btnLoginText: {
-        fontFamily:fonts.POPPINS_BOLD,
+        fontFamily: fonts.POPPINS_BOLD,
         color: COLORS.white,
         textAlign: 'center',
         fontSize: 20,
@@ -129,7 +184,7 @@ const styles = StyleSheet.create({
     textLogin: {
         fontSize: 30,
         color: COLORS.primary,
-        fontFamily:fonts.POPPINS_BOLD,
+        fontFamily: fonts.POPPINS_BOLD,
         marginVertical: 30,
     },
     textWelcome: {
