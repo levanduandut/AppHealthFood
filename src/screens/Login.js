@@ -4,6 +4,7 @@ import images from '../constants/images';
 import { SIZES, COLORS } from '../constants/theme';
 import { Text, View, Image, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import fonts from '../constants/fonts';
 const { height } = Dimensions.get('window');
 
 
@@ -128,8 +129,8 @@ const styles = StyleSheet.create({
     textLogin: {
         fontSize: 30,
         color: COLORS.primary,
-        fontWeight: '900',
         marginVertical: 30,
+        fontFamily:fonts.POPPINS_BOLD,
     },
     textWelcome: {
         fontWeight: '900',

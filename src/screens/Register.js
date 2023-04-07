@@ -4,6 +4,7 @@ import images from '../constants/images';
 import { SIZES, COLORS } from '../constants/theme';
 import { Text, View, Image, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import fonts from '../constants/fonts';
 const { height } = Dimensions.get('window');
 
 
@@ -35,7 +36,7 @@ const Register = ({ navigation }) => {
             </View>
 
             <TouchableOpacity style={styles.btnLogin}>
-                <Text style={styles.btnLoginText}>Đăng kí</Text>
+                <Text style={styles.btnLoginText}>Đăng ký</Text>
             </TouchableOpacity>
             <Text onPress={() => clickLogin()} style={styles.btnResText}>Đã có tài khoản?</Text>
 
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     btnLoginText: {
-        fontWeight: '900',
+        fontFamily:fonts.POPPINS_BOLD,
         color: COLORS.white,
         textAlign: 'center',
         fontSize: 20,
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     textLogin: {
         fontSize: 30,
         color: COLORS.primary,
-        fontWeight: '900',
+        fontFamily:fonts.POPPINS_BOLD,
         marginVertical: 30,
     },
     textWelcome: {
