@@ -4,5 +4,6 @@ export default {
     food: require("../assets/Food.png"),
     leaves: require("../assets/leaves.jpeg"),
     tree: require("../assets/images.jpeg"),
-    logologin: require("../assets/diet.png")
+    logologin: require("../assets/diet.png"),
+    Hehe: require("../assets/Hehe.png")
 }

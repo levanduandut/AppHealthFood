@@ -2,8 +2,12 @@ import { Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('screen');
 
 export const COLORS = {
-  primary: '#386a22',
+  white:'#ffffff',
+  black:'#000000',
+  primary: '#46d49d',
   title: '#2c3522',
+  red:'#ff0000',
+  blue:'#2f00ff',
 };
 
 export const SIZES = {

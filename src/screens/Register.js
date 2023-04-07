@@ -7,15 +7,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const { height } = Dimensions.get('window');
 
 
-const Login = ({ navigation }) => {
-    function clickRes() {
-        navigation.navigate('Register');
+const Register = ({ navigation }) => {
+    function clickLogin() {
+        navigation.navigate('Login');
     }
     return <SafeAreaView>
         <View style={styles.textView}>
             <View style={styles.textViewTitle}>
-                <Text style={styles.textLogin}>Đăng nhập</Text>
-                <Text style={styles.textWelcome}>Chào mừng bạn trở lại!</Text>
+                <Text style={styles.textLogin}>Đăng ký</Text>
+                <Text style={styles.textWelcome}>Hãy tạo tài khoản để trải nghiệm dịch vụ nào!</Text>
             </View>
             <View style={styles.inputView}>
                 <TextInput
@@ -23,22 +23,22 @@ const Login = ({ navigation }) => {
                     style={styles.inputEmail}
                 />
                 <TextInput
-                    placeholder='Password'
+                    placeholder='Mật khẩu'
+                    style={styles.inputEmail}
+                    secureTextEntry
+                />
+                <TextInput
+                    placeholder='Nhập lại mật khẩu'
                     style={styles.inputEmail}
                     secureTextEntry
                 />
             </View>
-            <View>
-                <Text style={styles.forgotPassText}>
-                    Quên mật khẩu ?
-                </Text>
-            </View>
+
             <TouchableOpacity style={styles.btnLogin}>
-                <Text style={styles.btnLoginText}>Đăng nhập</Text>
+                <Text style={styles.btnLoginText}>Đăng kí</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => clickRes()} style={styles.btnRes}>
-                <Text style={styles.btnResText}>Tạo tài khoản</Text>
-            </TouchableOpacity>
+            <Text onPress={() => clickLogin()} style={styles.btnResText}>Đã có tài khoản?</Text>
+
             <View style={{
                 marginVertical: 20,
             }}>
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     },
     textWelcome: {
         fontWeight: '900',
-        fontSize: 20,
+        fontSize: 15,
         maxWidth: '60%',
         textAlign: 'center',
     },
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Login;
+export default Register;

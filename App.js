@@ -4,7 +4,11 @@ import { View, Text } from 'react-native';
 import { slides } from './src/data/welcome';
 import { Image, StyleSheet } from 'react-native';
 import { COLORS, SIZES } from './src/constants/theme';
-import { Login } from './src/screens';
+import { Login, LoginRes,Register } from './src/screens';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [showHomepage, setShowHomePage] = useState(false);
@@ -49,7 +53,14 @@ export default function App() {
 
 
   return (
-    <Login />
+    // <LoginRes />
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='LoginRes' screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="LoginRes" component={LoginRes} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 
 
