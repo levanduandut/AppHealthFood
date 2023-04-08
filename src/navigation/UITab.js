@@ -22,7 +22,7 @@ const screenOptions = ({ route }) => ({
     },
     tabBarStyle: {
         position: 'absolute',
-        bottom: 20,
+        bottom: 10,
         left: 10,
         right: 10,
         elevation: 0,

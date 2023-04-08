@@ -67,8 +67,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.primary,
         paddingVertical: 15,
         paddingHorizontal: 20,
-        width: "48%",
+        width: "45%",
         borderRadius: 10,
+        elevation:10,
+        marginEnd:30,
     },
     textLogin: {
         fontFamily: fonts.POPPINS_BOLD,
@@ -80,8 +82,9 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         paddingVertical: 15,
         paddingHorizontal: 20,
-        width: "48%",
+        width: "45%",
         borderRadius: 10,
+        elevation:10,
     },
     textRes: {
         fontFamily: fonts.POPPINS_BOLD,

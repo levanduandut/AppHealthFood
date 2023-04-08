@@ -76,13 +76,7 @@ const Login = (props) => {
                     backgroundColor: isValidIsOk() == true ? COLORS.primary : '#9da19e',
                     marginVertical: 30,
                     borderRadius: 10,
-                    shadowColor: COLORS.black,
-                    shadowOffset: {
-                        width: 0,
-                        height: 10,
-                    },
-                    shadowOpacity: 0.3,
-                    shadowRadius: 10,
+                    elevation:12,
                 }}>
                 <Text style={styles.btnLoginText}>Đăng nhập</Text>
             </TouchableOpacity>
@@ -150,6 +144,7 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: COLORS.white,
         borderRadius: 10,
+        elevation:8,
     },
     btnLoginText: {
         fontWeight: '900',

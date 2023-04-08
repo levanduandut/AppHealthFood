@@ -11,6 +11,7 @@ export const COLORS = {
   green: '#006400',
   xGreen: '#3CB371',
   grey:'#D3D3D3',
+  yellow:'#ffe600',
 };
 
 export const SIZES = {
