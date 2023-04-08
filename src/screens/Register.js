@@ -9,7 +9,11 @@ import { isValidateEmail, isValidatePassword } from '../untilies';
 const { height } = Dimensions.get('window');
 
 
-const Register = ({ navigation }) => {
+const Register = (props) => {
+
+    const { navigation, route } = props;
+    const {navigate, goBack} = navigation;
+
     const [errorEmail, setErrorEmail] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -19,7 +23,7 @@ const Register = ({ navigation }) => {
     const isValidIsOk = () => email.length > 0 && password.length > 0 && isValidateEmail(email) == true && isValidatePassword(password) == true;
 
     function clickLogin() {
-        navigation.navigate('Login');
+        navigate('Login');
     }
     return <SafeAreaView>
         <View style={styles.textView}>
@@ -70,7 +74,7 @@ const Register = ({ navigation }) => {
 
             <TouchableOpacity
                 disabled={isValidIsOk() == false}
-                onPress={()=> clickLogin()}
+                onPress={() => clickLogin()}
                 style={{
                     padding: 20,
                     backgroundColor: isValidIsOk() == true ? COLORS.primary : '#9da19e',

@@ -9,7 +9,9 @@ import { isValidateEmail, isValidatePassword } from '../untilies';
 const { height } = Dimensions.get('window');
 
 
-const Login = ({ navigation }) => {
+const Login = (props) => {
+    const {navigation, route} = props;
+    const {navigate, goBack} = navigation;
 
     const [errorEmail, setErrorEmail] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
@@ -19,10 +21,10 @@ const Login = ({ navigation }) => {
     const isValidIsOk = () => email.length > 0 && password.length > 0 && isValidateEmail(email) == true && isValidatePassword(password) == true;
 
     function clickRes() {
-        navigation.navigate('Register');
+        navigate('Register');
     }
     function clickLogin() {
-
+        navigate('UITab');
     }
     return <SafeAreaView>
         <View style={styles.textView}>

@@ -7,12 +7,15 @@ import fonts from '../constants/fonts';
 const { height } = Dimensions.get('window');
 
 
-const LoginRes = ({ navigation }) => {
+const LoginRes = (props) => {
+    const { navigation, route } = props;
+    const { navigate, goBack } = navigation;
+
     function clickLogin() {
-        navigation.navigate('Login');
+        navigate('Login');
     }
     function clickRes() {
-        navigation.navigate('Register');
+        navigate('Register');
     }
 
     return <SafeAreaView>
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 30,
         color: COLORS.primary,
-        fontFamily:fonts.POPPINS_BOLD,
+        fontFamily: fonts.POPPINS_BOLD,
         textAlign: 'center',
     },
     description: {
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textLogin: {
-        fontFamily:fonts.POPPINS_BOLD,
+        fontFamily: fonts.POPPINS_BOLD,
         fontSize: 18,
         color: '#ffffff',
         textAlign: 'center',
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textRes: {
-        fontFamily:fonts.POPPINS_BOLD,
+        fontFamily: fonts.POPPINS_BOLD,
         fontSize: 18,
         color: COLORS.black,
         textAlign: 'center',
