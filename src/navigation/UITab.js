@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import fonts from '../constants/fonts';
 import { COLORS, SIZES } from '../constants/theme';
-import Home from '../screens/Home';
+import Home from '../screens/Home/Home';
 import Profile from '../screens/Profile';
 import Chart from '../screens/Chart';
 import NutritionFacts from '../screens/NutritionFacts';

@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { View, Text } from 'react-native';
-import { slides } from './src/data/welcome';
-import { Image, StyleSheet } from 'react-native';
-import { COLORS, SIZES } from './src/constants/theme';
-import { Login, LoginRes,Register } from './src/screens';
+import {View, Text} from 'react-native';
+import {slides} from './src/data/welcome';
+import {Image, StyleSheet} from 'react-native';
+import {COLORS, SIZES} from './src/constants/theme';
+import {Login, LoginRes, Register} from './src/screens';
 import UITab from './src/navigation/UITab';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Home from './src/screens/Home/Home';
+import DetailFood from './src/screens/Home/DetailFood';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -50,21 +52,21 @@ export default function App() {
   //   );
   // }
 
-
-
   return (
     // <LoginRes />
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='UITab' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        initialRouteName="UITab"
+        screenOptions={{headerShown: false}}>
         <Stack.Screen name="LoginRes" component={LoginRes} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="UITab" component={UITab} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="DetailFood" component={DetailFood} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-
-
 }
 const styles = StyleSheet.create({
   view: {
