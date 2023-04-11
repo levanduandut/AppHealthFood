@@ -31,11 +31,43 @@ const {width} = Dimensions.get('screen');
 const Home = props => {
   const {navigation, route} = props;
   const {navigate, goBack} = navigation;
+  const clickFood = () => {
+    navigate('XFood');
+  };
+  const clickBody = () => {
+    navigate('XExercise');
+  };
+  const clickScan = () => {
+    navigate('XScan');
+  };
+  const clickMap = () => {
+    navigate('XMap');
+  };
   const categoryIcons = [
-    <Icon name="edit" size={25} color={COLORS.xGreen} />,
-    <IIcon name="body" size={25} color={COLORS.xGreen} />,
-    <Icon name="qrcode" size={25} color={COLORS.xGreen} />,
-    <IIcon name="ios-location-outline" size={25} color={COLORS.xGreen} />,
+    <IIcon
+      onPress={() => clickFood()}
+      name="fast-food"
+      size={25}
+      color={COLORS.xGreen}
+    />,
+    <IIcon
+      onPress={() => clickBody()}
+      name="body"
+      size={25}
+      color={COLORS.xGreen}
+    />,
+    <Icon
+      onPress={() => clickScan()}
+      name="qrcode"
+      size={25}
+      color={COLORS.xGreen}
+    />,
+    <IIcon
+      onPress={() => clickMap()}
+      name="ios-location-outline"
+      size={25}
+      color={COLORS.xGreen}
+    />,
   ];
   const ListCategories = () => {
     return (

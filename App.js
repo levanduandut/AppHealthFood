@@ -10,6 +10,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './src/screens/Home/Home';
 import DetailFood from './src/screens/Home/DetailFood';
+import XFood from './src/screens/Home/Category/XFood';
+import XMap from './src/screens/Home/Category/XMap';
+import XExercise from './src/screens/Home/Category/XExercise';
+import XScan from './src/screens/Home/Category/XScan';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -56,7 +60,7 @@ export default function App() {
     // <LoginRes />
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="UITab"
+        initialRouteName="XFood"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="LoginRes" component={LoginRes} />
         <Stack.Screen name="Login" component={Login} />
@@ -64,6 +68,10 @@ export default function App() {
         <Stack.Screen name="UITab" component={UITab} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="DetailFood" component={DetailFood} />
+        <Stack.Screen name="XFood" component={XFood} />
+        <Stack.Screen name="XMap" component={XMap} />
+        <Stack.Screen name="XExercise" component={XExercise} />
+        <Stack.Screen name="XScan" component={XScan} />
       </Stack.Navigator>
     </NavigationContainer>
   );
