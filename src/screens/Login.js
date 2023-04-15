@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Dimensions,
@@ -7,7 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import images from '../constants/images';
-import {SIZES, COLORS} from '../constants/theme';
+import { SIZES, COLORS } from '../constants/theme';
 import {
   Text,
   View,
@@ -18,12 +18,14 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import fonts from '../constants/fonts';
-import {isValidateEmail, isValidatePassword} from '../untilies';
-const {height} = Dimensions.get('window');
+import { isValidateEmail, isValidatePassword } from '../untilies';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { user_login } from '../api/user_api';
+const { height } = Dimensions.get('window');
 
 const Login = props => {
-  const {navigation, route} = props;
-  const {navigate, goBack} = navigation;
+  const { navigation, route } = props;
+  const { navigate, goBack } = navigation;
 
   const [errorEmail, setErrorEmail] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
@@ -40,7 +42,21 @@ const Login = props => {
     navigate('Register');
   }
   function clickLogin() {
-    navigate('UITab');
+    user_login({
+      email: email,
+      password: password,
+    })
+      .then(async res => {
+        if (res.data.message !== null) {
+          alert(res.data.message);
+        } else {
+          await AsyncStorage.setItem('AccessToken', res.data.token);
+          navigate('UITab');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   return (
     <SafeAreaView>

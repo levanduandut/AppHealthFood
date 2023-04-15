@@ -23,52 +23,54 @@ const CartFood = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', food)}>
-      <ImageBackground style={styles.imgBack} source={food.image}>
-        <Text
-          style={{
-            color: COLORS.white,
-            fontSize: 22,
-            marginTop: 10,
-            fontWeight: 'bold',
-          }}>
-          {food.name}
-        </Text>
-        <View
-          style={{
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            flex: 1,
-          }}>
-          <View style={{width: '100%', flexDirection: 'row', marginTop: 10}}>
-            <View style={{flexDirection: 'row'}}>
-              <Icon name="tag" size={22} color={COLORS.xGreen} />
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  flexDirection: 'row',
-                  marginLeft: 10,
-                  color: COLORS.white,
-                }}>
-                {food.tag}
-              </Text>
-            </View>
+      <ScrollView>
+        <ImageBackground style={styles.imgBack} source={food.image}>
+          <Text
+            style={{
+              color: COLORS.white,
+              fontSize: 22,
+              marginTop: 10,
+              fontWeight: 'bold',
+            }}>
+            {food.name}
+          </Text>
+          <View
+            style={{
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              flex: 1,
+            }}>
+            <View style={{width: '100%', flexDirection: 'row', marginTop: 10}}>
+              <View style={{flexDirection: 'row'}}>
+                <Icon name="tag" size={22} color={COLORS.xGreen} />
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    flexDirection: 'row',
+                    marginLeft: 10,
+                    color: COLORS.white,
+                  }}>
+                  {food.tag}
+                </Text>
+              </View>
 
-            <View style={{flexDirection: 'row', marginLeft: 10}}>
-              <Icon name="star" size={22} color={COLORS.yellow} />
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  flexDirection: 'row',
-                  marginLeft: 10,
-                  color: COLORS.white,
-                }}>
-                {food.star}
-              </Text>
+              <View style={{flexDirection: 'row', marginLeft: 10}}>
+                <Icon name="star" size={22} color={COLORS.yellow} />
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    flexDirection: 'row',
+                    marginLeft: 10,
+                    color: COLORS.white,
+                  }}>
+                  {food.star}
+                </Text>
+              </View>
             </View>
+            <Text style={{color: COLORS.white}}>{food.detail}</Text>
           </View>
-          <Text style={{color: COLORS.white}}>{food.detail}</Text>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </ScrollView>
     </TouchableOpacity>
   );
 };
