@@ -14,53 +14,55 @@ import XFood from './src/screens/Home/Category/XFood';
 import XMap from './src/screens/Home/Category/XMap';
 import XExercise from './src/screens/Home/Category/XExercise';
 import XScan from './src/screens/Home/Category/XScan';
+import Profile from './src/screens/Profile/Profile';
+import ProfileAccount from './src/screens/Profile/ProfileAccount';
+import ProfileEdit from './src/screens/Profile/ProfileEdit';
+import ProfileHealth from './src/screens/Profile/ProfileHealth';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [showHomepage, setShowHomePage] = useState(false);
-  const buttonLabel = (label) => {
+  const buttonLabel = label => {
     return (
       <View style={styles.buttonLabelView}>
-        <Text style={styles.buttonLabelText}>
-          {label}
-        </Text>
+        <Text style={styles.buttonLabelText}>{label}</Text>
       </View>
     );
   };
-  if (!showHomepage) {
-    return (
-      <AppIntroSlider
-        data={slides}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.view}>
-              <Image
-                source={item.image}
-                style={styles.image}
-                resizeMode="contain"
-              />
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.description}>{item.description}</Text>
-            </View>
-          );
-        }}
-        activeDotStyle={styles.activeDot}
-        showSkipButton
-        renderNextButton={() => buttonLabel('Next')}
-        renderSkipButton={() => buttonLabel('Skip')}
-        renderDoneButton={() => buttonLabel('Done')}
-        onDone={() => {
-          setShowHomePage(true);
-        }}
-      />
-    );
-  }
+  // if (!showHomepage) {
+  //   return (
+  //     <AppIntroSlider
+  //       data={slides}
+  //       renderItem={({ item }) => {
+  //         return (
+  //           <View style={styles.view}>
+  //             <Image
+  //               source={item.image}
+  //               style={styles.image}
+  //               resizeMode="contain"
+  //             />
+  //             <Text style={styles.title}>{item.title}</Text>
+  //             <Text style={styles.description}>{item.description}</Text>
+  //           </View>
+  //         );
+  //       }}
+  //       activeDotStyle={styles.activeDot}
+  //       showSkipButton
+  //       renderNextButton={() => buttonLabel('Next')}
+  //       renderSkipButton={() => buttonLabel('Skip')}
+  //       renderDoneButton={() => buttonLabel('Done')}
+  //       onDone={() => {
+  //         setShowHomePage(true);
+  //       }}
+  //     />
+  //   );
+  // }
 
   return (
     // <LoginRes />
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="LoginRes"
+        initialRouteName="UITab"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="LoginRes" component={LoginRes} />
         <Stack.Screen name="Login" component={Login} />
@@ -72,6 +74,10 @@ export default function App() {
         <Stack.Screen name="XMap" component={XMap} />
         <Stack.Screen name="XExercise" component={XExercise} />
         <Stack.Screen name="XScan" component={XScan} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="ProfileAccount" component={ProfileAccount} />
+        <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
+        <Stack.Screen name="ProfileHealth" component={ProfileHealth} />
       </Stack.Navigator>
     </NavigationContainer>
   );

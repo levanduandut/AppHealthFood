@@ -6,7 +6,7 @@ export const COLORS = {
   black: '#000000',
   primary: '#46d49d',
   title: '#2c3522',
-  red: '#ff0000',
+  red: '#e67676',
   blue: '#2f00ff',
   green: '#006400',
   xGreen: '#3CB371',

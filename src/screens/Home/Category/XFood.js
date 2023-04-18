@@ -35,17 +35,13 @@ const XFood = props => {
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity
+                onPress={() => goBack()}
                 style={{
                   margin: 10,
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <XIcon
-                  name="arrow-back"
-                  size={28}
-                  color={COLORS.xGreen}
-                  onPress={() => goBack()}
-                />
+                <XIcon name="arrow-back" size={28} color={COLORS.xGreen} />
                 <Text style={{fontSize: 20, color: COLORS.xGreen}}>Back</Text>
               </TouchableOpacity>
             </View>
