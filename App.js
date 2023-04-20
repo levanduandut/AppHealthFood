@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import {View, Text} from 'react-native';
-import {slides} from './src/data/welcome';
-import {Image, StyleSheet} from 'react-native';
-import {COLORS, SIZES} from './src/constants/theme';
-import {Login, LoginRes, Register} from './src/screens';
+import { View, Text } from 'react-native';
+import { slides } from './src/data/welcome';
+import { Image, StyleSheet } from 'react-native';
+import { COLORS, SIZES } from './src/constants/theme';
+import { Login, LoginRes, Register } from './src/screens';
 import UITab from './src/navigation/UITab';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './src/screens/Home/Home';
 import DetailFood from './src/screens/Home/DetailFood';
 import XFood from './src/screens/Home/Category/XFood';
@@ -18,6 +18,7 @@ import Profile from './src/screens/Profile/Profile';
 import ProfileAccount from './src/screens/Profile/ProfileAccount';
 import ProfileEdit from './src/screens/Profile/ProfileEdit';
 import ProfileHealth from './src/screens/Profile/ProfileHealth';
+import Chart from './src/screens/Chart';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -63,7 +64,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="UITab"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{ headerShown: false }}>
         <Stack.Screen name="LoginRes" component={LoginRes} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
@@ -75,6 +76,7 @@ export default function App() {
         <Stack.Screen name="XExercise" component={XExercise} />
         <Stack.Screen name="XScan" component={XScan} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Chart" component={Chart} />
         <Stack.Screen name="ProfileAccount" component={ProfileAccount} />
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
         <Stack.Screen name="ProfileHealth" component={ProfileHealth} />

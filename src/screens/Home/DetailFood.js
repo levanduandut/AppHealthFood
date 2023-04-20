@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Dimensions,
@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import images from '../../constants/images';
-import {SIZES, COLORS} from '../../constants/theme';
+import { SIZES, COLORS } from '../../constants/theme';
 import {
   Text,
   View,
@@ -19,17 +19,17 @@ import {
 import fonts from '../../constants/fonts';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IIcon from 'react-native-vector-icons/Feather';
-const {height} = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 const DetailFood = props => {
-  const {navigation, route} = props;
-  const {navigate, goBack} = navigation;
+  const { navigation, route } = props;
+  const { navigate, goBack } = navigation;
   const x = route.params;
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <StatusBar translucent backgroundColor={COLORS.grey}></StatusBar>
-      <ImageBackground style={{flex: 0.5}} source={x.image}>
+      <ImageBackground style={{ flex: 0.5 }} source={x.image}>
         <View style={styles.header}>
           <Icon
             name="arrow-back"
@@ -55,7 +55,7 @@ const DetailFood = props => {
             }}>
             {x.name ? x.name : x.title}
           </Text>
-          <View style={{flexDirection: 'row', marginTop: 15}}>
+          <View style={{ flexDirection: 'row', marginTop: 15 }}>
             <Icon name="star" size={22} color={COLORS.yellow} />
             <Text
               style={{
@@ -74,7 +74,7 @@ const DetailFood = props => {
         <View style={styles.iconContainer}>
           <Icon name="bookmark" color={COLORS.primary} size={30} />
         </View>
-        <View style={{flexDirection: 'row', marginTop: 10}}>
+        <View style={{ flexDirection: 'row', marginTop: 10 }}>
           <IIcon name="tag" size={28} color={COLORS.xGreen} />
           <Text
             style={{
@@ -86,14 +86,14 @@ const DetailFood = props => {
             {x.tag}
           </Text>
         </View>
-        <Text style={{marginTop: 20, fontWeight: 'bold', fontSize: 20}}>
+        <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 20 }}>
           {!x.name ? 'Về lối sống' : 'Công thức nấu ăn'}
         </Text>
         <ScrollView
-          style={{flex: 1, marginTop: 20}}
-          contentContainerStyle={{minHeight: '100%'}}
+          style={{ flex: 1, marginTop: 20 }}
+          contentContainerStyle={{ minHeight: '100%' }}
           automaticallyAdjustKeyboardInsets={true}>
-          <Text style={{marginTop: 20, lineHeight: 22}}>{x.detail}</Text>
+          <Text style={{ marginTop: 20, lineHeight: 22 }}>{x.detail}</Text>
         </ScrollView>
       </View>
     </SafeAreaView>
