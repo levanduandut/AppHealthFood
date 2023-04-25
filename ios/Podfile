@@ -19,6 +19,10 @@ target 'HealthFood' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+
   target 'HealthFoodTests' do
     inherit! :complete
     # Pods for testing

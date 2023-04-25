@@ -23,13 +23,13 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [showHomepage, setShowHomePage] = useState(false);
-  const buttonLabel = label => {
-    return (
-      <View style={styles.buttonLabelView}>
-        <Text style={styles.buttonLabelText}>{label}</Text>
-      </View>
-    );
-  };
+  // const buttonLabel = label => {
+  //   return (
+  //     <View style={styles.buttonLabelView}>
+  //       <Text style={styles.buttonLabelText}>{label}</Text>
+  //     </View>
+  //   );
+  // };
   // if (!showHomepage) {
   //   return (
   //     <AppIntroSlider
@@ -63,7 +63,7 @@ export default function App() {
     // <LoginRes />
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="UITab"
+        initialRouteName="LoginRes"
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="LoginRes" component={LoginRes} />
         <Stack.Screen name="Login" component={Login} />

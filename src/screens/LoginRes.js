@@ -35,11 +35,10 @@ const LoginRes = props => {
 
         <View style={styles.viewText}>
           <Text style={styles.title}>
-            Bắt đầu trải nghiệm tính năng hữu ích{' '}
+            Bắt đầu trải nghiệm tính năng hữu ích
           </Text>
           <Text style={styles.description}>
-            Bắt đầu trải nghiệm tính năng hữu ích Bắt đầu trải nghiệm tính năng
-            hữu ích{' '}
+            Ăn uống lành mạnh và đầy đủ dinh dưỡng.
           </Text>
         </View>
         <View style={styles.buttonView}>
@@ -74,6 +73,7 @@ const styles = StyleSheet.create({
     paddingTop: 25,
     fontSize: 15,
     color: COLORS.black,
+    fontFamily: fonts.POPPINS_BOLD,
     fontWeight: '900',
     textAlign: 'center',
   },
