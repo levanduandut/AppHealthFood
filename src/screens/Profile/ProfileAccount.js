@@ -21,7 +21,7 @@ const ProfileAccount = props => {
       <HeaderBar navigation={navigation} />
       <Text
         style={{
-          marginTop: 20,
+          marginTop: -35,
           color: COLORS.black,
           fontWeight: 'bold',
           fontSize: 25,

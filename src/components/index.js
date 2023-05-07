@@ -1,3 +1,4 @@
 import HeaderBar from './HeaderBar';
 import ChartCom from './ChartCom';
-export { HeaderBar, ChartCom };
+import CartInfo from './CartInfo';
+export { HeaderBar, ChartCom , CartInfo};
