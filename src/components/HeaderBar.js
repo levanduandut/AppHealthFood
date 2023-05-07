@@ -18,14 +18,16 @@ const HeaderBar = props => {
     const { navigation, route } = props;
     const { navigate, goBack } = navigation;
     return (
-        <View style={{ marginTop:20,paddingHorizontal: 10, flexDirection: 'row' }}>
+        <View style={{ marginTop: 20, paddingHorizontal: 20, flexDirection: 'row' }}>
             <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Icon
-                    name="arrow-back"
-                    size={28}
-                    color={COLORS.xGreen}
-                    onPress={() => goBack()}
-                />
+                <View style={{backgroundColor:COLORS.grey, borderRadius:5,padding:2}}>
+                    <Icon
+                        name="arrow-back"
+                        size={30}
+                        color={COLORS.xGreen}
+                        onPress={() => goBack()}
+                    />
+                </View>
             </View>
         </View>
     );

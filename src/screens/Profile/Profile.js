@@ -67,15 +67,16 @@ const Profile = props => {
     address: address,
     email:email,
     name: name,
+    avatar:avatar,
   }
   const clickInfo = () => {
     navigation.navigate('ProfileAccount', info1);
   };
   const clickEdit = () => {
-    navigation.navigate('ProfileEdit');
+    navigation.navigate('ProfileEdit', info1);
   };
   const clickHealth = () => {
-    navigation.navigate('ProfileHealth');
+    navigation.navigate('ProfileHealth', info1);
   };
 
   const clickLogOut = () => {
@@ -188,7 +189,7 @@ const Profile = props => {
             borderRadius: 10,
             elevation: 20,
           }}>
-          <Icon name="edit" size={35} color={COLORS.yellow} />
+          <Icon name="edit" size={33} color={COLORS.yellow} />
           <Text style={{marginLeft: 10, fontWeight: 'bold', fontSize: 17}}>
             Chỉnh sửa thông tin
           </Text>
