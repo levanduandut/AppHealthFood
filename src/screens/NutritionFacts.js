@@ -55,17 +55,6 @@ const NutritionFacts = props => {
       setSearch(text);
     }
   };
-  const ItemView = ({ item }) => {
-    return (
-      <View>
-        <Text>
-          {item.id}{'.   '}{item.name}
-        </Text>
-      </View>
-    )
-  };
-
-
   return (
 
     <SafeAreaView style={{ flex: 1 }}>

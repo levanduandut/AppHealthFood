@@ -19,6 +19,7 @@ import ProfileAccount from './src/screens/Profile/ProfileAccount';
 import ProfileEdit from './src/screens/Profile/ProfileEdit';
 import ProfileHealth from './src/screens/Profile/ProfileHealth';
 import Chart from './src/screens/Chart';
+import IngreDetail from './src/components/NutritionFactsCom/IngreDetail';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -80,6 +81,7 @@ export default function App() {
         <Stack.Screen name="ProfileAccount" component={ProfileAccount} />
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
         <Stack.Screen name="ProfileHealth" component={ProfileHealth} />
+        <Stack.Screen name="IngreDetail" component={IngreDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

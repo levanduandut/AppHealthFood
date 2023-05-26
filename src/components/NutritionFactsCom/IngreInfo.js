@@ -12,7 +12,7 @@ const IngreInfo = props => {
     return (
         <TouchableOpacity
             activeOpacity={0.8}
-        // onPress={() => navigation.navigate('DetailFood', ingre)}
+            onPress={() => navigation.navigate('IngreDetail', ingre)}
         >
             <View style={{ paddingVertical: 3 }}>
                 <View
