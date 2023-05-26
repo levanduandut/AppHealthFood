@@ -22,7 +22,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import fonts from '../../constants/fonts';
 import CartLife from '../../components/HomeCom/CartLife';
 import CartFood from '../../components/HomeCom/CartFood';
 const {height} = Dimensions.get('window');

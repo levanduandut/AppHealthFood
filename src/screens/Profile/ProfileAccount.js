@@ -1,20 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import {Alert, Dimensions, Image, SafeAreaView, StyleSheet} from 'react-native';
-import {SIZES, COLORS} from '../../constants/theme';
-import {Text, View} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Alert, Dimensions, Image, SafeAreaView, StyleSheet } from 'react-native';
+import { SIZES, COLORS } from '../../constants/theme';
+import { Text, View } from 'react-native';
 import fonts from '../../constants/fonts';
 import UserAvatar from 'react-native-user-avatar';
 import HeaderBar from '../../components/HeaderBar';
-const {height} = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 const ProfileAccount = props => {
-  const {navigation, route} = props;
-  const {navigate, goBack} = navigation;
+  const { navigation, route } = props;
+  const { navigate, goBack } = navigation;
+
   const name = route.params.name;
+  const gender = route.params.gender;
   const address = route.params.address;
   const age = route.params.age;
   const email = route.params.email;
   const avatar = route.params.avatar;
+
 
   return (
     <SafeAreaView>
@@ -30,7 +33,7 @@ const ProfileAccount = props => {
         }}>
         Thông tin cá nhân{' '}
       </Text>
-      <View style={{alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         {!avatar ? (
           <View
             style={{
@@ -43,7 +46,7 @@ const ProfileAccount = props => {
           </View>
         ) : (
           <Image
-            source={{uri: avatar}}
+            source={{ uri: avatar }}
             style={{
               width: 140,
               height: 140,
@@ -65,7 +68,7 @@ const ProfileAccount = props => {
         <Text>{email}</Text>
       </View>
       <View
-        style={{paddingHorizontal: 30, paddingVertical: 10, paddingTop: 20}}>
+        style={{ paddingHorizontal: 30, paddingVertical: 10, paddingTop: 20 }}>
         <View
           style={{
             flexDirection: 'column',
@@ -77,7 +80,7 @@ const ProfileAccount = props => {
           <Text style={styles.data}>{name}</Text>
         </View>
       </View>
-      <View style={{paddingHorizontal: 30, paddingVertical: 10}}>
+      <View style={{ paddingHorizontal: 30, paddingVertical: 10 }}>
         <View
           style={{
             flexDirection: 'column',
@@ -89,7 +92,7 @@ const ProfileAccount = props => {
           <Text style={styles.data}>{address}</Text>
         </View>
       </View>
-      <View style={{paddingHorizontal: 30, paddingVertical: 10}}>
+      <View style={{ paddingHorizontal: 30, paddingVertical: 10 }}>
         <View
           style={{
             flexDirection: 'column',
@@ -101,7 +104,19 @@ const ProfileAccount = props => {
           <Text style={styles.data}>{age}</Text>
         </View>
       </View>
-      <View style={{paddingHorizontal: 30, paddingVertical: 10}}>
+      <View style={{ paddingHorizontal: 30, paddingVertical: 10 }}>
+        <View
+          style={{
+            flexDirection: 'column',
+            backgroundColor: '#abebed',
+            borderRadius: 10,
+            padding: 10,
+          }}>
+          <Text style={styles.title}>Giới tính</Text>
+          <Text style={styles.data}>{gender===1?"Nữ":"Nam"}</Text>
+        </View>
+      </View>
+      <View style={{ paddingHorizontal: 30, paddingVertical: 10 }}>
         <View
           style={{
             flexDirection: 'column',
@@ -118,7 +133,7 @@ const ProfileAccount = props => {
 };
 const styles = StyleSheet.create({
   title: {
-    paddingLeft:20,
+    paddingLeft: 20,
     fontSize: 15,
     color: COLORS.black,
   },

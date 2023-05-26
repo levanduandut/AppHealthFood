@@ -23,3 +23,15 @@ export const user_info = async data => {
     return error.response.data;
   }
 };
+
+export const nutrition_info = async data => {
+  try {
+    const res = await api('user/get-all-ingredient', {
+      method: 'GET',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};

@@ -1,22 +1,24 @@
-import React, {useState, useEffect} from 'react';
-import {Alert, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Alert, Dimensions, SafeAreaView, StyleSheet } from 'react-native';
 import images from '../../constants/images';
-import {SIZES, COLORS} from '../../constants/theme';
-import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+import { SIZES, COLORS } from '../../constants/theme';
+import { Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import fonts from '../../constants/fonts';
 import UserAvatar from 'react-native-user-avatar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {user_info} from '../../api/user_api';
-import {useFocusEffect} from '@react-navigation/native';
+import { user_info } from '../../api/user_api';
+import { useFocusEffect } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-const {height} = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 const Profile = props => {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   const [token, setToken] = useState('token');
   const [email, setEmail] = useState('email');
   const [name, setName] = useState('name');
+  const [id, setId] = useState('');
+  const [gender, setGender] = useState('');
   const [age, setAge] = useState('age');
   const [address, setAddress] = useState('address');
   const [height, setHeight] = useState('height');
@@ -35,7 +37,7 @@ const Profile = props => {
       await setToken(value);
       getInfoUser(value);
     });
-  });
+  }, []);
   const getInfoUser = async token => {
     const tk = await AsyncStorage.getItem('AccessToken');
     setToken(tk);
@@ -44,6 +46,8 @@ const Profile = props => {
     })
       .then(async res => {
         if (!res.data.message) {
+          setGender(res.data.user.gender);
+          setId(res.data.user.id);
           setEmail(res.data.user.email);
           setName(res.data.user.fullName);
           setAge(res.data.user.age);
@@ -63,11 +67,12 @@ const Profile = props => {
       });
   };
   const info1 = {
+    gender: gender,
     age: age,
     address: address,
-    email:email,
+    email: email,
     name: name,
-    avatar:avatar,
+    avatar: avatar,
   }
   const clickInfo = () => {
     navigation.navigate('ProfileAccount', info1);
@@ -85,7 +90,7 @@ const Profile = props => {
   };
 
   return (
-    <ScrollView style={{marginBottom: 70}}>
+    <ScrollView style={{ marginBottom: 70 }}>
       <SafeAreaView style={styles.container}>
         <View
           style={{
@@ -96,7 +101,7 @@ const Profile = props => {
             borderBottomLeftRadius: 30,
             borderBottomRightRadius: 30,
           }}></View>
-        <View style={{alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
           {!avatar ? (
             <View
               style={{
@@ -109,7 +114,7 @@ const Profile = props => {
             </View>
           ) : (
             <Image
-              source={{uri: avatar}}
+              source={{ uri: avatar }}
               style={{
                 width: 140,
                 height: 140,
@@ -150,7 +155,7 @@ const Profile = props => {
             size={40}
             color={COLORS.yellow}
           />
-          <Text style={{marginLeft: 10, fontWeight: 'bold', fontSize: 17}}>
+          <Text style={{ marginLeft: 10, fontWeight: 'bold', fontSize: 17 }}>
             Thông tin tài khoản
           </Text>
         </TouchableOpacity>
@@ -170,7 +175,7 @@ const Profile = props => {
             elevation: 20,
           }}>
           <Icon name="notes-medical" size={35} color={COLORS.yellow} />
-          <Text style={{marginLeft: 10, fontWeight: 'bold', fontSize: 17}}>
+          <Text style={{ marginLeft: 10, fontWeight: 'bold', fontSize: 17 }}>
             Thông tin sức khỏe
           </Text>
         </TouchableOpacity>
@@ -190,7 +195,7 @@ const Profile = props => {
             elevation: 20,
           }}>
           <Icon name="edit" size={33} color={COLORS.yellow} />
-          <Text style={{marginLeft: 10, fontWeight: 'bold', fontSize: 17}}>
+          <Text style={{ marginLeft: 10, fontWeight: 'bold', fontSize: 17 }}>
             Chỉnh sửa thông tin
           </Text>
         </TouchableOpacity>
