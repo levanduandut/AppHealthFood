@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, Alert, Dimensions, FlatList, SafeAreaView, StyleSheet, TextInput } from 'react-native';
-import images from '../constants/images';
+import { ActivityIndicator, Dimensions, FlatList, SafeAreaView, StyleSheet, TextInput } from 'react-native';
 import { SIZES, COLORS } from '../constants/theme';
 import {
   Text,
   View,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import fonts from '../constants/fonts';
 import { nutrition_info } from '../api/user_api';
@@ -58,6 +53,7 @@ const NutritionFacts = props => {
   return (
 
     <SafeAreaView style={{ flex: 1 }}>
+      <Text style={styles.header}>Tra cứu dinh dưỡng thực phẩm</Text>
       <View style={styles.inputContainer}>
         <Icon name="search" size={20} color={COLORS.black} />
         <TextInput
@@ -67,7 +63,7 @@ const NutritionFacts = props => {
           onChangeText={(text) => searchFilter(text)}
         />
       </View>
-      <View style={{ flex: 1, padding: 24, paddingTop: 110 }}>
+      <View style={{ flex: 1, padding: 24, paddingTop: 90 }}>
         {isLoading ? (
           <ActivityIndicator />
         ) : (
@@ -86,6 +82,16 @@ const NutritionFacts = props => {
   );
 };
 const styles = StyleSheet.create({
+  header:{
+    alignSelf:'center',
+    marginTop:5,
+    fontSize: 20,
+    color: COLORS.title,
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontFamily: fonts.POPPINS_BOLD,
+
+  },
   title: {
     fontSize: 30,
     color: COLORS.primary,
@@ -102,7 +108,7 @@ const styles = StyleSheet.create({
     top: 10,
     flexDirection: 'row',
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 30,
     paddingHorizontal: 20,
     alignItems: 'center',
     elevation: 12,

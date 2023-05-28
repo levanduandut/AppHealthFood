@@ -52,17 +52,17 @@ const IngreDetail = props => {
                     <CartInfo title={'Protein'} data={x.protein} colorBack={'#a9f09f'} />
                     <CartInfo title={'Chất béo'} data={x.fat} colorBack={'#9fe4f0'} />
                     <CartInfo title={'Tinh bột'} data={x.carb} colorBack={'#f09fe5'} />
-                    <CartInfo title={'Chất xơ'} data={x.fiber} colorBack={'#f0bf9f'} />
-                    <CartInfo title={'Cholesterol'} data={x.cholesterol} colorBack={'#9febf0'} />
-                    <CartInfo title={'Canxi'} data={x.canxi} colorBack={'#adf09f'} />
-                    <CartInfo title={'Photpho'} data={x.photpho} colorBack={'#d8f09f'} />
-                    <CartInfo title={'Fe'} data={x.fe} colorBack={'#f0eb9f'} />
-                    <CartInfo title={'Natri'} data={x.natri} colorBack={'#9ff0a6'} />
-                    <CartInfo title={'Kali'} data={x.kali} colorBack={'#9fd2f0'} />
-                    <CartInfo title={'BetaCaroten'} data={x.betacaroten} colorBack={'#ab9ff0'} />
-                    <CartInfo title={'Vitamin A'} data={x.vita} colorBack={'#d29ff0'} />
-                    <CartInfo title={'Vitamin B1'} data={x.vitb1} colorBack={'#9ff0a3'} />
-                    <CartInfo title={'Vitamin C'} data={x.vitc} colorBack={'#def09f'} />
+                    <CartInfo title={'Chất xơ'} data={x.fiber === -1 ? "Không có thông tin" : x.fiber} colorBack={'#f0bf9f'} />
+                    <CartInfo title={'Cholesterol'} data={x.cholesterol === -1 ? "Không có thông tin" : x.cholesterol} colorBack={'#9febf0'} />
+                    <CartInfo title={'Canxi'} data={x.canxi === -1 ? "Không có thông tin" : x.canxi} colorBack={'#adf09f'} />
+                    <CartInfo title={'Photpho'} data={x.photpho === -1 ? "Không có thông tin" : x.photpho} colorBack={'#d8f09f'} />
+                    <CartInfo title={'Fe'} data={x.fe === -1 ? "Không có thông tin" : x.fe} colorBack={'#f0eb9f'} />
+                    <CartInfo title={'Natri'} data={x.natri === -1 ? "Không có thông tin" : x.natri} colorBack={'#9ff0a6'} />
+                    <CartInfo title={'Kali'} data={x.kali === -1 ? "Không có thông tin" : x.kali} colorBack={'#9fd2f0'} />
+                    <CartInfo title={'BetaCaroten'} data={x.betacaroten === -1 ? "Không có thông tin" : x.betacaroten} colorBack={'#ab9ff0'} />
+                    <CartInfo title={'Vitamin A'} data={x.vita === -1 ? "Không có thông tin" : x.vita} colorBack={'#d29ff0'} />
+                    <CartInfo title={'Vitamin B1'} data={x.vitb1 === -1 ? "Không có thông tin" : x.vitb1} colorBack={'#9ff0a3'} />
+                    <CartInfo title={'Vitamin C'} data={x.vitc === -1 ? "Không có thông tin" : x.vitc} colorBack={'#def09f'} />
                 </ScrollView>
             </View>
         </SafeAreaView>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 30,
         paddingVertical: 30,
         backgroundColor: COLORS.white,
-        flex:1,
+        flex: 1,
     },
 });
 
