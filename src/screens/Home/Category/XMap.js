@@ -8,6 +8,7 @@ import {
 import fonts from '../../../constants/fonts';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
+import { translate_x } from '../../../api/user_api';
 const { height } = Dimensions.get('window');
 
 const XMap = props => {
@@ -17,31 +18,44 @@ const XMap = props => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  const [filterdata, setFilterData] = useState([]);
-  const [search, setSearch] = useState('');
+  const [text, setText] = useState('');
 
   const clickOK = async (data) => {
     try {
+      getDataText(data);
       const response = await axios.request({
         method: 'GET',
         url: 'https://nutrition-by-api-ninjas.p.rapidapi.com/v1/nutrition',
         params: {
-          query: `${data}`
+          query: `${text}`
         },
         headers: {
           'X-RapidAPI-Key': '10a70d537bmsh80e40618efcf552p179c73jsn70e5aa136bdc',
           'X-RapidAPI-Host': 'nutrition-by-api-ninjas.p.rapidapi.com'
         }
       });
+      console.log(response.data);
       setData(response.data);
       setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
+  const getDataText = async (text) => {
+    try {
+      const response = await translate_x({ text: text });
+      console.log(response.data);
+      setText(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const Item = ({ title }) => (
     <View style={styles.item}>
+      <Text style={styles.title}>{title.name}</Text>
       <Text style={styles.title}>{title.calories}</Text>
       <Text style={styles.title}>{title.carbohydrates_total_g}</Text>
       <Text style={styles.title}>{title.cholesterol_mg}</Text>
@@ -61,15 +75,14 @@ const XMap = props => {
       <View style={styles.inputContainer}>
         <Icon name="search" size={20} color={COLORS.black} />
         <TextInput
-          value={search}
           placeholder="Nhập thực phẩm tra cứu"
           style={{ color: COLORS.black }}
-        // onChangeText={(text) => searchFilter(text)}
+          onChangeText={(text) => setText(text)}
         />
       </View>
       <TouchableOpacity
         // disabled={isValidIsOk() == false}
-        onPress={() => clickOK("apple")}
+        onPress={() => clickOK(text)}
         style={{
           alignSelf: 'center',
           width: 300,

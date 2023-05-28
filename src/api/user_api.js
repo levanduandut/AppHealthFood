@@ -35,3 +35,15 @@ export const nutrition_info = async data => {
     return error.response.data;
   }
 };
+export const translate_x = async data => {
+  try {
+    const res = await api('user/translate', {
+      timeout: 8000,
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
