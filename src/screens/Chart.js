@@ -3,22 +3,8 @@ import {Alert, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
 import images from '../constants/images';
 import {SIZES, COLORS} from '../constants/theme';
 import {
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
   ScrollView,
-  Animated,
 } from 'react-native';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from 'react-native-chart-kit';
 import fonts from '../constants/fonts';
 import {ChartCom, HeaderBar} from '../components';
 const {height} = Dimensions.get('window');

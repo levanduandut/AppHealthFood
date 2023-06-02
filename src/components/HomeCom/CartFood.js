@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {Alert, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Alert, Dimensions, SafeAreaView, StyleSheet } from 'react-native';
 import images from '../../constants/images';
-import {SIZES, COLORS} from '../../constants/theme';
+import { SIZES, COLORS } from '../../constants/theme';
 
 import {
   Text,
@@ -14,25 +14,28 @@ import {
 import fonts from '../../constants/fonts';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IIcon from 'react-native-vector-icons/Ionicons';
-const {height} = Dimensions.get('window');
-const {width} = Dimensions.get('screen');
+const { height } = Dimensions.get('window');
+const { width } = Dimensions.get('screen');
 
 const CartFood = props => {
-  const {navigation, food} = props;
+  const { navigation, food } = props;
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', food)}>
       <ScrollView>
-        <ImageBackground style={styles.imgBack} source={{uri:`https://storage.googleapis.com/healthfood-do/${food.image}`}}>
+        <ImageBackground style={styles.imgBack} source={{ uri: `https://storage.googleapis.com/healthfood-do/${food.image}` }}>
           <Text
             style={{
               color: COLORS.white,
               fontSize: 22,
               marginTop: 10,
               fontWeight: 'bold',
+              textShadowColor: COLORS.black,
+              textShadowOffset: { width: 1, height: 1 },
+              textShadowRadius: 10,
             }}>
-            {food.name}
+            {food.title}
           </Text>
           <View
             style={{
@@ -40,8 +43,8 @@ const CartFood = props => {
               alignItems: 'flex-end',
               flex: 1,
             }}>
-            <View style={{width: '100%', flexDirection: 'row', marginTop: 10}}>
-              <View style={{flexDirection: 'row'}}>
+            <View style={{ width: '100%', flexDirection: 'row', marginTop: 10 }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Icon name="tag" size={22} color={COLORS.xGreen} />
                 <Text
                   style={{
@@ -49,12 +52,15 @@ const CartFood = props => {
                     flexDirection: 'row',
                     marginLeft: 10,
                     color: COLORS.white,
+                    textShadowColor: COLORS.black,
+                    textShadowOffset: { width: 1, height: 1 },
+                    textShadowRadius: 10,
                   }}>
                   {food.tag}
                 </Text>
               </View>
 
-              <View style={{flexDirection: 'row', marginLeft: 10}}>
+              <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                 <Icon name="star" size={22} color={COLORS.yellow} />
                 <Text
                   style={{
@@ -67,7 +73,7 @@ const CartFood = props => {
                 </Text>
               </View>
             </View>
-            <Text style={{color: COLORS.white}}>{food.detail}</Text>
+            <Text style={{ color: COLORS.white }}>{food.detail}</Text>
           </View>
         </ImageBackground>
       </ScrollView>

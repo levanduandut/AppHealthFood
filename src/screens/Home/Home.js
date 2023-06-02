@@ -28,11 +28,13 @@ const Home = props => {
   const { navigate, goBack } = navigation;
   const [foods, setFoods] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [tips, setTips] = useState([]);
   const [lifestyles, setLifestyles] = useState([]);
   useEffect(() => {
     (async () => getInfoBlogFood())();
     (async () => getInfoBlogNote())();
     (async () => getInfoBlogLife())();
+    (async () => getInfoBlogTip())();
   }, []);
   const getInfoBlogLife = async () => {
     getBlog({
@@ -41,6 +43,19 @@ const Home = props => {
       .then(async res => {
         if (!res.data.message) {
           setLifestyles(res.data.blog);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const getInfoBlogTip = async () => {
+    getBlog({
+      categoryId:4,
+    })
+      .then(async res => {
+        if (!res.data.message) {
+          setTips(res.data.blog);
         }
       })
       .catch(err => {
@@ -174,7 +189,7 @@ const Home = props => {
             )}
           />
         </View>
-        <Text style={styles.secondTitle}>Công thức nấu ăn</Text>
+        <Text style={styles.secondTitle1}>Công thức nấu ăn</Text>
         <View>
           <FlatList
             snapToInterval={width - 20}
@@ -199,6 +214,19 @@ const Home = props => {
             )}
           />
         </View>
+        <Text style={styles.secondTitle1}>Mẹo vặt</Text>
+        <View>
+          <FlatList
+            snapToInterval={width - 20}
+            contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={tips}
+            renderItem={({ item }) => (
+              <CartFood food={item} navigation={navigation} />
+            )}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -210,6 +238,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: COLORS.black,
+  },
+  secondTitle1: {
+    marginHorizontal: 20,
+    marginVertical: 20,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: COLORS.yellow,
   },
   iconContainer: {
     height: 60,

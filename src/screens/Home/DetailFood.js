@@ -29,7 +29,7 @@ const DetailFood = props => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <StatusBar translucent backgroundColor={COLORS.grey}></StatusBar>
-      <ImageBackground style={{ flex: 0.5 }} source={{uri:`https://storage.googleapis.com/healthfood-do/${x.image}`}}>
+      <ImageBackground style={{ flex: 0.5 }} source={{ uri: `https://storage.googleapis.com/healthfood-do/${x.image}` }}>
         <View style={styles.header}>
           <Icon
             name="arrow-back"
@@ -52,8 +52,11 @@ const DetailFood = props => {
               fontWeight: 'bold',
               color: COLORS.white,
               marginBottom: 20,
+              textShadowColor: COLORS.black,
+              textShadowOffset: { width: 1, height: 1 },
+              textShadowRadius: 5,
             }}>
-            {x.name ? x.name : x.title}
+            {x.title}
           </Text>
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
             <Icon name="star" size={22} color={COLORS.yellow} />
@@ -87,13 +90,13 @@ const DetailFood = props => {
           </Text>
         </View>
         <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 20 }}>
-          {!x.name ? 'Về lối sống' : 'Công thức nấu ăn'}
+          {x.categoryId === 3 ? 'Lưu ý' : (x.categoryId === 4 ? 'Mẹo vặt' : (x.categoryId === 1 ? 'Lối sống' : 'Công thức nấu ăn'))}
         </Text>
         <ScrollView
           style={{ flex: 1, marginTop: 20 }}
           contentContainerStyle={{ minHeight: '100%' }}
           automaticallyAdjustKeyboardInsets={true}>
-          <Text style={{ marginTop: 20, lineHeight: 22 }}>{x.detail}</Text>
+          <Text style={{ marginTop: 20, lineHeight: 22, color: '#000000' }}>{x.detail}</Text>
         </ScrollView>
       </View>
     </SafeAreaView>

@@ -83,12 +83,12 @@ const XFood = props => {
               {!avatar ? (
                 <View
                   style={{
-                    width: 140,
-                    height: 140,
-                    borderRadius: 140,
-                    marginTop: -70,
+                    width: 40,
+                    height: 40,
+                    borderRadius: 40,
+                    paddingLeft:15,
                   }}>
-                  <UserAvatar size={140} name={name} />
+                  <UserAvatar size={40} name={name} />
                 </View>
               ) : (
                 <Image
