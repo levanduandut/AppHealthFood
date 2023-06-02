@@ -4,19 +4,9 @@ import {Alert, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
 import {
   Text,
   View,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-  ScrollView,
-  Animated,
 } from 'react-native';
 import {
   LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
 } from 'react-native-chart-kit';
 import {COLORS} from '../constants/theme';
 
@@ -44,7 +34,7 @@ const ChartCom = ({dataLabel, dataSet, nameChart, Unit}) => {
         yAxisSuffix=""
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
-          backgroundColor: '#aaf04f',
+          backgroundColor: '#cbe4ac',
           backgroundGradientFrom: '#aaf04f',
           backgroundGradientTo: '#4fe8f0',
           decimalPlaces: 2, // optional, defaults to 2dp

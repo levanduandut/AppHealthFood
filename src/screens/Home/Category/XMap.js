@@ -35,15 +35,21 @@ const XMap = props => {
         }
       });
       console.log(response.data);
-      setData(response.data);
+      if (response.data !== null) {
+        setData(response.data);
+      }
+      else {
+        setData("Nhấn Tra cứu để tử lại");
+      }
+
       setLoading(false);
     } catch (error) {
-      console.error(error);
+
     }
   };
   const getDataText = async (text) => {
     try {
-      const response = await translate_x({ text: text });
+      let response = await translate_x({ text: text, lang: 'en' });
       console.log(response.data);
       setText(response.data);
     } catch (error) {
@@ -52,26 +58,35 @@ const XMap = props => {
       setLoading(false);
     }
   };
+  const getDataTextVi = async (text) => {
+    let response = "";
+    try {
+      response = await translate_x({ text: text, lang: 'vi' });
+    } catch (error) {
+      console.error(error);
+    }
+    return response.data;
+  };
 
   const Item = ({ title }) => (
     <View style={styles.item}>
-      <Text style={styles.title}>{title.name}</Text>
-      <Text style={styles.title}>{title.calories}</Text>
-      <Text style={styles.title}>{title.carbohydrates_total_g}</Text>
-      <Text style={styles.title}>{title.cholesterol_mg}</Text>
-      <Text style={styles.title}>{title.fat_saturated_g}</Text>
-      <Text style={styles.title}>{title.fat_total_g}</Text>
-      <Text style={styles.title}>{title.fiber_g}</Text>
-      <Text style={styles.title}>{title.potassium_mg}</Text>
-      <Text style={styles.title}>{title.protein_g}</Text>
-      <Text style={styles.title}>{title.serving_size_g}</Text>
-      <Text style={styles.title}>{title.sodium_mg}</Text>
-      <Text style={styles.title}>{title.sugar_g}</Text>
+      <Text style={styles.title1}>Tên Tiếng Anh : {title.name}</Text>
+      <Text style={styles.title}>Calo : {title.calories}</Text>
+      <Text style={styles.title}>Tinh bột : {title.carbohydrates_total_g} g</Text>
+      <Text style={styles.title}>Cholesterol : {title.cholesterol_mg} mg</Text>
+      <Text style={styles.title}>Fat Saturated : {title.fat_saturated_g} g</Text>
+      <Text style={styles.title}>Fat Total : {title.fat_total_g} g</Text>
+      <Text style={styles.title}>Chất xơ : {title.fiber_g} g</Text>
+      <Text style={styles.title}>Kali : {title.potassium_mg}</Text>
+      <Text style={styles.title}>Protein : {title.protein_g}</Text>
+      <Text style={styles.title}>Serving Size: {title.serving_size_g} g</Text>
+      <Text style={styles.title}>Natri : {title.sodium_mg} mg</Text>
+      <Text style={styles.title}>Đường : {title.sugar_g}</Text>
     </View>
   );
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
-      <Text style={styles.header}>Tra cứu thành phần</Text>
+      <Text style={styles.header}>Nhập thực phẩm bạn ăn hôm nay</Text>
       <View style={styles.inputContainer}>
         <Icon name="search" size={20} color={COLORS.black} />
         <TextInput
@@ -95,7 +110,7 @@ const XMap = props => {
         }}>
         <Text style={styles.btnLoginText}>Tra cứu</Text>
       </TouchableOpacity>
-      <View style={{ flex: 1, padding: 24, paddingTop: 90 }}>
+      <View style={{ flex: 1, padding: 24, paddingTop: 10 }}>
         {isLoading ? (
           <ActivityIndicator />
         ) : (
@@ -105,6 +120,20 @@ const XMap = props => {
           />
         )}
       </View>
+      <TouchableOpacity
+        // disabled={isValidIsOk() == false}
+        onPress={() => clickOK(text)}
+        style={{
+          alignSelf: 'center',
+          width: 100,
+          padding: 10,
+          backgroundColor: COLORS.yellow,
+          marginVertical: 30,
+          borderRadius: 10,
+          elevation: 12,
+        }}>
+        <Text style={styles.btnLoginText}>Lưu</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -117,8 +146,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   title: {
-    fontSize: 20,
-    color: COLORS.primary,
+    fontSize: 15,
+    color: COLORS.black,
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontFamily: fonts.POPPINS_BOLD,
+  },
+  title1: {
+    fontSize: 17,
+    color: COLORS.red,
     textAlign: 'center',
     justifyContent: 'center',
     fontFamily: fonts.POPPINS_BOLD,

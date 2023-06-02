@@ -38,7 +38,6 @@ export const nutrition_info = async data => {
 export const translate_x = async data => {
   try {
     const res = await api('user/translate', {
-      timeout: 8000,
       method: 'POST',
       data: data,
     });

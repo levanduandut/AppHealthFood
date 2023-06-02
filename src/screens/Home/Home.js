@@ -8,7 +8,6 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import images from '../../constants/images';
 import {SIZES, COLORS} from '../../constants/theme';
 import {lifestyles} from '../../data/lifestyle';
 import {foods} from '../../data/foods';
@@ -17,9 +16,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Text,
   View,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import CartLife from '../../components/HomeCom/CartLife';
@@ -63,7 +59,7 @@ const Home = props => {
     />,
     <IIcon
       onPress={() => clickMap()}
-      name="ios-location-outline"
+      name="add-circle-sharp"
       size={25}
       color={COLORS.xGreen}
     />,

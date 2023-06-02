@@ -24,41 +24,41 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [showHomepage, setShowHomePage] = useState(false);
-  const buttonLabel = label => {
-    return (
-      <View style={styles.buttonLabelView}>
-        <Text style={styles.buttonLabelText}>{label}</Text>
-      </View>
-    );
-  };
-  if (!showHomepage) {
-    return (
-      <AppIntroSlider
-        data={slides}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.view}>
-              <Image
-                source={item.image}
-                style={styles.image}
-                resizeMode="contain"
-              />
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.description}>{item.description}</Text>
-            </View>
-          );
-        }}
-        activeDotStyle={styles.activeDot}
-        showSkipButton
-        renderNextButton={() => buttonLabel('Next')}
-        renderSkipButton={() => buttonLabel('Skip')}
-        renderDoneButton={() => buttonLabel('Done')}
-        onDone={() => {
-          setShowHomePage(true);
-        }}
-      />
-    );
-  }
+  // const buttonLabel = label => {
+  //   return (
+  //     <View style={styles.buttonLabelView}>
+  //       <Text style={styles.buttonLabelText}>{label}</Text>
+  //     </View>
+  //   );
+  // };
+  // if (!showHomepage) {
+  //   return (
+  //     <AppIntroSlider
+  //       data={slides}
+  //       renderItem={({ item }) => {
+  //         return (
+  //           <View style={styles.view}>
+  //             <Image
+  //               source={item.image}
+  //               style={styles.image}
+  //               resizeMode="contain"
+  //             />
+  //             <Text style={styles.title}>{item.title}</Text>
+  //             <Text style={styles.description}>{item.description}</Text>
+  //           </View>
+  //         );
+  //       }}
+  //       activeDotStyle={styles.activeDot}
+  //       showSkipButton
+  //       renderNextButton={() => buttonLabel('Next')}
+  //       renderSkipButton={() => buttonLabel('Skip')}
+  //       renderDoneButton={() => buttonLabel('Done')}
+  //       onDone={() => {
+  //         setShowHomePage(true);
+  //       }}
+  //     />
+  //   );
+  // }
 
   return (
     // <LoginRes />
