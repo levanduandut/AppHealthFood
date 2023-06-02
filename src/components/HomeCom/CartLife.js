@@ -21,7 +21,7 @@ const CartLife = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', lifestyle)}>
-      <ImageBackground style={styles.imgBack} source={lifestyle.image}>
+      <ImageBackground style={styles.imgBack} source={{uri:`https://storage.googleapis.com/healthfood-do/${lifestyle.image}`}}>
         <Text
           style={{
             color: COLORS.white,

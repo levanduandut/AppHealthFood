@@ -24,7 +24,7 @@ const CartFood = props => {
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', food)}>
       <ScrollView>
-        <ImageBackground style={styles.imgBack} source={food.image}>
+        <ImageBackground style={styles.imgBack} source={{uri:`https://storage.googleapis.com/healthfood-do/${food.image}`}}>
           <Text
             style={{
               color: COLORS.white,

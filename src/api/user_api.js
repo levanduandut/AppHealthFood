@@ -46,3 +46,14 @@ export const translate_x = async data => {
     return error.response.data;
   }
 };
+export const getBlog = async data => {
+  try {
+    const res = await api('user/get-all-blog', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
