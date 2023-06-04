@@ -6,19 +6,19 @@ import {
     StyleSheet,
     TextInput,
 } from 'react-native';
-import images from '../constants/images';
 import { SIZES, COLORS } from '../constants/theme';
 import {
     Text,
     View,
-    Image,
-    ImageBackground,
     TouchableOpacity,
-    ScrollView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { SelectList } from 'react-native-dropdown-select-list';
+
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import fonts from '../constants/fonts';
 import { isValidateEmail, isValidatePassword } from '../untilies';
+import { user_register } from '../api/user_api';
 const { height } = Dimensions.get('window');
 
 const Register = props => {
@@ -31,7 +31,13 @@ const Register = props => {
     const [password, setPassword] = useState('');
     const [errorRePassword, setErrorRePassword] = useState('');
     const [rePassword, setRePassword] = useState('');
+    const [gender, setGender] = useState('');
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
     const isValidIsOk = () =>
+        name.length > 0 &&
+        gender.length > 0 &&
+        age.length > 0 &&
         email.length > 0 &&
         password.length > 0 &&
         isValidateEmail(email) == true &&
@@ -40,6 +46,51 @@ const Register = props => {
     function clickLogin() {
         navigate('Login');
     }
+    function getIndexSick(select) {
+
+    }
+    function checkRePassword(text) {
+        if (text !== password) {
+            setErrorRePassword('Mật khẩu không trùng khớp !');
+        }
+        else {
+            setRePassword(text);
+            setErrorRePassword('');
+        }
+    }
+    function clickRes() {
+        user_register({
+            email: email,
+            password: password,
+            fullName: name,
+            age: age,
+            gender: gender,
+        })
+            .then(async res => {
+                if (res.data.errCode !== 0) {
+                    alert(res.data.message);
+                } else {
+                    Alert.alert(
+                        'Đăng kí thành công',
+                        'Chúc mừng bạn đà đăng kí thành công',
+                    );
+                    setAge('');
+                    setEmail('');
+                    setGender('');
+                    setName('');
+                    setPassword('');
+                    navigate('Login');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+    const data = [
+        { key: '1', value: 'Nữ' },
+        { key: '2', value: 'Nam' },
+        { key: '3', value: 'Khác' },
+    ];
     return (
         <SafeAreaView>
             <View style={styles.textView}>
@@ -65,6 +116,51 @@ const Register = props => {
                     <Text style={styles.valid}>{errorEmail}</Text>
                     <TextInput
                         onChangeText={text => {
+                            setName(text);
+                        }}
+                        autoCapitalize='words'
+                        placeholder="Nhập tên đầy đủ"
+                        style={styles.inputEmail}
+                    />
+                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'center', alignItems: 'center' }}>
+                        <TextInput
+                            onChangeText={text => {
+                                setAge(text);
+                            }}
+                            keyboardType="numeric"
+                            placeholder="Nhập tuổi"
+                            style={{
+                                flex: 1,
+                                fontSize: 15,
+                                padding: 15,
+                                backgroundColor: '#f1f4ff',
+                                borderRadius: 10,
+                                marginVertical: 10,
+                            }}
+                        />
+                        <View style={{ flex: 1 }}>
+                            <SelectList
+                                onSelect={() => getIndexSick(gender)}
+                                setSelected={setGender}
+                                fontFamily="lato"
+                                data={data}
+                                arrowicon={
+                                    <FontAwesome name="chevron-down" size={12} color={'black'} />
+                                }
+                                searchicon={<FontAwesome name="search" size={12} color={'black'} />}
+                                search={false}
+                                boxStyles={{
+                                    backgroundColor: COLORS.white,
+                                    borderRadius: 10,
+                                    height: 55,
+                                    alignItems: 'center',
+                                }} //override default styles
+                                defaultOption={{ key: '0', value: 'Chọn giới tính' }} //default gender option
+                            />
+                        </View>
+                    </View>
+                    <TextInput
+                        onChangeText={text => {
                             if (isValidatePassword(text) == false) {
                                 setErrorPassword('Mật khẩu tối thiểu 4 kí tự !');
                             } else {
@@ -79,7 +175,7 @@ const Register = props => {
                     <Text style={styles.valid}>{errorPassword}</Text>
                     <TextInput
                         onChangeText={text => {
-                            setRePassword(text);
+                            checkRePassword(text);
                         }}
                         placeholder="Nhập lại mật khẩu"
                         style={styles.inputEmail}
@@ -90,11 +186,11 @@ const Register = props => {
 
                 <TouchableOpacity
                     disabled={isValidIsOk() == false}
-                    onPress={() => clickLogin()}
+                    onPress={() => clickRes()}
                     style={{
-                        padding: 20,
+                        padding: 15,
                         backgroundColor: isValidIsOk() == true ? COLORS.primary : '#9da19e',
-                        marginVertical: 30,
+                        marginVertical: 10,
                         borderRadius: 10,
                         elevation: 12,
                     }}>
@@ -152,7 +248,7 @@ const styles = StyleSheet.create({
     valid: {
         color: COLORS.red,
         textAlign: 'right',
-        marginHorizontal: 10,
+        marginHorizontal: 2,
         fontSize: 12,
     },
     LoginWithText: {
@@ -161,6 +257,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     btnResText: {
+        padding: 5,
         fontWeight: '900',
         color: COLORS.black,
         textAlign: 'center',
@@ -196,7 +293,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
     },
     textView: {
-        padding: 20,
+        paddingHorizontal: 20,
     },
     textViewTitle: {
         alignItems: 'center',
@@ -205,7 +302,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: COLORS.primary,
         fontFamily: fonts.POPPINS_BOLD,
-        marginVertical: 30,
+        marginVertical: 10,
     },
     textWelcome: {
         fontWeight: '900',
@@ -215,13 +312,13 @@ const styles = StyleSheet.create({
     },
     inputEmail: {
         fontSize: 15,
-        padding: 20,
+        padding: 15,
         backgroundColor: '#f1f4ff',
         borderRadius: 10,
         marginVertical: 10,
     },
     inputView: {
-        marginVertical: 30,
+        marginVertical: 20,
     },
 });
 

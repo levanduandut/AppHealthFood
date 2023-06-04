@@ -20,8 +20,8 @@ const ProfileEditHealth = props => {
   const {navigation, route} = props;
   const {navigate, goBack} = navigation;
   const [selected, setSelected] = useState('');
-  const [weight, setWeight] = useState(1);
-  const [height, setHeight] = useState(1);
+  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [bmi, setBMI] = useState('');
   const data = [
@@ -45,31 +45,33 @@ const ProfileEditHealth = props => {
     console.log(select);
   }
   async function checkMessage(value) {
-    await setBMI(((weight * 10000) / (value * value)).toFixed(2));
-    // setMes(((weight * 10000) / (value * value)).toFixed(2));
-    // console.log(errorMessage);
+    console.log(weight);
+    if (weight !== 0) {
+      setHeight(value);
+      await setBMI(((weight * 10000) / (value * value)).toFixed(2));
+      setMes(((weight * 10000) / (value * value)).toFixed(2));
+    } else {
+      setErrorMessage('Bạn phỉa nhập cân nặng trước');
+    }
   }
 
-  // function setMes(value) {
-  //   if (value < 18.1) {
-  //     setErrorMessage('Gầy');
-  //   }
-  //   if (value >= 18.5 && value < 25) {
-  //     setErrorMessage('Bình thường');
-  //   }
-  //   if (value >= 25 && value < 30) {
-  //     setErrorMessage('Thừa cân');
-  //   }
-  //   if (value >= 30 && value < 35) {
-  //     setErrorMessage('Béo phì độ 1');
-  //   }
-  //   if (value >= 35 && value < 40) {
-  //     setErrorMessage('Béo phì độ 2');
-  //   }
-  //   if (value > 40 && value < 100) {
-  //     setErrorMessage('Béo phì độ 3');
-  //   }
-  // }
+  function setMes(value) {
+    if (value < 18.1) {
+      setErrorMessage('Gầy');
+    } else if (value >= 18.5 && value < 25) {
+      setErrorMessage('Bình thường');
+    } else if (value >= 25 && value < 30) {
+      setErrorMessage('Thừa cân');
+    } else if (value >= 30 && value < 35) {
+      setErrorMessage('Béo phì độ 1');
+    } else if (value >= 35 && value < 40) {
+      setErrorMessage('Béo phì độ 2');
+    } else if (value > 40 && value < 1000) {
+      setErrorMessage('Béo phì độ 3');
+    } else {
+      setErrorMessage('Bạn nhập sai !');
+    }
+  }
   return (
     <SafeAreaView>
       <HeaderBar navigation={navigation} />
@@ -129,7 +131,7 @@ const ProfileEditHealth = props => {
                 fontSize: 20,
                 fontWeight: 'bold',
               }}>
-              {bmi}
+              {((weight * 10000) / (height * height)).toFixed(2)}
             </Text>
           </View>
           <Text style={{alignSelf: 'flex-end', color: COLORS.red}}>

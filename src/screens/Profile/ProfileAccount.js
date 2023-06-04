@@ -113,7 +113,7 @@ const ProfileAccount = props => {
             padding: 10,
           }}>
           <Text style={styles.title}>Giới tính</Text>
-          <Text style={styles.data}>{gender===1?"Nữ":"Nam"}</Text>
+          <Text style={styles.data}>{gender === 1 ? "Nữ" : "Nam"}</Text>
         </View>
       </View>
       <View style={{ paddingHorizontal: 30, paddingVertical: 10 }}>

@@ -57,3 +57,14 @@ export const getBlog = async data => {
     return error.response.data;
   }
 };
+export const user_register = async data => {
+  try {
+    const res = await api('user/register', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
