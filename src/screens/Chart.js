@@ -69,7 +69,7 @@ const Chart = props => {
           dataSet={dataSet1}
           nameChart={'BMI'}
         />
-        {/* <ChartCom
+        <ChartCom
           dataLabel={labels}
           dataSet={dataSet2}
           nameChart={'Đường Huyết'}
@@ -86,7 +86,13 @@ const Chart = props => {
           dataSet={dataSet4}
           nameChart={'Cân Nặng'}
           Unit={'Kg'}
-        /> */}
+        />
+        <ChartCom
+          dataLabel={labels}
+          dataSet={dataSet4}
+          nameChart={'Calo ăn vào'}
+          Unit={'Kalo'}
+        />
       </ScrollView>
     </SafeAreaView>
   );

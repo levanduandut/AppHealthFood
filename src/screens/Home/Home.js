@@ -12,11 +12,7 @@ import { SIZES, COLORS } from '../../constants/theme';
 import { lifestyles } from '../../data/lifestyle';
 import IIcon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {
-  Text,
-  View,
-  ScrollView,
-} from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import CartLife from '../../components/HomeCom/CartLife';
 import CartFood from '../../components/HomeCom/CartFood';
 import { getBlog } from '../../api/user_api';
@@ -38,7 +34,7 @@ const Home = props => {
   }, []);
   const getInfoBlogLife = async () => {
     getBlog({
-      categoryId:1,
+      categoryId: 1,
     })
       .then(async res => {
         if (!res.data.message) {
@@ -51,7 +47,7 @@ const Home = props => {
   };
   const getInfoBlogTip = async () => {
     getBlog({
-      categoryId:4,
+      categoryId: 4,
     })
       .then(async res => {
         if (!res.data.message) {
@@ -65,7 +61,7 @@ const Home = props => {
 
   const getInfoBlogFood = async () => {
     getBlog({
-      categoryId:2,
+      categoryId: 2,
     })
       .then(async res => {
         if (!res.data.message) {
@@ -78,7 +74,7 @@ const Home = props => {
   };
   const getInfoBlogNote = async () => {
     getBlog({
-      categoryId:3,
+      categoryId: 3,
     })
       .then(async res => {
         if (!res.data.message) {
@@ -89,7 +85,7 @@ const Home = props => {
         console.log(err);
       });
   };
-  
+
   const clickFood = () => {
     navigate('XFood');
   };
@@ -154,6 +150,21 @@ const Home = props => {
           size={24}
           color={COLORS.black}
         />
+      </View>
+      <View style={styles.header1}>
+        <View style={styles.viewNotice}>
+          <Icon
+            onPress={() => {
+              // Alert.alert('Thông báo', 'Không có thông báo!');
+            }}
+            name="exclamation-triangle"
+            size={15}
+            color={COLORS.yellow}
+          />
+          <Text style={styles.text} onPress={() => {
+            navigate('ProfileEditHealth');
+          }}>Bạn chua nhập thông tin sức khỏe</Text>
+        </View>
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -232,6 +243,19 @@ const Home = props => {
   );
 };
 const styles = StyleSheet.create({
+  viewNotice: {
+    flexDirection: 'row',
+    backgroundColor: COLORS.white,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 7,
+  },
+  text: {
+    color: COLORS.black,
+    fontWeight: 'bold',
+    paddingLeft: 5,
+
+  },
   secondTitle: {
     marginHorizontal: 20,
     marginVertical: 20,
@@ -244,7 +268,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     fontSize: 20,
     fontWeight: 'bold',
-    color: COLORS.yellow,
+    color: '#0c9bb4',
   },
   iconContainer: {
     height: 60,
@@ -268,9 +292,18 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     paddingVertical: 20,
+    paddingBottom: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: COLORS.xGreen,
+  },
+  header1: {
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: COLORS.xGreen,
+    alignItems: 'center'
   },
   inputContainer: {
     height: 60,

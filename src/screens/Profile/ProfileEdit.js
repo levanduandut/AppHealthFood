@@ -10,7 +10,6 @@ import {SIZES, COLORS} from '../../constants/theme';
 import {Text, View} from 'react-native';
 import fonts from '../../constants/fonts';
 import HeaderBar from '../../components/HeaderBar';
-import { InputEdit } from '../../components';
 const {height} = Dimensions.get('window');
 
 const ProfileEdit = props => {
@@ -20,6 +19,15 @@ const ProfileEdit = props => {
   const address = route.params.address;
   const age = route.params.age;
   const email = route.params.email;
+  const InputEdit = props => {
+    const {title, data, colorBack} = props;
+    return (
+      <View style={{flexDirection: 'column'}}>
+        <Text>{title}</Text>
+        <TextInput style={styles.inputText} />
+      </View>
+    );
+  };
   return (
     <SafeAreaView>
       <HeaderBar navigation={navigation} />
@@ -36,6 +44,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     fontFamily: fonts.POPPINS_BOLD,
+  },
+  inputText: {
+    fontSize: 15,
+    padding: 10,
+    backgroundColor: '#fcdd9b',
+    borderRadius: 10,
+    marginVertical: 5,
   },
 });
 
