@@ -68,3 +68,25 @@ export const user_register = async data => {
     return error.response.data;
   }
 };
+export const get_sick_list = async data => {
+  try {
+    const res = await api('user/get-all-sick', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const user_health_update = async data => {
+  try {
+    const res = await api('user/health-create', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};

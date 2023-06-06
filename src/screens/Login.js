@@ -47,10 +47,13 @@ const Login = props => {
       password: password,
     })
       .then(async res => {
+        console.log(res.data);
         if (res.data.message !== null) {
           alert(res.data.message);
         } else {
           await AsyncStorage.setItem('AccessToken', res.data.token);
+          AsyncStorage.setItem('Status', `${res.data.status}`);
+          AsyncStorage.setItem('SickId', `${res.data.sickId}`);
           navigate('UITab');
         }
       })

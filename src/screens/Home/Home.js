@@ -16,6 +16,8 @@ import { Text, View, ScrollView } from 'react-native';
 import CartLife from '../../components/HomeCom/CartLife';
 import CartFood from '../../components/HomeCom/CartFood';
 import { getBlog } from '../../api/user_api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 const { height } = Dimensions.get('window');
 const { width } = Dimensions.get('screen');
 
@@ -25,13 +27,30 @@ const Home = props => {
   const [foods, setFoods] = useState([]);
   const [notes, setNotes] = useState([]);
   const [tips, setTips] = useState([]);
+  const [status, setStatus] = useState();
+  const [sickId, setSickId] = useState();
+  const [search, setSearch] = useState();
   const [lifestyles, setLifestyles] = useState([]);
+  const isFocused = useIsFocused();
+
   useEffect(() => {
+    (async () => getInfoStatus())();
     (async () => getInfoBlogFood())();
     (async () => getInfoBlogNote())();
     (async () => getInfoBlogLife())();
     (async () => getInfoBlogTip())();
-  }, []);
+  }, [isFocused]);
+  const getInfoStatus = async () => {
+    AsyncStorage.getItem('Status').then(async value => {
+      await setStatus(parseInt(value));
+      console.log(value);
+    });
+    AsyncStorage.getItem('SickId').then(async value => {
+      await setSickId(parseInt(value));
+      console.log(value);
+    });
+  };
+
   const getInfoBlogLife = async () => {
     getBlog({
       categoryId: 1,
@@ -135,6 +154,10 @@ const Home = props => {
       </View>
     );
   };
+  function handleSearch(text) {
+    setSearch(text);
+    console.log(text);
+  }
 
   return (
     <SafeAreaView
@@ -151,21 +174,34 @@ const Home = props => {
           color={COLORS.black}
         />
       </View>
-      <View style={styles.header1}>
-        <View style={styles.viewNotice}>
-          <Icon
-            onPress={() => {
-              // Alert.alert('Thông báo', 'Không có thông báo!');
-            }}
-            name="exclamation-triangle"
-            size={15}
-            color={COLORS.yellow}
-          />
-          <Text style={styles.text} onPress={() => {
-            navigate('ProfileEditHealth');
-          }}>Bạn chua nhập thông tin sức khỏe</Text>
+      {status === 0 && (
+        <View style={styles.header1}>
+          <View style={styles.viewNotice}>
+            <Icon
+              name="exclamation-triangle"
+              size={15}
+              color={COLORS.yellow}
+            />
+            <Text style={styles.text} onPress={() => {
+              navigate('ProfileEditHealth');
+            }}>Bạn chua nhập thông tin sức khỏe</Text>
+          </View>
         </View>
-      </View>
+      )}
+      {sickId === 1 && status !== 0 && (
+        <View style={styles.header1}>
+          <View style={styles.viewNotice}>
+            <Icon
+              name="check-circle"
+              size={15}
+              color='#70f722'
+            />
+            <Text style={styles.text} onPress={() => {
+              navigate('Recommendations');
+            }}>Bạn đang khỏe mạnh</Text>
+          </View>
+        </View>
+      )}
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ marginBottom: 10 }}>
@@ -181,6 +217,7 @@ const Home = props => {
             <View style={styles.inputContainer}>
               <Icon name="search" size={20} color={COLORS.black} />
               <TextInput
+                onChangeText={text => handleSearch(text)}
                 placeholder="Nhập để tìm kiếm"
                 style={{ color: COLORS.black }}
               />
@@ -244,6 +281,8 @@ const Home = props => {
 };
 const styles = StyleSheet.create({
   viewNotice: {
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: COLORS.white,
     paddingHorizontal: 10,

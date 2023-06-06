@@ -44,6 +44,11 @@ const Register = props => {
         isValidatePassword(password) == true;
 
     function clickLogin() {
+        setAge('');
+        setEmail('');
+        setGender('');
+        setName('');
+        setPassword('');
         navigate('Login');
     }
     function getIndexSick(select) {

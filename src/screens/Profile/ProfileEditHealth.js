@@ -13,6 +13,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import fonts from '../../constants/fonts';
 import HeaderBar from '../../components/HeaderBar';
 import {SelectList} from 'react-native-dropdown-select-list';
+import {get_sick_list, user_health_update} from '../../api/user_api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {height} = Dimensions.get('window');
 
@@ -23,38 +25,146 @@ const ProfileEditHealth = props => {
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage2, setErrorMessage2] = useState('');
+  const [errorMessage3, setErrorMessage3] = useState('');
+  const [isWarning, setIsWarning] = useState(true);
+  const [isWarning1, setIsWarning1] = useState(true);
+  const [arrSick, setArrSick] = useState([]);
+  const [sick, setSick] = useState('');
+  const [haTruong, setHaTruong] = useState();
+  const [duongH, setDuongH] = useState();
+  const [haThu, setHaThu] = useState();
   const [bmi, setBMI] = useState('');
-  const data = [
-    {key: '1', value: 'Jammu & Kashmir'},
-    {key: '2', value: 'Gujrat'},
-    {key: '3', value: 'Maharashtra'},
-    {key: '4', value: 'Goa'},
-  ];
-  const InputEdit = props => {
-    const {title, data, colorBack} = props;
-    return (
-      <View style={{flexDirection: 'column'}}>
-        <Text style={{color: COLORS.black}}>{title}</Text>
-        <View style={styles.viewText}>
-          <TextInput keyboardType="numeric" style={styles.inputText} />
-        </View>
-      </View>
-    );
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    AsyncStorage.getItem('AccessToken').then(async value => {
+      await setToken(value);
+    });
+    (async () => getInfoSick())();
+  }, []);
+  const isValidIsOk = () =>
+    sick > 0 &&
+    weight > 0 &&
+    height > 0 &&
+    bmi > 0 &&
+    haThu > 0 &&
+    haTruong > 0 &&
+    duongH > 0;
+  const getInfoSick = async () => {
+    await get_sick_list({
+      info: 0,
+    })
+      .then(async res => {
+        if (res.data.errCode === 0) {
+          setArrSick(res.data.sick);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   function getIndexSick(select) {
+    setSick(select);
     console.log(select);
   }
-  async function checkMessage(value) {
-    console.log(weight);
+  function handleSaveHealth() {
+    user_health_update({
+      sickId: sick,
+      weight: weight,
+      height: height,
+      bmi: bmi,
+      haThu: haThu,
+      haTruong: haTruong,
+      duongH: duongH,
+      token: token,
+    })
+      .then(async res => {
+        if (res.data.errCode !== 0) {
+          alert(res.data.message);
+        } else {
+          setHaThu();
+          setHaTruong();
+          setSick();
+          setWeight();
+          setHeight();
+          setBMI();
+          setDuongH();
+          AsyncStorage.clear();
+          navigation.replace('Login');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  function checkMessage(value) {
     if (weight !== 0) {
       setHeight(value);
-      await setBMI(((weight * 10000) / (value * value)).toFixed(2));
+      setBMI(((weight * 10000) / (value * value)).toFixed(2));
       setMes(((weight * 10000) / (value * value)).toFixed(2));
     } else {
       setErrorMessage('Bạn phỉa nhập cân nặng trước');
     }
   }
-
+  function checkHaTruong(value) {
+    setErrorMessage2('');
+    setIsWarning(false);
+    setHaTruong(value);
+    if (value >= 140) {
+      setErrorMessage2('Huyết áp cao -> Lưu ý chọn bệnh : Cao huyết áp ');
+      setIsWarning(true);
+    }
+    if (value < 140 && value >= 100) {
+      setErrorMessage2('Huyết áp bình thường');
+      setIsWarning(false);
+    }
+    if (value < 100 && value > 0) {
+      setErrorMessage2('Huyết áp thấp');
+      setIsWarning(true);
+    }
+    if (value < 0) {
+      setErrorMessage2('Nhập sai !');
+      setIsWarning(true);
+    }
+  }
+  function checkHaThu(value) {
+    setHaThu(value);
+    setErrorMessage2('');
+    if (value >= 90) {
+      setErrorMessage2('Huyết áp cao -> Lưu ý chọn bệnh : Cao huyết áp ');
+      setIsWarning(true);
+    }
+    if (value < 90 && value > 50) {
+      setErrorMessage2('Huyết áp bình thường');
+      setIsWarning(false);
+    }
+    if (value > 200 && haTruong < 90) {
+      setErrorMessage2('Nhập sai !');
+      setIsWarning(true);
+    }
+    if (value < 0) {
+      setErrorMessage2('Nhập sai !');
+      setIsWarning(true);
+    }
+  }
+  function checkDuongHuyet(value) {
+    setDuongH(value);
+    setIsWarning1(false);
+    if (value >= 70 && value <= 130) {
+      setErrorMessage3('Đường huyết bình thường');
+      setIsWarning1(false);
+    } else if (value > 130) {
+      setErrorMessage3('Đường huyết cao ! Vui lòng chọn bệnh tiểu đường');
+      setIsWarning1(true);
+    } else if (value < 70 && value > 0) {
+      setErrorMessage3('Đường huyết thấp');
+      setIsWarning1(true);
+    } else {
+      setErrorMessage3('Nhập sai , vui lòng nhập lại !');
+      setIsWarning1(true);
+    }
+  }
   function setMes(value) {
     if (value < 18.1) {
       setErrorMessage('Gầy');
@@ -83,7 +193,7 @@ const ProfileEditHealth = props => {
             onSelect={() => getIndexSick(selected)}
             setSelected={setSelected}
             fontFamily="lato"
-            data={data}
+            data={arrSick}
             arrowicon={
               <FontAwesome name="chevron-down" size={12} color={'black'} />
             }
@@ -96,7 +206,7 @@ const ProfileEditHealth = props => {
               borderColor: COLORS.black,
               alignItems: 'center',
             }} //override default styles
-            defaultOption={{key: '0', value: 'Khỏe mạnh'}} //default selected option
+            defaultOption={{key: '1', value: 'Không'}} //default selected option
           />
         </View>
         <View style={{flexDirection: 'column'}}>
@@ -141,26 +251,53 @@ const ProfileEditHealth = props => {
         <View style={{flexDirection: 'column'}}>
           <Text style={{color: COLORS.black}}>Huyết áp</Text>
           <View style={styles.viewText1}>
-            <TextInput keyboardType="numeric" style={styles.inputText} />
+            <TextInput
+              keyboardType="numeric"
+              onChangeText={text => checkHaTruong(text)}
+              style={styles.inputText}
+            />
             <Text style={styles.daugach}>/</Text>
-            <TextInput keyboardType="numeric" style={styles.inputText} />
+            <TextInput
+              keyboardType="numeric"
+              onChangeText={text => checkHaThu(text)}
+              style={styles.inputText}
+            />
             <Text style={styles.inputText}>mmHg</Text>
           </View>
+          <Text
+            style={{
+              alignSelf: 'flex-end',
+              color: isWarning ? COLORS.red : COLORS.green,
+            }}>
+            {errorMessage2}
+          </Text>
         </View>
         <View style={{flexDirection: 'column'}}>
           <Text style={{color: COLORS.black}}>Đường huyết</Text>
           <View style={styles.viewText}>
-            <TextInput keyboardType="numeric" style={styles.inputText} />
+            <TextInput
+              keyboardType="numeric"
+              onChangeText={text => checkDuongHuyet(text)}
+              style={styles.inputText}
+            />
             <Text style={styles.inputText}>mg/dl</Text>
           </View>
+          <Text
+            style={{
+              alignSelf: 'flex-end',
+              color: isWarning1 ? COLORS.red : COLORS.green,
+            }}>
+            {errorMessage3}
+          </Text>
         </View>
         <TouchableOpacity
-          // onPress={() => clickEdit()}
+          disabled={isValidIsOk() == false}
+          onPress={() => handleSaveHealth()}
           style={{
             marginTop: 20,
             padding: 14,
             marginHorizontal: 90,
-            backgroundColor: COLORS.primary,
+            backgroundColor: isValidIsOk() == true ? COLORS.primary : '#9da19e',
             marginVertical: 30,
             borderRadius: 10,
             elevation: 12,
