@@ -90,8 +90,7 @@ const ProfileEditHealth = props => {
           setHeight();
           setBMI();
           setDuongH();
-          AsyncStorage.clear();
-          navigation.replace('Login');
+          goBack();
         }
       })
       .catch(err => {

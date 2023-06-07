@@ -22,6 +22,8 @@ import Chart from './src/screens/Chart';
 import IngreDetail from './src/components/NutritionFactsCom/IngreDetail';
 import ProfileEditHealth from './src/screens/Profile/ProfileEditHealth';
 import Recommendations from './src/screens/Recommendations';
+import DetailSick from './src/components/HomeCom/DetailFood';
+import ProfileHistory from './src/screens/Profile/ProFileHistory';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -75,6 +77,7 @@ export default function App() {
         <Stack.Screen name="Recommendations" component={Recommendations} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="DetailFood" component={DetailFood} />
+        <Stack.Screen name="DetailSick" component={DetailSick} />
         <Stack.Screen name="XFood" component={XFood} />
         <Stack.Screen name="XMap" component={XMap} />
         <Stack.Screen name="XExercise" component={XExercise} />
@@ -83,6 +86,7 @@ export default function App() {
         <Stack.Screen name="Chart" component={Chart} />
         <Stack.Screen name="ProfileAccount" component={ProfileAccount} />
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
+        <Stack.Screen name="ProfileHistory" component={ProfileHistory} />
         <Stack.Screen name="ProfileHealth" component={ProfileHealth} />
         <Stack.Screen name="IngreDetail" component={IngreDetail} />
         <Stack.Screen name="ProfileEditHealth" component={ProfileEditHealth} />

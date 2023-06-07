@@ -90,3 +90,14 @@ export const user_health_update = async data => {
     return error.response.data;
   }
 };
+export const user_health_info = async data => {
+  try {
+    const res = await api('user/health-info', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};

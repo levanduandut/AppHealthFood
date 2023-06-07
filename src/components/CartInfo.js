@@ -18,7 +18,7 @@ const CartInfo = props => {
     const { title, data, colorBack } = props;
     return (
         <View
-            style={{ paddingHorizontal: 30, paddingVertical: 10, paddingTop: 20 }}>
+            style={{ paddingHorizontal: 30, paddingVertical: 2, paddingTop: 20 }}>
             <View
                 style={{
                     flexDirection: 'column',
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         color: COLORS.black,
     },
     data: {
-        fontSize: 20,
+        fontSize: 15,
         color: COLORS.red,
         fontFamily: fonts.POPPINS_BOLD,
         alignItems: 'center',

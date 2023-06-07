@@ -47,7 +47,6 @@ const Login = props => {
       password: password,
     })
       .then(async res => {
-        console.log(res.data);
         if (res.data.message !== null) {
           alert(res.data.message);
         } else {

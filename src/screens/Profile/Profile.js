@@ -78,7 +78,7 @@ const Profile = props => {
     navigation.navigate('ProfileAccount', info1);
   };
   const clickEdit = () => {
-    navigation.navigate('ProfileEdit', info1);
+    navigation.navigate('ProfileHistory', info1);
   };
   const clickHealth = () => {
     navigation.navigate('ProfileHealth', info1);
@@ -196,7 +196,7 @@ const Profile = props => {
           }}>
           <Icon name="edit" size={33} color={COLORS.yellow} />
           <Text style={{ marginLeft: 10, fontWeight: 'bold', fontSize: 17 }}>
-            Chỉnh sửa thông tin
+            Lịch sử sức khỏe
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

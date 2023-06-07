@@ -1,23 +1,71 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Dimensions, SafeAreaView, ScrollView, StyleSheet,TouchableOpacity } from 'react-native';
+import moment from 'moment';
+import { Alert, Dimensions, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { SIZES, COLORS } from '../../constants/theme';
 import { Text, View } from 'react-native';
 import fonts from '../../constants/fonts';
 import HeaderBar from '../../components/HeaderBar';
 import { CartInfo } from '../../components';
+import { useIsFocused } from '@react-navigation/native';
+import { get_sick_list, user_health_info } from '../../api/user_api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const { height } = Dimensions.get('window');
 
 const ProfileHealth = props => {
   const { navigation, route } = props;
   const { navigate, goBack } = navigation;
-  const name = route.params.name;
-  const address = route.params.address;
-  const age = route.params.age;
-  const email = route.params.email;
+  const isFocused = useIsFocused();
+  const [sick, setSick] = useState();
+  const [sickId, setSickId] = useState();
+  const [token, setToken] = useState();
+  const [data, setData] = useState({});
 
-  function clickEdit(){
+  function clickEdit() {
     navigate('ProfileEditHealth');
   }
+  useEffect(() => {
+    (async () => getInfoToken())();
+    if (token) {
+      (async () => getInfoHealth(token))();
+    }
+    if (setSickId) {
+      (async () => getInfoSick(sickId))();
+    }
+  }, [isFocused, token, sickId]);
+  const getInfoToken = async () => {
+    AsyncStorage.getItem('AccessToken').then(async value => {
+      await setToken(value);
+    });
+  };
+  const getInfoSick = async sickId => {
+    await get_sick_list({
+      info: 0,
+    })
+      .then(async res => {
+        if (res.data.errCode === 0) {
+          if (sickId) {
+            setSick(res.data.sick[sickId - 1].value);
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const getInfoHealth = async token => {
+    await user_health_info({
+      token: token,
+    })
+      .then(async res => {
+        if (res.data.errCode === 0) {
+          setData(res.data.info[0]);
+          setSickId(res.data.info[0].sickId);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <SafeAreaView>
@@ -33,13 +81,17 @@ const ProfileHealth = props => {
         }}>
         Thông tin sức khỏe{' '}
       </Text>
-      <ScrollView style={{ paddingTop: 20 }}>
-        <CartInfo title={'Cân nặng'} data={'14.5'} colorBack={'#9fbaf0'} />
-        <CartInfo title={'Chiều cao'} data={'14.5'} colorBack={'#f09f9f'} />
-        <CartInfo title={'BMI'} data={'14.5'} colorBack={'#f0d09f'} />
-        <CartInfo title={'Huyết áp'} data={'14.5'} colorBack={'#a9f09f'} />
-        <CartInfo title={'Đường huyết'} data={'14.5'} colorBack={'#9fe4f0'} />
-        <CartInfo title={'Bệnh'} data={'14.5'} colorBack={'#f09fe5'} />
+      <Text style={{ paddingTop:5,justifyContent: 'center', alignSelf: 'center' }}>Cập nhật lúc : {moment(data.createdAt)
+        .utcOffset('+07:00')
+        .format('YYYY-MM-DD hh:mm:ss a')}</Text>
+      <ScrollView style={{ paddingTop: 10 }}>
+        <CartInfo title={'Cân nặng'} data={data.weight} colorBack={'#9fbaf0'} />
+        <CartInfo title={'Chiều cao'} data={data.height} colorBack={'#f09f9f'} />
+        <CartInfo title={'BMI'} data={data.bmi} colorBack={'#f0d09f'} />
+        <CartInfo title={'Huyết áp Tâm trương'} data={data.haTruong} colorBack={'#a9f09f'} />
+        <CartInfo title={'Huyết áp Tâm thu'} data={data.haThu} colorBack={'#a9f09f'} />
+        <CartInfo title={'Đường huyết'} data={data.duongH} colorBack={'#9fe4f0'} />
+        <CartInfo title={'Bệnh'} data={sick} colorBack={'#f09fe5'} />
         <TouchableOpacity
           onPress={() => clickEdit()}
           style={{
