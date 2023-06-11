@@ -59,6 +59,7 @@ const Home = props => {
   };
   const getInfoHealth = async token => {
     await user_health_info({
+      limit:1,
       token: token,
     })
       .then(async res => {

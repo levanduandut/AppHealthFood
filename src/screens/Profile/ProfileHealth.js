@@ -55,6 +55,7 @@ const ProfileHealth = props => {
   const getInfoHealth = async token => {
     await user_health_info({
       token: token,
+      limit:1,
     })
       .then(async res => {
         if (res.data.errCode === 0) {

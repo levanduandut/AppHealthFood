@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { URL_PATH } from '@env';
 
 const api = axios.create({
-  baseURL: 'http://192.168.1.9:8069/api/',
+  baseURL: URL_PATH,
   responseType: 'json',
   withCredentials: true,
 });

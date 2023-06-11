@@ -19,45 +19,47 @@ const XMap = props => {
   const [data, setData] = useState([]);
 
   const [text, setText] = useState('');
+  const [text1, setText1] = useState('');
 
-  const clickOK = async (data) => {
+  const clickOK = async () => {
     try {
-      getDataText(data);
+      let res = await translate_x({ text: text, lang: 'en' });
+      console.log(res.data);
+      await setText1(res.data);
+      console.log(text1);
       const response = await axios.request({
         method: 'GET',
         url: 'https://nutrition-by-api-ninjas.p.rapidapi.com/v1/nutrition',
         params: {
-          query: `${text}`
+          query: `${text1}`,
         },
         headers: {
           'X-RapidAPI-Key': '10a70d537bmsh80e40618efcf552p179c73jsn70e5aa136bdc',
-          'X-RapidAPI-Host': 'nutrition-by-api-ninjas.p.rapidapi.com'
-        }
+          'X-RapidAPI-Host': 'nutrition-by-api-ninjas.p.rapidapi.com',
+        },
       });
       console.log(response.data);
-      if (response.data !== null) {
+      if (response.data !== []) {
         setData(response.data);
       }
       else {
         setData("Nhấn Tra cứu để tử lại");
       }
-
       setLoading(false);
     } catch (error) {
 
     }
   };
-  const getDataText = async (text) => {
-    try {
-      let response = await translate_x({ text: text, lang: 'en' });
-      console.log(response.data);
-      setText(response.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getDataText = async (text) => {
+  //   try {
+  //     let response = await translate_x({ text: text, lang: 'en' });
+  //     setText(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const getDataTextVi = async (text) => {
     let response = "";
     try {
@@ -97,7 +99,7 @@ const XMap = props => {
       </View>
       <TouchableOpacity
         // disabled={isValidIsOk() == false}
-        onPress={() => clickOK(text)}
+        onPress={() => clickOK()}
         style={{
           alignSelf: 'center',
           width: 300,

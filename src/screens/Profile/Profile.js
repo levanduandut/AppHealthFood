@@ -81,7 +81,7 @@ const Profile = props => {
     navigation.navigate('ProfileHistory', info1);
   };
   const clickHealth = () => {
-    navigation.navigate('ProfileHealth', info1);
+    navigation.navigate('ProfileHealth');
   };
 
   const clickLogOut = () => {

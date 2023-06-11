@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Dimensions, SafeAreaView, StyleSheet } from 'react-native';
-import images from '../constants/images';
 import { SIZES, COLORS } from '../constants/theme';
 import {
   Text,
   View,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import fonts from '../constants/fonts';
 const { height } = Dimensions.get('window');
