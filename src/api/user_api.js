@@ -101,3 +101,69 @@ export const user_health_info = async data => {
     return error.response.data;
   }
 };
+export const get_category_food_list = async data => {
+  try {
+    const res = await api('user/get-food-category', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const get_food_list_by_category = async data => {
+  try {
+    const res = await api('user/get-food', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const get_category_exe_list = async data => {
+  try {
+    const res = await api('user/get-exercise-category', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const get_exe_list_by_category = async data => {
+  try {
+    const res = await api('user/get-exercise', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const post_absorb = async data => {
+  try {
+    const res = await api('user/create-absorb', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const user_absorb_info = async data => {
+  try {
+    const res = await api('user/get-absorb', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};

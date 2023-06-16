@@ -78,7 +78,7 @@ const DetailSick = props => {
           </Text>
         </View>
         <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 20 }}>
-          {x.categoryId === 3 ? 'Lưu ý' : (x.categoryId === 4 ? 'Mẹo vặt' : (x.categoryId === 1 ? 'Lối sống' : 'Công thức nấu ăn'))}
+          Thông tin bệnh
         </Text>
         <ScrollView
           style={{ flex: 1, marginTop: 20 }}

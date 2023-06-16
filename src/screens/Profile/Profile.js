@@ -21,13 +21,6 @@ const Profile = props => {
   const [gender, setGender] = useState('');
   const [age, setAge] = useState('age');
   const [address, setAddress] = useState('address');
-  const [height, setHeight] = useState('height');
-  const [weight, setWeight] = useState('weight');
-  const [sick, setSick] = useState('sick');
-  const [heartBeat, setHeartBeat] = useState('heartBeat');
-  const [bloodPressureTh, setBloodPressureTh] = useState('bloodPressureTh');
-  const [bloodPressureTr, setBloodPressureTr] = useState('bloodPressureTr');
-  const [bloodSugar, setBloodSugar] = useState('bloodSugar');
   const [avatar, setAvatar] = useState(
     '',
   );
@@ -52,13 +45,6 @@ const Profile = props => {
           setName(res.data.user.fullName);
           setAge(res.data.user.age);
           setAddress(res.data.user.address);
-          setHeight(res.data.user.height);
-          setWeight(res.data.user.weight);
-          setSick(res.data.user.sick);
-          setHeartBeat(res.data.user.heartBeat);
-          setBloodPressureTh(res.data.user.bloodPressureTh);
-          setBloodPressureTr(res.data.user.bloodPressureTr);
-          setBloodSugar(res.data.user.bloodSugar);
           setAvatar(res.data.user.avatar);
         }
       })

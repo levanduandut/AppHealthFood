@@ -6,7 +6,6 @@ import {
   StatusBar,
   StyleSheet,
 } from 'react-native';
-import images from '../../constants/images';
 import { SIZES, COLORS } from '../../constants/theme';
 import {
   Text,
@@ -21,7 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import IIcon from 'react-native-vector-icons/Feather';
 const { height } = Dimensions.get('window');
 
-const DetailFood = props => {
+const DetailFoodMain = props => {
   const { navigation, route } = props;
   const { navigate, goBack } = navigation;
   const x = route.params;
@@ -56,7 +55,7 @@ const DetailFood = props => {
               textShadowOffset: { width: 1, height: 1 },
               textShadowRadius: 5,
             }}>
-            {x.title}
+            {x.name}
           </Text>
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
             <Icon name="star" size={22} color={COLORS.yellow} />
@@ -76,26 +75,48 @@ const DetailFood = props => {
         <View style={styles.iconContainer}>
           <Icon name="bookmark" color={COLORS.primary} size={30} />
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10 }}>
-          <IIcon name="tag" size={28} color={COLORS.xGreen} />
-          <Text
-            style={{
-              marginLeft: 5,
-              fontSize: 20,
-              fontWeight: 'bold',
-              color: COLORS.primary,
-            }}>
-            {x.tag}
-          </Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row' }}>
+            <IIcon name="tag" size={28} color={COLORS.xGreen} />
+            <Text
+              style={{
+                marginLeft: 5,
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: COLORS.primary,
+              }}>
+              {x.tag}
+            </Text>
+          </View>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <IIcon
+              style={{ marginLeft: 15, alignItems: 'center' }}
+              name="clock"
+              size={18}
+              color={COLORS.red}
+            />
+            <Text
+              style={{
+                fontWeight: 'bold',
+                flexDirection: 'row',
+                marginLeft: 10,
+                color: COLORS.xGreen,
+                textShadowColor: COLORS.white,
+                textShadowOffset: { width: 1, height: 1 },
+                textShadowRadius: 4,
+              }}>
+              {x.time} phút
+            </Text>
+          </View>
         </View>
         <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 20 }}>
-          {x.categoryId === 3 ? 'Lưu ý' : (x.categoryId === 4 ? 'Mẹo vặt' : (x.categoryId === 1 ? 'Lối sống' : 'Công thức nấu ăn'))}
+          Công thức nấu ăn
         </Text>
         <ScrollView
           style={{ flex: 1, marginTop: 20 }}
           contentContainerStyle={{ minHeight: '100%' }}
           automaticallyAdjustKeyboardInsets={true}>
-          <Text style={{ marginTop: 20, lineHeight: 22, color: '#000000' }}>{x.detail}</Text>
+          <Text style={{ marginTop: 10, lineHeight: 22, color: '#000000' }}>{x.detail}</Text>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -146,4 +167,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailFood;
+export default DetailFoodMain;

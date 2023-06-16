@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import images from '../../../constants/images';
 import { SIZES, COLORS } from '../../../constants/theme';
 import {
   Text,
@@ -16,15 +15,13 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import fonts from '../../../constants/fonts';
-import { users } from '../../../data/users';
 import XIcon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Feather';
+import IIcon from 'react-native-vector-icons/FontAwesome5';
 import UserAvatar from 'react-native-user-avatar';
-import categories from '../../../data/categories';
 import { foods } from '../../../data/foods';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { user_info } from '../../../api/user_api';
+import { get_category_food_list, get_food_list_by_category, user_info } from '../../../api/user_api';
 const { height, width } = Dimensions.get('window');
 
 const XFood = props => {
@@ -32,10 +29,16 @@ const XFood = props => {
   const { navigation, food } = props;
   const { navigate, goBack } = navigation;
   const [name, setName] = useState('name');
+  const [categoryFoods, setCategoryFoods] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [token, setToken] = useState('token');
+  const [searchQuery, setSearchQuery] = useState('');
   const [avatar, setAvatar] = useState(
     '',
   );
+  useEffect(() => {
+    (async () => getInfoCategory())();
+  }, []);
   useEffect(() => {
     AsyncStorage.getItem('AccessToken').then(async value => {
       await setToken(value);
@@ -57,6 +60,33 @@ const XFood = props => {
       .catch(err => {
         console.log(err);
       });
+  };
+  const getInfoCategory = async () => {
+    await get_category_food_list()
+      .then(async res => {
+        if (res.data.errCode === 0) {
+          setCategories(res.data.foodCa);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const getFoodsByCategory = async (categoryId) => {
+    await get_food_list_by_category({
+      categoryId: categoryId,
+    })
+      .then(async res => {
+        if (res.data.errCode === 0) {
+          setCategoryFoods(res.data.food);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const handleSearch = (query) => {
+    setSearchQuery(query);
   };
   return (
     <ScrollView>
@@ -86,7 +116,7 @@ const XFood = props => {
                     width: 35,
                     height: 35,
                     borderRadius: 30,
-                    marginRight:10,
+                    marginRight: 10,
                   }}>
                   <UserAvatar size={40} name={name} />
                 </View>
@@ -115,13 +145,18 @@ const XFood = props => {
             <TextInput
               placeholder="Nhập để tìm kiếm"
               style={{ color: COLORS.black }}
+              value={searchQuery}
+              onChangeText={handleSearch}
             />
           </View>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal>
             {categories.map((category, index) => (
               <TouchableOpacity
                 style={{ marginRight: 30 }}
-                onPress={() => setActiveCategory(index)}
+                onPress={() => {
+                  setActiveCategory(index);
+                  getFoodsByCategory(category.id); // Gọi hàm để lấy danh sách món ăn của category
+                }}
                 key={index}>
                 <Text
                   style={[
@@ -136,7 +171,7 @@ const XFood = props => {
                       fontSize: 17.5,
                     },
                   ]}>
-                  {category.title}
+                  {category.name}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -148,84 +183,129 @@ const XFood = props => {
               flexWrap: 'wrap',
               justifyContent: 'space-between',
             }}>
-            {foods.map((food, index) => (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => navigation.navigate('DetailFood', food)}
-                style={{ width: width / 2 - 30, marginBottom: 15 }}
-                key={food.id}>
-                <View>
-                  <ImageBackground
+            {categoryFoods.filter((food) => food.name.toLowerCase().includes(searchQuery.toLowerCase()))
+              .map((food, index) => (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => navigation.navigate('DetailFoodMain', food)}
+                  style={{ width: width / 2 - 30, marginBottom: 15 }}
+                  key={food.id}>
+                  <View>
+                    <ImageBackground
+                      style={{
+                        width: '100%',
+                        borderRadius: 20,
+                        overflow: 'hidden',
+                        height: width / 2,
+                      }}
+                      source={{ uri: `https://storage.googleapis.com/healthfood-do/${food.image}` }}>
+                      <View
+                        style={{
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-end',
+                          flex: 1,
+                        }}>
+                        <View
+                          style={{
+                            width: '100%',
+                            flexDirection: 'row',
+                            marginTop: 10,
+                          }}>
+                          <View style={{ flexDirection: 'row' }}>
+                            <Icon
+                              style={{ marginLeft: 15 }}
+                              name="tag"
+                              size={22}
+                              color={COLORS.title}
+                            />
+                            <Text
+                              style={{
+                                fontWeight: 'bold',
+                                flexDirection: 'row',
+                                marginLeft: 10,
+                                color: COLORS.red,
+                                textShadowColor: COLORS.white,
+                                textShadowOffset: { width: 1, height: 1 },
+                                textShadowRadius: 4,
+                              }}>
+                              {food.tag}
+                            </Text>
+                          </View>
+                          <View style={{ flexDirection: 'row', marginLeft: 10 }}>
+                            <Icon name="star" size={22} color={COLORS.yellow} />
+                            <Text
+                              style={{
+                                fontWeight: 'bold',
+                                flexDirection: 'row',
+                                marginLeft: 10,
+                                color: COLORS.yellow,
+                                textShadowColor: COLORS.black,
+                                textShadowOffset: { width: 1, height: 1 },
+                                textShadowRadius: 5,
+                              }}>
+                              {food.star}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </ImageBackground>
+                  </View>
+                  <Text
                     style={{
-                      width: '100%',
-                      borderRadius: 20,
-                      overflow: 'hidden',
-                      height: width / 2,
-                    }}
-                    source={food.image}>
+                      fontSize: 15,
+                      fontWeight: '700',
+                      color: COLORS.black,
+                    }}>
+                    {food.name}
+                  </Text>
+                  <View style={{ flexDirection: 'row' }}>
                     <View
                       style={{
                         justifyContent: 'space-between',
-                        alignItems: 'flex-end',
                         flex: 1,
                       }}>
                       <View
                         style={{
                           width: '100%',
                           flexDirection: 'row',
-                          marginTop: 10,
+                          marginTop: 5,
                         }}>
                         <View style={{ flexDirection: 'row' }}>
-                          <Icon
+                          <Text
+                            style={{
+                              paddingTop:1,
+                              justifyContent:'center',
+                              alignItems:'center',
+                              fontSize: 12,
+                              fontWeight: '700',
+                              color: COLORS.black,
+                            }}>
+                            Calo : {food.calo}
+                          </Text>
+                          <IIcon
                             style={{ marginLeft: 15 }}
-                            name="tag"
-                            size={22}
-                            color={COLORS.title}
+                            name="clock"
+                            size={18}
+                            color={COLORS.red}
                           />
                           <Text
                             style={{
                               fontWeight: 'bold',
                               flexDirection: 'row',
                               marginLeft: 10,
-                              color: COLORS.white,
+                              color: COLORS.xGreen,
+                              textShadowColor: COLORS.white,
+                              textShadowOffset: { width: 1, height: 1 },
+                              textShadowRadius: 4,
                             }}>
-                            {food.tag}
-                          </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', marginLeft: 10 }}>
-                          <Icon name="star" size={22} color={COLORS.yellow} />
-                          <Text
-                            style={{
-                              fontWeight: 'bold',
-                              flexDirection: 'row',
-                              marginLeft: 10,
-                              color: COLORS.white,
-                            }}>
-                            {food.star}
+                            {food.time} phút
                           </Text>
                         </View>
                       </View>
                     </View>
-                  </ImageBackground>
-                </View>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '700',
-                    color: COLORS.black,
-                  }}>
-                  {food.name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: '700',
-                    color: COLORS.black,
-                  }}>
-                  Calo : {food.calo}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  </View>
+                </TouchableOpacity>
+              ))}
           </View>
         </View>
       </SafeAreaView>

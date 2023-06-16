@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Dimensions,
@@ -8,23 +8,23 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import {SIZES, COLORS} from '../../constants/theme';
-import {lifestyles} from '../../data/lifestyle';
+import { SIZES, COLORS } from '../../constants/theme';
+import { lifestyles } from '../../data/lifestyle';
 import IIcon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Text, View, ScrollView} from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import CartLife from '../../components/HomeCom/CartLife';
 import CartFood from '../../components/HomeCom/CartFood';
-import {getBlog, get_sick_list, user_health_info} from '../../api/user_api';
+import { getBlog, get_sick_list, user_health_info } from '../../api/user_api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import CartSick from '../../components/HomeCom/CartSick';
-const {height} = Dimensions.get('window');
-const {width} = Dimensions.get('screen');
+const { height } = Dimensions.get('window');
+const { width } = Dimensions.get('screen');
 
 const Home = props => {
-  const {navigation, route} = props;
-  const {navigate, goBack} = navigation;
+  const { navigation, route } = props;
+  const { navigate, goBack } = navigation;
   const [foods, setFoods] = useState([]);
   const [notes, setNotes] = useState([]);
   const [tips, setTips] = useState([]);
@@ -41,14 +41,20 @@ const Home = props => {
 
   useEffect(() => {
     (async () => getInfoStatus())();
-    (async () => getInfoHealth(token))();
+    if (token) {
+      (async () => getInfoHealth(token))();
+    }
     (async () => getInfoSick(sickId))();
+  }, [isFocused, sickId, token]);
+
+  useEffect(() => {
     (async () => getInfoSick1())();
     (async () => getInfoBlogFood())();
     (async () => getInfoBlogNote())();
     (async () => getInfoBlogLife())();
     (async () => getInfoBlogTip())();
-  }, [isFocused, sickId, token]);
+  }, []);
+
   const getInfoStatus = async () => {
     AsyncStorage.getItem('AccessToken').then(async value => {
       await setToken(value);
@@ -59,7 +65,7 @@ const Home = props => {
   };
   const getInfoHealth = async token => {
     await user_health_info({
-      limit:1,
+      limit: 1,
       token: token,
     })
       .then(async res => {
@@ -144,7 +150,7 @@ const Home = props => {
     })
       .then(async res => {
         if (res.data.errCode === 0) {
-            setSick1(res.data.sick);
+          setSick1(res.data.sick);
         }
       })
       .catch(err => {
@@ -208,7 +214,7 @@ const Home = props => {
 
   return (
     <SafeAreaView
-      style={{flex: 1, paddingBottom: 85, backgroundColor: COLORS.white}}>
+      style={{ flex: 1, paddingBottom: 85, backgroundColor: COLORS.white }}>
       <StatusBar translucent={false} backgroundColor={COLORS.xGreen} />
       <View style={styles.header}>
         <Icon name="question-circle-o" size={24} color={COLORS.black} />
@@ -253,12 +259,12 @@ const Home = props => {
         <View style={styles.header1}>
           <View style={styles.viewNotice}>
             <Icon
-              style={{paddingRight: 10}}
+              style={{ paddingRight: 10 }}
               name="exclamation-circle"
               size={20}
               color="#ff0000"
             />
-            <View style={{flexDirection: 'column'}}>
+            <View style={{ flexDirection: 'column' }}>
               <Text
                 style={styles.text}
                 onPress={() => {
@@ -279,14 +285,14 @@ const Home = props => {
       )}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{marginBottom: 10}}>
+        style={{ marginBottom: 10 }}>
         <View
           style={{
             backgroundColor: COLORS.xGreen,
             height: 120,
             paddingHorizontal: 20,
           }}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <Text style={styles.title}>Vì một cuộc sống</Text>
             <Text style={styles.title}>tốt đẹp hơn</Text>
             <View style={styles.inputContainer}>
@@ -294,7 +300,7 @@ const Home = props => {
               <TextInput
                 onChangeText={text => handleSearch(text)}
                 placeholder="Nhập để tìm kiếm"
-                style={{color: COLORS.black}}
+                style={{ color: COLORS.black }}
               />
             </View>
           </View>
@@ -303,11 +309,11 @@ const Home = props => {
         <Text style={styles.secondTitle}>Lifestyle</Text>
         <View>
           <FlatList
-            contentContainerStyle={{paddingLeft: 20}}
+            contentContainerStyle={{ paddingLeft: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={lifestyles}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <CartLife lifestyle={item} navigation={navigation} />
             )}
           />
@@ -316,11 +322,11 @@ const Home = props => {
         <View>
           <FlatList
             snapToInterval={width - 20}
-            contentContainerStyle={{paddingLeft: 20, paddingBottom: 20}}
+            contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={foods}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <CartFood food={item} navigation={navigation} />
             )}
           />
@@ -328,11 +334,11 @@ const Home = props => {
         <Text style={styles.secondTitle}>Lưu ý</Text>
         <View>
           <FlatList
-            contentContainerStyle={{paddingLeft: 20}}
+            contentContainerStyle={{ paddingLeft: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={notes}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <CartLife lifestyle={item} navigation={navigation} />
             )}
           />
@@ -341,11 +347,11 @@ const Home = props => {
         <View>
           <FlatList
             snapToInterval={width - 20}
-            contentContainerStyle={{paddingLeft: 20, paddingBottom: 20}}
+            contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={tips}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <CartFood food={item} navigation={navigation} />
             )}
           />
@@ -354,11 +360,11 @@ const Home = props => {
         <View>
           <FlatList
             snapToInterval={width - 20}
-            contentContainerStyle={{paddingLeft: 20, paddingBottom: 20}}
+            contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={sick1}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <CartSick sick={item} navigation={navigation} />
             )}
           />

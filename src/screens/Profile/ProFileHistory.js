@@ -91,7 +91,7 @@ const ProfileHistory = props => {
                         {'   '}
                     </Text>
                     <Text>
-                        Chiều cao : <Text style={{ color: COLORS.red }}>{data.weight}</Text>{' '}
+                        Chiều cao : <Text style={{ color: COLORS.red }}>{data.height}</Text>{' '}
                         cm {'   '}
                     </Text>
                 </View>
