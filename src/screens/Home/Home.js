@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View, ScrollView } from 'react-native';
 import CartLife from '../../components/HomeCom/CartLife';
 import CartFood from '../../components/HomeCom/CartFood';
-import { getBlog, get_sick_list, user_health_info } from '../../api/user_api';
+import { getBlog, get_sick_list, user_health_info, user_status_info } from '../../api/user_api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import CartSick from '../../components/HomeCom/CartSick';
@@ -37,15 +37,19 @@ const Home = props => {
   const [sick, setSick] = useState();
   const [sick1, setSick1] = useState();
   const [token, setToken] = useState();
+  const [searchText, setSearchText] = useState('');
   const [data, setData] = useState({});
 
   useEffect(() => {
-    (async () => getInfoStatus())();
+    (async () => getInfoToken())();
     if (token) {
+      (async () => getInfoStatus(token))();
+    }
+    if (token && status === 1) {
       (async () => getInfoHealth(token))();
     }
     (async () => getInfoSick(sickId))();
-  }, [isFocused, sickId, token]);
+  }, [isFocused, sickId, token, status]);
 
   useEffect(() => {
     (async () => getInfoSick1())();
@@ -55,13 +59,23 @@ const Home = props => {
     (async () => getInfoBlogTip())();
   }, []);
 
-  const getInfoStatus = async () => {
+  const getInfoToken = async () => {
     AsyncStorage.getItem('AccessToken').then(async value => {
       await setToken(value);
     });
-    AsyncStorage.getItem('Status').then(async value => {
-      await setStatus(parseInt(value));
-    });
+  };
+  const getInfoStatus = async token => {
+    await user_status_info({
+      token: token,
+    })
+      .then(async res => {
+        if (res.data.errCode === 0) {
+          setStatus(res.data.status.status);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   const getInfoHealth = async token => {
     await user_health_info({
@@ -157,7 +171,6 @@ const Home = props => {
         console.log(err);
       });
   };
-
   const clickFood = () => {
     navigate('XFood');
   };
@@ -207,10 +220,9 @@ const Home = props => {
       </View>
     );
   };
-  function handleSearch(text) {
-    setSearch(text);
-    console.log(text);
-  }
+  const handleSearchTextChange = text => {
+    setSearchText(text);
+  };
 
   return (
     <SafeAreaView
@@ -298,7 +310,8 @@ const Home = props => {
             <View style={styles.inputContainer}>
               <Icon name="search" size={20} color={COLORS.black} />
               <TextInput
-                onChangeText={text => handleSearch(text)}
+                value={searchText}
+                onChangeText={handleSearchTextChange}
                 placeholder="Nhập để tìm kiếm"
                 style={{ color: COLORS.black }}
               />
@@ -312,7 +325,7 @@ const Home = props => {
             contentContainerStyle={{ paddingLeft: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={lifestyles}
+            data={lifestyles.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()))}
             renderItem={({ item }) => (
               <CartLife lifestyle={item} navigation={navigation} />
             )}
@@ -325,7 +338,7 @@ const Home = props => {
             contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={foods}
+            data={foods.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()))}
             renderItem={({ item }) => (
               <CartFood food={item} navigation={navigation} />
             )}
@@ -337,7 +350,7 @@ const Home = props => {
             contentContainerStyle={{ paddingLeft: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={notes}
+            data={notes.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()))}
             renderItem={({ item }) => (
               <CartLife lifestyle={item} navigation={navigation} />
             )}
@@ -350,25 +363,28 @@ const Home = props => {
             contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={tips}
+            data={tips.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase()))}
             renderItem={({ item }) => (
               <CartFood food={item} navigation={navigation} />
             )}
+
           />
         </View>
         <Text style={styles.secondTitle1}>Thông tin bệnh cơ bản</Text>
-        <View>
-          <FlatList
-            snapToInterval={width - 20}
-            contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={sick1}
-            renderItem={({ item }) => (
-              <CartSick sick={item} navigation={navigation} />
-            )}
-          />
-        </View>
+        {Array.isArray(sick1) && sick1.length > 0 && (
+          <View>
+            <FlatList
+              snapToInterval={width - 20}
+              contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={sick1.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))}
+              renderItem={({ item }) => (
+                <CartSick sick={item} navigation={navigation} />
+              )}
+            />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

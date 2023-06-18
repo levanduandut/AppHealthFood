@@ -243,7 +243,7 @@ const ProfileEditHealth = props => {
               {((weight * 10000) / (height * height)).toFixed(2)}
             </Text>
           </View>
-          <Text style={{alignSelf: 'flex-end', color: COLORS.red}}>
+          <Text style={{alignSelf: 'flex-end', color: COLORS.green}}>
             {errorMessage}
           </Text>
         </View>

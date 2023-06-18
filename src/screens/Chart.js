@@ -29,8 +29,9 @@ const Chart = props => {
   useEffect(() => {
     (async () => getInfoToken())();
     if (token) {
-      (async () => getInfoHealth(token))();
       (async () => getInfoAbsorb(token))();
+      (async () => getInfoHealth(token))();
+
     }
   }, [isFocused, token]);
   useEffect(() => {
@@ -56,7 +57,6 @@ const Chart = props => {
       setDataX1(datax.map(({ totalCalo }) => totalCalo));
     }
   }, [datax]);
-
   const getInfoToken = async () => {
     AsyncStorage.getItem('AccessToken').then(async value => {
       await setToken(value);
@@ -79,7 +79,7 @@ const Chart = props => {
   const getInfoAbsorb = async token => {
     await user_absorb_info({
       token: token,
-      limit: 7,
+      limit: 8,
     })
       .then(async res => {
         if (res.data.errCode === 0) {
@@ -108,8 +108,8 @@ const Chart = props => {
   }
 
   return (
-    <ScrollView style={{ marginBottom: 70, marginTop: 10 }}>
-      {datax.length > 0 && (
+    <ScrollView style={{ marginBottom: 85, marginTop: 10 }}>
+      {Array.isArray(datax1) && datax1.length > 0 && Array.isArray(labelsx) && labelsx.length > 0 && (
         <ChartCom
           dataLabel={labelsx}
           dataSet={datax1}
@@ -118,13 +118,13 @@ const Chart = props => {
         />
       )}
       {data1.length > 0 && (
-        <ChartCom dataLabel={labels} dataSet={data1} nameChart={'BMI'} />
+        <ChartCom dataLabel={labels} dataSet={data1} nameChart={'BMI'} targetMin={18.5} targetMax={25} />
       )}
       {data2.length > 0 && (
         <ChartCom
           dataLabel={labels}
           dataSet={data2}
-          nameChart={'Đường Huyết'}
+          nameChart={'Đường Huyết'} targetMin={70} targetMax={130}
           Unit={'mg/dl '}
         />
       )}
@@ -132,7 +132,7 @@ const Chart = props => {
         <ChartCom
           dataLabel={labels}
           dataSet={data3}
-          nameChart={'Huyết Áp'}
+          nameChart={'Huyết Áp'} targetMin={90} targetMax={130}
           Unit={'mmHg'}
         />
       )}
@@ -144,7 +144,7 @@ const Chart = props => {
           Unit={'Kg'}
         />
       )}
-      
+
     </ScrollView>
   );
 };

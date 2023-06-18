@@ -6,5 +6,5 @@ export default {
     POPPINS_BOLD: 'Poppins-Bold',
     POPPINS_SEMIBOLD: 'Poppins-SemiBold',
     POPPINS_SEMIBOLDITALIC: 'Poppins-SemiBoldItalic',
-    
+    ROBOTOSLAB_MEDIUM: 'RobotoSlab-Medium',
 }

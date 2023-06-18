@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -10,18 +10,19 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {SIZES, COLORS} from '../../../constants/theme';
-import {Text, View} from 'react-native';
+import { SIZES, COLORS } from '../../../constants/theme';
+import { Text, View } from 'react-native';
 import fonts from '../../../constants/fonts';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
-import {post_absorb, translate_x} from '../../../api/user_api';
+import { post_absorb, translate_x } from '../../../api/user_api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const {height} = Dimensions.get('window');
+import HeaderBar from '../../../components/HeaderBar';
+const { height } = Dimensions.get('window');
 
 const XMap = props => {
-  const {navigation, route} = props;
-  const {navigate, goBack} = navigation;
+  const { navigation, route } = props;
+  const { navigate, goBack } = navigation;
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -42,7 +43,7 @@ const XMap = props => {
 
   const clickOK = async () => {
     try {
-      let res = await translate_x({text: text, lang: 'en'});
+      let res = await translate_x({ text: text, lang: 'en' });
       await setText1(res.data);
       const response = await axios.request({
         method: 'GET',
@@ -63,17 +64,16 @@ const XMap = props => {
         alert('Nhấn để thử lại !');
       }
       setLoading(false);
-    } catch (error) {}
+    } catch (error) { }
   };
   const getInfoStatus = async () => {
     AsyncStorage.getItem('AccessToken').then(async value => {
       await setToken(value);
-      console.log(value);
     });
   };
   const getDataTextVi = async text => {
     try {
-      const response = await translate_x({text: text, lang: 'vi'});
+      const response = await translate_x({ text: text, lang: 'vi' });
       return response.data;
     } catch (error) {
       console.error(error);
@@ -89,7 +89,7 @@ const XMap = props => {
         if (res.data.errCode === 0) {
           Alert.alert(
             'Lưu thành công',
-        );
+          );
           setData([]);
           setTotalData(null);
         }
@@ -140,7 +140,7 @@ const XMap = props => {
     };
   };
 
-  const Item = ({title}) => (
+  const Item = ({ title }) => (
     <View style={styles.item}>
       <Text style={styles.title1}>Tên Tiếng Anh : {title.name}</Text>
       <Text style={styles.title}>Calo : {title.calories}</Text>
@@ -161,13 +161,14 @@ const XMap = props => {
     </View>
   );
   return (
-    <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+    <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
+      <HeaderBar navigation={navigation} />
       <Text style={styles.header}>Nhập thực phẩm bạn ăn hôm nay</Text>
       <View style={styles.inputContainer}>
         <Icon name="search" size={20} color={COLORS.black} />
         <TextInput
           placeholder="Nhập thực phẩm tra cứu"
-          style={{color: COLORS.black}}
+          style={{ color: COLORS.black }}
           onChangeText={text => setText(text)}
         />
       </View>
@@ -177,7 +178,7 @@ const XMap = props => {
         style={{
           alignSelf: 'center',
           width: 300,
-          marginTop: 90,
+          marginTop: 20,
           padding: 15,
           backgroundColor: COLORS.primary,
           marginVertical: 30,
@@ -186,13 +187,13 @@ const XMap = props => {
         }}>
         <Text style={styles.btnLoginText}>Tra cứu</Text>
       </TouchableOpacity>
-      <View style={{flex: 1, padding: 24, paddingTop: 10}}>
+      <View style={{ flex: 1, padding: 24, paddingTop: 10 }}>
         {isLoading ? (
           <ActivityIndicator />
         ) : (
           <FlatList
             data={data}
-            renderItem={({item}) => <Item title={item} />}
+            renderItem={({ item }) => <Item title={item} />}
           />
         )}
         {totalData && (
@@ -207,7 +208,7 @@ const XMap = props => {
               Tổng
             </Text>
             <View style={styles.totalContainer}>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <Text style={styles.totalText}>
                   Calo: {totalData.totalCalo}
                 </Text>
@@ -224,7 +225,7 @@ const XMap = props => {
                   Chất béo bão hòa : {totalData.totalFatSat} g
                 </Text>
               </View>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <Text style={styles.totalText}>
                   Chất béo : {totalData.totalFatTotal} g
                 </Text>
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignSelf: 'center',
-    marginTop: 5,
+    marginTop: 20,
     fontSize: 20,
     color: COLORS.title,
     textAlign: 'center',
@@ -315,11 +316,9 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: COLORS.white,
     borderRadius: 10,
-    position: 'absolute',
     top: 10,
     flexDirection: 'row',
     marginHorizontal: 20,
-    marginTop: 30,
     paddingHorizontal: 20,
     alignItems: 'center',
     elevation: 12,

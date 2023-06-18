@@ -167,3 +167,25 @@ export const user_absorb_info = async data => {
     return error.response.data;
   }
 };
+export const user_status_info = async data => {
+  try {
+    const res = await api('user/get-status', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const get_food_list_by_sick = async data => {
+  try {
+    const res = await api('user/get-food', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};

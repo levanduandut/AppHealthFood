@@ -6,8 +6,9 @@ import Home from '../screens/Home/Home';
 import Profile from '../screens/Profile/Profile';
 import Chart from '../screens/Chart';
 import NutritionFacts from '../screens/NutritionFacts';
-import Recommendations from '../screens/Recommendations';
+import Recommendations from '../screens/Recom/Recommendations';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import XExercise from '../screens/Home/Category/XExercise';
 
 const Tab = createBottomTabNavigator();
 const screenOptions = ({ route }) => ({

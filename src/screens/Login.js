@@ -6,15 +6,11 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import images from '../constants/images';
 import { SIZES, COLORS } from '../constants/theme';
 import {
   Text,
   View,
-  Image,
-  ImageBackground,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import fonts from '../constants/fonts';
@@ -53,6 +49,7 @@ const Login = props => {
           await AsyncStorage.setItem('AccessToken', res.data.token);
           AsyncStorage.setItem('Status', `${res.data.status}`);
           AsyncStorage.setItem('SickId', `${res.data.sickId}`);
+          await AsyncStorage.setItem('isLoggedIn', 'true');
           navigate('UITab');
         }
       })

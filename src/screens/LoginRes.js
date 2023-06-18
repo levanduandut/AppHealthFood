@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     color: COLORS.primary,
-    fontFamily: fonts.POPPINS_BOLD,
+    fontWeight: '900',
     textAlign: 'center',
   },
   description: {

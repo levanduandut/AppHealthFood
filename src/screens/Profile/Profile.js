@@ -70,9 +70,13 @@ const Profile = props => {
     navigation.navigate('ProfileHealth');
   };
 
-  const clickLogOut = () => {
-    AsyncStorage.clear();
-    navigation.replace('Login');
+  const clickLogOut = async () => {
+    try {
+      await AsyncStorage.setItem('isLoggedIn', 'false');
+      navigation.navigate('LoginRes');
+    } catch (error) {
+      console.log('Lỗi khi lưu trạng thái đăng xuất:', error);
+    }
   };
 
   return (

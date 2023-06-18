@@ -19,6 +19,7 @@ const NutritionFacts = props => {
   const [data, setData] = useState([]);
 
   const [filterdata, setFilterData] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const NutritionFacts = props => {
     }
   };
   const searchFilter = async (text) => {
-    if (text!=='') {
+    if (text !== '') {
       const newData = data.filter((item) => {
         const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
         const textData = text.toUpperCase();
@@ -50,6 +51,9 @@ const NutritionFacts = props => {
       setSearch(text);
     }
   };
+  const handleSearchTextChange = text => {
+    setSearchText(text);
+  };
   return (
 
     <SafeAreaView style={{ flex: 1 }}>
@@ -57,10 +61,10 @@ const NutritionFacts = props => {
       <View style={styles.inputContainer}>
         <Icon name="search" size={20} color={COLORS.black} />
         <TextInput
-          value={search}
           placeholder="Nhập thực phẩm tra cứu"
           style={{ color: COLORS.black }}
-          onChangeText={(text) => searchFilter(text)}
+          value={searchText}
+          onChangeText={handleSearchTextChange}
         />
       </View>
       <View style={{ flex: 1, padding: 24, paddingTop: 90 }}>
@@ -69,11 +73,10 @@ const NutritionFacts = props => {
         ) : (
           <FlatList
             showsHorizontalScrollIndicator={false}
-            data={filterdata}
             keyExtractor={({ id }) => id}
+            data={data.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))}
             renderItem={({ item }) => (
               <IngreInfo ingre={item} navigation={navigation} />
-              // <Text>Ok</Text>
             )}
           />
         )}
@@ -82,9 +85,9 @@ const NutritionFacts = props => {
   );
 };
 const styles = StyleSheet.create({
-  header:{
-    alignSelf:'center',
-    marginTop:5,
+  header: {
+    alignSelf: 'center',
+    marginTop: 5,
     fontSize: 20,
     color: COLORS.title,
     textAlign: 'center',
