@@ -10,6 +10,7 @@ import {
   Image,
   ImageBackground,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import {SIZES, COLORS} from '../../constants/theme';
 import {Text, View} from 'react-native';
@@ -17,6 +18,7 @@ import fonts from '../../constants/fonts';
 import {
   get_exe_list_by_category,
   get_food_list_by_sick,
+  get_ingre_list_by_sick,
   get_sick_list,
   user_health_info,
   user_status_info,
@@ -41,9 +43,14 @@ const Recommendations = props => {
   const [sickId, setSickId] = useState();
   const [sick1, setSick1] = useState();
   const [sick2, setSick2] = useState([]);
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [categoryExes, setCategoryExes] = useState([]);
   const [showSickList, setShowSickList] = useState(false);
   const [showExeList, setShowExeList] = useState(false);
+  const [showIngList, setShowIngList] = useState(false);
+  const [showIngList1, setShowIngList1] = useState(false);
   const [showFoodList, setShowFoodList] = useState(false);
   const [showFoodListAnti, setShowFoodListAnti] = useState(false);
   const isFocused = useIsFocused();
@@ -64,6 +71,7 @@ const Recommendations = props => {
       (async () => getListFoodAnti(Number(0 - sickId)))();
       (async () => getInfoSick1(sickId))();
       (async () => getExesByCategory(sickId))();
+      (async () => getIngre(sickId))();
     }
     (async () => getInfoSick2())();
   }, [sickId]);
@@ -175,6 +183,12 @@ const Recommendations = props => {
     setShowFoodListAnti(true);
     setShowSickList(true);
   };
+  const handleIngPress = () => {
+    setShowIngList(!showIngList);
+  };
+  const handleIngPress1 = () => {
+    setShowIngList1(!showIngList1);
+  };
   const handleXemPress = () => {
     setShowExeList(!showExeList);
   };
@@ -199,6 +213,50 @@ const Recommendations = props => {
       .catch(err => {
         console.log(err);
       });
+  };
+  const getIngre = async sickId => {
+    try {
+      const response = await get_ingre_list_by_sick({id: sickId});
+      setData1(response.data.ingre.should);
+      setData2(response.data.ingre.shouldnot);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const IngreInfo = props => {
+    const {navigation, ingre} = props;
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate('IngreDetail', ingre)}>
+        <View style={{paddingVertical: 3}}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#4ceb59eb',
+              borderRadius: 10,
+              padding: 5,
+              paddingLeft: 20,
+            }}>
+            <Text style={{fontSize: 15, color: COLORS.white}}>
+              {ingre.name}
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+              }}>
+              <Text style={{fontSize: 12, paddingRight: 10}}>
+                Calo : {ingre.calo}
+              </Text>
+              <Text style={styles.calo}>Protein : {ingre.protein}</Text>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
   };
   if (status === 1 && sickId === 1) {
     return (
@@ -1104,7 +1162,7 @@ const Recommendations = props => {
                   fontWeight: 'bold',
                   fontSize: 13,
                   color: '#000000',
-                  paddingBottom:10,
+                  paddingBottom: 10,
                 }}>
                 Không có bài tập cụ thể cho {sick}
               </Text>
@@ -1244,7 +1302,7 @@ const Recommendations = props => {
                   fontWeight: 'bold',
                   fontSize: 13,
                   color: '#000000',
-                  paddingBottom:10,
+                  paddingBottom: 10,
                 }}>
                 Không có món không nên ăn
               </Text>
@@ -1266,6 +1324,116 @@ const Recommendations = props => {
                   Xem tất cả món ăn
                 </Text>
               </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingTop: 10,
+              paddingHorizontal: 20,
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <View style={{width: '70%'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  color: '#585a61',
+                }}>
+                Thực phẩm khuyên dùng
+              </Text>
+            </View>
+            <View style={{width: '30%', alignItems: 'flex-end'}}>
+              <TouchableOpacity
+                onPress={handleIngPress}
+                style={{
+                  backgroundColor: '#009ea4',
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 15,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 13,
+                    color: '#FFF',
+                  }}>
+                  {showIngList ? 'Ẩn' : 'Xem'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {showIngList && data1 && (
+            <View style={{flex: 1, padding: 24, paddingTop: 10}}>
+              {isLoading ? (
+                <ActivityIndicator />
+              ) : (
+                data1.map(item => (
+                  <IngreInfo
+                    key={item.id}
+                    ingre={item}
+                    navigation={navigation}
+                  />
+                ))
+              )}
+            </View>
+          )}
+        </View>
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingTop: 10,
+              paddingHorizontal: 20,
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <View style={{width: '70%'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  color: '#585a61',
+                }}>
+                Thực phẩm hạn chế dùng
+              </Text>
+            </View>
+            <View style={{width: '30%', alignItems: 'flex-end'}}>
+              <TouchableOpacity
+                onPress={handleIngPress1}
+                style={{
+                  backgroundColor: '#ff1616',
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 15,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 13,
+                    color: '#FFF',
+                  }}>
+                  {showIngList1 ? 'Ẩn' : 'Xem'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {showIngList1 && data2 && (
+            <View style={{flex: 1, padding: 24, paddingTop: 10}}>
+              {isLoading ? (
+                <ActivityIndicator />
+              ) : (
+                data2.map(item => (
+                  <IngreInfo
+                    key={item.id}
+                    ingre={item}
+                    navigation={navigation}
+                  />
+                ))
+              )}
             </View>
           )}
         </View>
