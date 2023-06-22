@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Dimensions, SafeAreaView, StyleSheet, View, Text } from 'react-native';
+import { Alert, Dimensions, SafeAreaView, StyleSheet, View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import images from '../constants/images';
 import { SIZES, COLORS } from '../constants/theme';
 import { ScrollView } from 'react-native';
@@ -93,16 +93,17 @@ const Chart = props => {
 
   if (data === null || datax === null) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View style={{ paddingTop: 70 }}>
+        <ActivityIndicator />
       </View>
     );
   }
 
   if (!Array.isArray(data) || data.length === 0) {
     return (
-      <View>
-        <Text>Error: Failed to retrieve data.</Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center', height: height, alignSelf: 'center' }}>
+        <Text>Chưa có thông tin sức khỏe</Text>
+        <Text>Nên chúng tôi chưa thể load biểu đồ </Text>
       </View>
     );
   }
@@ -117,6 +118,29 @@ const Chart = props => {
           Unit={'Kalo'}
         />
       )}
+      {data4.length > 0 && (
+        <ChartCom
+          dataLabel={labels}
+          dataSet={data4}
+          nameChart={'Cân Nặng'}
+          Unit={'Kg'}
+        />
+      )}
+      <View style={styles.note}>
+        <Text style={{ color: COLORS.black }}>Chú thích</Text>
+        <View style={styles.legendItem}>
+          <View style={[styles.legendIcon, { backgroundColor: 'rgba(102, 255, 102, 1)' }]} />
+          <Text style={styles.legendText}>Data</Text>
+        </View>
+        <View style={styles.legendItem}>
+          <View style={[styles.legendIcon, { backgroundColor: 'rgba(255, 255, 0, 1)' }]} />
+          <Text style={styles.legendText}>Giới hạn an toàn dưới</Text>
+        </View>
+        <View style={styles.legendItem}>
+          <View style={[styles.legendIcon, { backgroundColor: 'rgba(255, 0, 0, 1)' }]} />
+          <Text style={styles.legendText}>Giới hạn an toàn trên</Text>
+        </View>
+      </View>
       {data1.length > 0 && (
         <ChartCom dataLabel={labels} dataSet={data1} nameChart={'BMI'} targetMin={18.5} targetMax={25} />
       )}
@@ -136,19 +160,30 @@ const Chart = props => {
           Unit={'mmHg'}
         />
       )}
-      {data4.length > 0 && (
-        <ChartCom
-          dataLabel={labels}
-          dataSet={data4}
-          nameChart={'Cân Nặng'}
-          Unit={'Kg'}
-        />
-      )}
-
     </ScrollView>
   );
 };
 const styles = StyleSheet.create({
+  note: {
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
+    paddingRight: 30,
+    top: 30,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  legendIcon: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginRight: 8,
+  },
+  legendText: {
+    fontSize: 12,
+  },
   title: {
     fontSize: 30,
     color: COLORS.primary,

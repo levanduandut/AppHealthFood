@@ -129,11 +129,11 @@ const Profile = props => {
           onPress={() => clickInfo()}
           activeOpacity={0.5}
           style={{
-            justifyContent: 'center',
+            paddingLeft:82,
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: COLORS.white,
-            height: 65,
+            height: 50,
             marginTop: 20,
             marginHorizontal: 40,
             paddingVertical: 10,
@@ -142,7 +142,7 @@ const Profile = props => {
           }}>
           <Ionicons
             name="ios-person-circle-outline"
-            size={40}
+            size={25}
             color={COLORS.yellow}
           />
           <Text style={{ marginLeft: 10, fontWeight: 'bold', fontSize: 17 }}>
@@ -153,18 +153,18 @@ const Profile = props => {
           onPress={() => clickHealth()}
           activeOpacity={0.5}
           style={{
-            justifyContent: 'center',
+            paddingLeft:85,
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: COLORS.white,
-            height: 65,
+            height: 50,
             marginTop: 30,
             marginHorizontal: 40,
             paddingVertical: 10,
             borderRadius: 10,
             elevation: 20,
           }}>
-          <Icon name="notes-medical" size={35} color={COLORS.yellow} />
+          <Icon name="notes-medical" size={25} color={COLORS.yellow} />
           <Text style={{ marginLeft: 10, fontWeight: 'bold', fontSize: 17 }}>
             Thông tin sức khỏe
           </Text>
@@ -173,26 +173,46 @@ const Profile = props => {
           onPress={() => clickEdit()}
           activeOpacity={0.5}
           style={{
-            justifyContent: 'center',
+            paddingLeft:85,
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: COLORS.white,
-            height: 65,
+            height: 50,
             marginTop: 30,
             marginHorizontal: 40,
             paddingVertical: 10,
             borderRadius: 10,
             elevation: 20,
           }}>
-          <Icon name="edit" size={33} color={COLORS.yellow} />
+          <Icon name="edit" size={22} color={COLORS.yellow} />
           <Text style={{ marginLeft: 10, fontWeight: 'bold', fontSize: 17 }}>
             Lịch sử sức khỏe
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() =>  navigation.navigate('ProFileEat', info1)}
+          activeOpacity={0.5}
+          style={{
+            paddingLeft:85,
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: COLORS.white,
+            height: 50,
+            marginTop: 30,
+            marginHorizontal: 40,
+            paddingVertical: 10,
+            borderRadius: 10,
+            elevation: 20,
+          }}>
+          <Icon name="concierge-bell" size={22} color={COLORS.yellow} />
+          <Text style={{ marginLeft: 10, fontWeight: 'bold', fontSize: 17 }}>
+            Lịch sử ăn uống
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => clickLogOut()}
           style={{
-            marginTop: 40,
+            marginTop: 30,
             padding: 14,
             marginHorizontal: 90,
             backgroundColor: COLORS.red,

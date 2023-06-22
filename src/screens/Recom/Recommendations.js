@@ -297,6 +297,44 @@ const Recommendations = props => {
           </View>
         </View>
         <ScrollView>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingTop: 10,
+              paddingHorizontal: 20,
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <View style={{width: '80%'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  color: '#585a61',
+                }}>
+                Xem lịch sử ăn uống
+              </Text>
+            </View>
+            <View style={{width: '20%', alignItems: 'flex-end'}}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ProFileEat')}
+                style={{
+                  backgroundColor: '#36fff5',
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 15,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 13,
+                    color: '#020202',
+                  }}>
+                  Xem
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           <View>
             <View
               style={{
@@ -574,6 +612,82 @@ const Recommendations = props => {
                   </Text>
                 </TouchableOpacity>
               </View>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingTop: 10,
+              paddingHorizontal: 20,
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <View style={{width: '80%'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  color: '#585a61',
+                }}>
+                Nhập thực phẩm ăn vào hôm nay
+              </Text>
+            </View>
+            <View style={{width: '20%', alignItems: 'flex-end'}}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('XMap')}
+                style={{
+                  backgroundColor: '#fffc36',
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 15,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 13,
+                    color: '#020202',
+                  }}>
+                  Nhập
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingTop: 10,
+              paddingHorizontal: 20,
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <View style={{width: '80%'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  color: '#585a61',
+                }}>
+                Xem lịch sử ăn uống
+              </Text>
+            </View>
+            <View style={{width: '20%', alignItems: 'flex-end'}}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ProFileEat')}
+                style={{
+                  backgroundColor: '#36fff5',
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 15,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 13,
+                    color: '#020202',
+                  }}>
+                  Xem
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View>
@@ -890,6 +1004,44 @@ const Recommendations = props => {
               </TouchableOpacity>
             </View>
           </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingTop: 10,
+              paddingHorizontal: 20,
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <View style={{width: '80%'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  color: '#585a61',
+                }}>
+                Xem lịch sử ăn uống
+              </Text>
+            </View>
+            <View style={{width: '20%', alignItems: 'flex-end'}}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ProFileEat')}
+                style={{
+                  backgroundColor: '#36fff5',
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 15,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 13,
+                    color: '#020202',
+                  }}>
+                  Xem
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
         <View>
           <View
@@ -942,6 +1094,38 @@ const Recommendations = props => {
                   <ExeCom exe={item} navigation={navigation} />
                 )}
               />
+            </View>
+          )}
+          {categoryExes.length === 0 && showExeList && (
+            <View style={{paddingHorizontal: 40, paddingVertical: 20}}>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  fontWeight: 'bold',
+                  fontSize: 13,
+                  color: '#000000',
+                  paddingBottom:10,
+                }}>
+                Không có bài tập cụ thể cho {sick}
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('XExercise')}
+                style={{
+                  backgroundColor: '#00a46c',
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 15,
+                }}>
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontWeight: 'bold',
+                    fontSize: 13,
+                    color: '#FFF',
+                  }}>
+                  Xem tất cả bài tập
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
         </View>
@@ -1050,6 +1234,38 @@ const Recommendations = props => {
                   <FoodCom food={item} navigation={navigation} />
                 )}
               />
+            </View>
+          )}
+          {foodsAnti.length === 0 && showFoodListAnti && (
+            <View style={{paddingHorizontal: 40, paddingVertical: 10}}>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  fontWeight: 'bold',
+                  fontSize: 13,
+                  color: '#000000',
+                  paddingBottom:10,
+                }}>
+                Không có món không nên ăn
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('XFood')}
+                style={{
+                  backgroundColor: '#a40000',
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 15,
+                }}>
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontWeight: 'bold',
+                    fontSize: 13,
+                    color: '#FFF',
+                  }}>
+                  Xem tất cả món ăn
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
         </View>

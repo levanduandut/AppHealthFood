@@ -25,6 +25,7 @@ const XMap = props => {
   const { navigate, goBack } = navigation;
 
   const [isLoading, setLoading] = useState(true);
+  const [showFlatList, setShowFlatList] = useState(false);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState(null);
 
@@ -45,45 +46,53 @@ const XMap = props => {
     try {
       let res = await translate_x({ text: text, lang: 'en' });
       await setText1(res.data);
-      const response = await axios.request({
-        method: 'GET',
-        url: 'https://nutrition-by-api-ninjas.p.rapidapi.com/v1/nutrition',
-        params: {
-          query: `${text1}`,
-        },
-        headers: {
-          'X-RapidAPI-Key':
-            '10a70d537bmsh80e40618efcf552p179c73jsn70e5aa136bdc',
-          'X-RapidAPI-Host': 'nutrition-by-api-ninjas.p.rapidapi.com',
-        },
-      });
-      console.log(response.data);
-      if (response.data !== []) {
-        setData(response.data);
-      } else {
-        alert('Nhấn để thử lại !');
-      }
-      setLoading(false);
-    } catch (error) { }
+      console.log(text1);
+    } catch (error) {
+      // Handle error
+    }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.request({
+          method: 'GET',
+          url: 'https://nutrition-by-api-ninjas.p.rapidapi.com/v1/nutrition',
+          params: {
+            query: `${text1}`,
+          },
+          headers: {
+            'X-RapidAPI-Key': '10a70d537bmsh80e40618efcf552p179c73jsn70e5aa136bdc',
+            'X-RapidAPI-Host': 'nutrition-by-api-ninjas.p.rapidapi.com',
+          },
+        });
+        if (response.data.length > 0) {
+          setData(response.data);
+          console.log(response.data);
+          setShowFlatList(true); // Hiển thị FlatList
+        } else {
+          alert('Nhấn để thử lại!');
+        }
+        setLoading(false);
+      } catch (error) {
+      }
+    };
+    if (text1) {
+      setLoading(true);
+      fetchData();
+    }
+  }, [text1]);
+
   const getInfoStatus = async () => {
     AsyncStorage.getItem('AccessToken').then(async value => {
       await setToken(value);
     });
   };
-  const getDataTextVi = async text => {
-    try {
-      const response = await translate_x({ text: text, lang: 'vi' });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
   const saveAbsorb = async () => {
     await post_absorb({
       data: totalData,
       token: token,
+      eat: text,
     })
       .then(async res => {
         if (res.data.errCode === 0) {
@@ -92,6 +101,7 @@ const XMap = props => {
           );
           setData([]);
           setTotalData(null);
+          setText('');
         }
       })
       .catch(err => {
@@ -169,6 +179,7 @@ const XMap = props => {
         <TextInput
           placeholder="Nhập thực phẩm tra cứu"
           style={{ color: COLORS.black }}
+          value={text}
           onChangeText={text => setText(text)}
         />
       </View>
@@ -190,12 +201,12 @@ const XMap = props => {
       <View style={{ flex: 1, padding: 24, paddingTop: 10 }}>
         {isLoading ? (
           <ActivityIndicator />
-        ) : (
+        ) : showFlatList ? (
           <FlatList
             data={data}
             renderItem={({ item }) => <Item title={item} />}
           />
-        )}
+        ) : null}
         {totalData && (
           <ScrollView>
             <Text

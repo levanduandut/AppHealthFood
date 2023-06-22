@@ -38,6 +38,7 @@ const XExercise = props => {
   );
   useEffect(() => {
     (async () => getInfoCategory())();
+    getExesByCategory('ALL');
   }, []);
   useEffect(() => {
     AsyncStorage.getItem('AccessToken').then(async value => {
@@ -65,7 +66,9 @@ const XExercise = props => {
     await get_category_exe_list()
       .then(async res => {
         if (res.data.errCode === 0) {
-          setCategories(res.data.exerciseCa);
+          const allCategory = [{ id: 'ALL', name: 'Tất cả' }];
+          const updatedCategories = allCategory.concat(res.data.exerciseCa);
+          setCategories(updatedCategories);
         }
       })
       .catch(err => {
@@ -89,93 +92,93 @@ const XExercise = props => {
     setSearchQuery(query);
   };
   return (
-    <ScrollView>
-      <SafeAreaView>
-        <View style={{ padding: 20 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity
-                onPress={() => goBack()}
-                style={{
-                  margin: 10,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <XIcon name="arrow-back" size={28} color={COLORS.xGreen} />
-                <Text style={{ fontSize: 20, color: COLORS.xGreen }}>Back</Text>
-              </TouchableOpacity>
-            </View>
-            <View
+    <SafeAreaView>
+      <View style={{ padding: 20 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity
+              onPress={() => goBack()}
               style={{
+                margin: 10,
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              {!avatar ? (
-                <View
-                  style={{
-                    width: 35,
-                    height: 35,
-                    borderRadius: 30,
-                    marginRight: 10,
-                  }}>
-                  <UserAvatar size={40} name={name} />
-                </View>
-              ) : (
-                <Image
-                  source={{ uri: avatar }}
-                  style={{
-                    width: 35,
-                    height: 35,
-                    borderRadius: 30,
-                    marginRight: 10,
-                  }}
-                />
-              )}
-              <Text style={styles.name}>{name}</Text>
-            </View>
+              <XIcon name="arrow-back" size={28} color={COLORS.xGreen} />
+              <Text style={{ fontSize: 20, color: COLORS.xGreen }}>Back</Text>
+            </TouchableOpacity>
           </View>
-          <View style={{ width: '60%', marginTop: 20 }}>
-            <Text
-              style={{ fontSize: 30, fontWeight: '700', color: COLORS.black }}>
-              Thể dục để khỏe mạnh !
-            </Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <Icon name="search" size={20} color={COLORS.black} />
-            <TextInput
-              placeholder="Nhập để tìm kiếm"
-              style={{ color: COLORS.black }}
-              value={searchQuery}
-              onChangeText={handleSearch}
-            />
-          </View>
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-            {categories.map((category, index) => (
-              <TouchableOpacity
-                style={{ marginRight: 30 }}
-                onPress={() => {
-                  setActiveCategory(index);
-                  getExesByCategory(category.id); // Gọi hàm để lấy danh sách món ăn của category
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            {!avatar ? (
+              <View
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: 30,
+                  marginRight: 10,
+                }}>
+                <UserAvatar size={40} name={name} />
+              </View>
+            ) : (
+              <Image
+                source={{ uri: avatar }}
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: 30,
+                  marginRight: 10,
                 }}
-                key={index}>
-                <Text
-                  style={[
-                    {
-                      fontSize: 17,
-                      fontWeight: '600',
-                      color: COLORS.gray,
-                    },
-                    activeCategory === index && {
-                      color: COLORS.black,
-                      fontWeight: '800',
-                      fontSize: 17.5,
-                    },
-                  ]}>
-                  {category.name}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+              />
+            )}
+            <Text style={styles.name}>{name}</Text>
+          </View>
+        </View>
+        <View style={{ width: '60%', marginTop: 20 }}>
+          <Text
+            style={{ fontSize: 30, fontWeight: '700', color: COLORS.black }}>
+            Thể dục để khỏe mạnh !
+          </Text>
+        </View>
+        <View style={styles.inputContainer}>
+          <Icon name="search" size={20} color={COLORS.black} />
+          <TextInput
+            placeholder="Nhập để tìm kiếm"
+            style={{ color: COLORS.black }}
+            value={searchQuery}
+            onChangeText={handleSearch}
+          />
+        </View>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+          {categories.map((category, index) => (
+            <TouchableOpacity
+              style={{ marginRight: 30 }}
+              onPress={() => {
+                setActiveCategory(index);
+                getExesByCategory(category.id); // Gọi hàm để lấy danh sách món ăn của category
+              }}
+              key={index}>
+              <Text
+                style={[
+                  {
+                    fontSize: 17,
+                    fontWeight: '600',
+                    color: COLORS.gray,
+                  },
+                  activeCategory === index && {
+                    color: COLORS.black,
+                    fontWeight: '800',
+                    fontSize: 17.5,
+                  },
+                ]}>
+                {category.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        <ScrollView>
           <View
             style={{
               marginTop: 30,
@@ -183,13 +186,13 @@ const XExercise = props => {
               flexWrap: 'wrap',
               justifyContent: 'space-between',
             }}>
-            {categoryFoods.filter((food) => food.name.toLowerCase().includes(searchQuery.toLowerCase()))
-              .map((food, index) => (
+            {categoryFoods.filter((exe) => exe.name.toLowerCase().includes(searchQuery.toLowerCase()))
+              .map((exe, index) => (
                 <TouchableOpacity
                   activeOpacity={0.8}
-                  onPress={() => navigation.navigate('DetailFoodMain', food)}
+                  onPress={() => navigation.navigate('DetailExe', exe)}
                   style={{ width: width / 2 - 30, marginBottom: 15 }}
-                  key={food.id}>
+                  key={exe.id}>
                   <View>
                     <ImageBackground
                       style={{
@@ -198,7 +201,7 @@ const XExercise = props => {
                         overflow: 'hidden',
                         height: width / 2,
                       }}
-                      source={{ uri: `https://storage.googleapis.com/healthfood-do/${food.image}` }}>
+                      source={{ uri: `https://storage.googleapis.com/healthfood-do/${exe.image}` }}>
                       <View
                         style={{
                           justifyContent: 'space-between',
@@ -228,7 +231,7 @@ const XExercise = props => {
                                 textShadowOffset: { width: 1, height: 1 },
                                 textShadowRadius: 4,
                               }}>
-                              {food.tag}
+                              {exe.tag}
                             </Text>
                           </View>
                           <View style={{ flexDirection: 'row', marginLeft: 10 }}>
@@ -243,7 +246,7 @@ const XExercise = props => {
                                 textShadowOffset: { width: 1, height: 1 },
                                 textShadowRadius: 5,
                               }}>
-                              {food.star}
+                              {exe.star}
                             </Text>
                           </View>
                         </View>
@@ -256,7 +259,7 @@ const XExercise = props => {
                       fontWeight: '700',
                       color: COLORS.black,
                     }}>
-                    {food.name}
+                    {exe.name}
                   </Text>
                   <View style={{ flexDirection: 'row' }}>
                     <View
@@ -267,21 +270,10 @@ const XExercise = props => {
                       <View
                         style={{
                           width: '100%',
-                          flexDirection: 'row',
+                          alignItems:'flex-end',
                           marginTop: 5,
                         }}>
                         <View style={{ flexDirection: 'row' }}>
-                          <Text
-                            style={{
-                              paddingTop:1,
-                              justifyContent:'center',
-                              alignItems:'center',
-                              fontSize: 12,
-                              fontWeight: '700',
-                              color: COLORS.black,
-                            }}>
-                            Calo : {food.calo}
-                          </Text>
                           <IIcon
                             style={{ marginLeft: 15 }}
                             name="clock"
@@ -298,7 +290,7 @@ const XExercise = props => {
                               textShadowOffset: { width: 1, height: 1 },
                               textShadowRadius: 4,
                             }}>
-                            {food.time} phút
+                            {exe.time} phút
                           </Text>
                         </View>
                       </View>
@@ -307,9 +299,10 @@ const XExercise = props => {
                 </TouchableOpacity>
               ))}
           </View>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+
   );
 };
 const styles = StyleSheet.create({

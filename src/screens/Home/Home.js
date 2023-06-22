@@ -28,7 +28,7 @@ const Home = props => {
   const [foods, setFoods] = useState([]);
   const [notes, setNotes] = useState([]);
   const [tips, setTips] = useState([]);
-  const [status, setStatus] = useState();
+  const [status, setStatus] = useState(0);
   const [sickId, setSickId] = useState();
   const [search, setSearch] = useState();
   const [lifestyles, setLifestyles] = useState([]);
@@ -47,8 +47,8 @@ const Home = props => {
     }
     if (token && status === 1) {
       (async () => getInfoHealth(token))();
+      (async () => getInfoSick(sickId))();
     }
-    (async () => getInfoSick(sickId))();
   }, [isFocused, sickId, token, status]);
 
   useEffect(() => {

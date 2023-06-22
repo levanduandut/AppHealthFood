@@ -26,6 +26,7 @@ import ProfileHistory from './src/screens/Profile/ProFileHistory';
 import DetailFoodMain from './src/components/HomeCom/DetailFoodMain';
 import Recommendations from './src/screens/Recom/Recommendations';
 import DetailExe from './src/screens/Recom/DetailExe';
+import ProFileEat from './src/screens/Profile/ProFileEat';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -91,6 +92,7 @@ export default function App() {
         <Stack.Screen name="ProfileAccount" component={ProfileAccount} />
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
         <Stack.Screen name="ProfileHistory" component={ProfileHistory} />
+        <Stack.Screen name="ProFileEat" component={ProFileEat} />
         <Stack.Screen name="ProfileHealth" component={ProfileHealth} />
         <Stack.Screen name="IngreDetail" component={IngreDetail} />
         <Stack.Screen name="ProfileEditHealth" component={ProfileEditHealth} />

@@ -263,6 +263,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-image-picker')
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion

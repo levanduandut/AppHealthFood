@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Alert,
   Dimensions,
@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import { SIZES, COLORS } from '../../../constants/theme';
+import {SIZES, COLORS} from '../../../constants/theme';
 import {
   Text,
   View,
@@ -19,25 +19,30 @@ import XIcon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Feather';
 import IIcon from 'react-native-vector-icons/FontAwesome5';
 import UserAvatar from 'react-native-user-avatar';
-import { foods } from '../../../data/foods';
+import {foods} from '../../../data/foods';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { get_category_food_list, get_food_list_by_category, user_info } from '../../../api/user_api';
-const { height, width } = Dimensions.get('window');
+import {
+  get_category_food_list,
+  get_food_list_by_category,
+  user_info,
+} from '../../../api/user_api';
+const {height, width} = Dimensions.get('window');
 
 const XFood = props => {
   const [activeCategory, setActiveCategory] = useState(0);
-  const { navigation, food } = props;
-  const { navigate, goBack } = navigation;
+  const scrollViewRef = useRef();
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const {navigation, food} = props;
+  const {navigate, goBack} = navigation;
   const [name, setName] = useState('name');
   const [categoryFoods, setCategoryFoods] = useState([]);
   const [categories, setCategories] = useState([]);
   const [token, setToken] = useState('token');
   const [searchQuery, setSearchQuery] = useState('');
-  const [avatar, setAvatar] = useState(
-    '',
-  );
+  const [avatar, setAvatar] = useState('');
   useEffect(() => {
     (async () => getInfoCategory())();
+    getFoodsByCategory('ALL');
   }, []);
   useEffect(() => {
     AsyncStorage.getItem('AccessToken').then(async value => {
@@ -65,14 +70,16 @@ const XFood = props => {
     await get_category_food_list()
       .then(async res => {
         if (res.data.errCode === 0) {
-          setCategories(res.data.foodCa);
+          const allCategory = [{id: 'ALL', name: 'Tất cả'}];
+          const updatedCategories = allCategory.concat(res.data.foodCa);
+          setCategories(updatedCategories);
         }
       })
       .catch(err => {
         console.log(err);
       });
   };
-  const getFoodsByCategory = async (categoryId) => {
+  const getFoodsByCategory = async categoryId => {
     await get_food_list_by_category({
       categoryId: categoryId,
     })
@@ -85,97 +92,100 @@ const XFood = props => {
         console.log(err);
       });
   };
-  const handleSearch = (query) => {
+  const handleSearch = query => {
     setSearchQuery(query);
   };
+  const handleScrollToTop = () => {
+    scrollViewRef.current.scrollTo({y: 0, animated: true});
+  };
+
   return (
-    <ScrollView>
-      <SafeAreaView>
-        <View style={{ padding: 20 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity
-                onPress={() => goBack()}
-                style={{
-                  margin: 10,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <XIcon name="arrow-back" size={28} color={COLORS.xGreen} />
-                <Text style={{ fontSize: 20, color: COLORS.xGreen }}>Back</Text>
-              </TouchableOpacity>
-            </View>
-            <View
+    <SafeAreaView>
+      <View style={{padding: 20}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity
+              onPress={() => goBack()}
               style={{
+                margin: 10,
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              {!avatar ? (
-                <View
-                  style={{
-                    width: 35,
-                    height: 35,
-                    borderRadius: 30,
-                    marginRight: 10,
-                  }}>
-                  <UserAvatar size={40} name={name} />
-                </View>
-              ) : (
-                <Image
-                  source={{ uri: avatar }}
-                  style={{
-                    width: 35,
-                    height: 35,
-                    borderRadius: 30,
-                    marginRight: 10,
-                  }}
-                />
-              )}
-              <Text style={styles.name}>{name}</Text>
-            </View>
+              <XIcon name="arrow-back" size={28} color={COLORS.xGreen} />
+              <Text style={{fontSize: 20, color: COLORS.xGreen}}>Back</Text>
+            </TouchableOpacity>
           </View>
-          <View style={{ width: '60%', marginTop: 20 }}>
-            <Text
-              style={{ fontSize: 30, fontWeight: '700', color: COLORS.black }}>
-              Bạn muốn nấu món gì ?
-            </Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <Icon name="search" size={20} color={COLORS.black} />
-            <TextInput
-              placeholder="Nhập để tìm kiếm"
-              style={{ color: COLORS.black }}
-              value={searchQuery}
-              onChangeText={handleSearch}
-            />
-          </View>
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-            {categories.map((category, index) => (
-              <TouchableOpacity
-                style={{ marginRight: 30 }}
-                onPress={() => {
-                  setActiveCategory(index);
-                  getFoodsByCategory(category.id); // Gọi hàm để lấy danh sách món ăn của category
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            {!avatar ? (
+              <View
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: 30,
+                  marginRight: 10,
+                }}>
+                <UserAvatar size={40} name={name} />
+              </View>
+            ) : (
+              <Image
+                source={{uri: avatar}}
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: 30,
+                  marginRight: 10,
                 }}
-                key={index}>
-                <Text
-                  style={[
-                    {
-                      fontSize: 17,
-                      fontWeight: '600',
-                      color: COLORS.gray,
-                    },
-                    activeCategory === index && {
-                      color: COLORS.black,
-                      fontWeight: '800',
-                      fontSize: 17.5,
-                    },
-                  ]}>
-                  {category.name}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+              />
+            )}
+            <Text style={styles.name}>{name}</Text>
+          </View>
+        </View>
+        <View style={{width: '60%', marginTop: 20}}>
+          <Text style={{fontSize: 30, fontWeight: '700', color: COLORS.black}}>
+            Bạn muốn nấu món gì ?
+          </Text>
+        </View>
+        <View style={styles.inputContainer}>
+          <Icon name="search" size={20} color={COLORS.black} />
+          <TextInput
+            placeholder="Nhập để tìm kiếm"
+            style={{color: COLORS.black}}
+            value={searchQuery}
+            onChangeText={handleSearch}
+          />
+        </View>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+          {categories.map((category, index) => (
+            <TouchableOpacity
+              style={{marginRight: 30, height: 30}}
+              onPress={() => {
+                setActiveCategory(index);
+                getFoodsByCategory(category.id); // Gọi hàm để lấy danh sách món ăn của category
+              }}
+              key={index}>
+              <Text
+                style={[
+                  {
+                    fontSize: 17,
+                    fontWeight: '600',
+                    color: COLORS.gray,
+                  },
+                  activeCategory === index && {
+                    color: COLORS.black,
+                    fontWeight: '800',
+                    fontSize: 17.5,
+                  },
+                ]}>
+                {category.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        <ScrollView>
           <View
             style={{
               marginTop: 30,
@@ -183,12 +193,15 @@ const XFood = props => {
               flexWrap: 'wrap',
               justifyContent: 'space-between',
             }}>
-            {categoryFoods.filter((food) => food.name.toLowerCase().includes(searchQuery.toLowerCase()))
+            {categoryFoods
+              .filter(food =>
+                food.name.toLowerCase().includes(searchQuery.toLowerCase()),
+              )
               .map((food, index) => (
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => navigation.navigate('DetailFoodMain', food)}
-                  style={{ width: width / 2 - 30, marginBottom: 15 }}
+                  style={{width: width / 2 - 30, marginBottom: 15}}
                   key={food.id}>
                   <View>
                     <ImageBackground
@@ -196,9 +209,11 @@ const XFood = props => {
                         width: '100%',
                         borderRadius: 20,
                         overflow: 'hidden',
-                        height: width / 2,
+                        height: width / 2 - 15,
                       }}
-                      source={{ uri: `https://storage.googleapis.com/healthfood-do/${food.image}` }}>
+                      source={{
+                        uri: `https://storage.googleapis.com/healthfood-do/${food.image}`,
+                      }}>
                       <View
                         style={{
                           justifyContent: 'space-between',
@@ -211,9 +226,9 @@ const XFood = props => {
                             flexDirection: 'row',
                             marginTop: 10,
                           }}>
-                          <View style={{ flexDirection: 'row' }}>
+                          <View style={{flexDirection: 'row'}}>
                             <Icon
-                              style={{ marginLeft: 15 }}
+                              style={{marginLeft: 15}}
                               name="tag"
                               size={22}
                               color={COLORS.title}
@@ -222,16 +237,16 @@ const XFood = props => {
                               style={{
                                 fontWeight: 'bold',
                                 flexDirection: 'row',
-                                marginLeft: 10,
-                                color: COLORS.red,
-                                textShadowColor: COLORS.white,
-                                textShadowOffset: { width: 1, height: 1 },
-                                textShadowRadius: 4,
+                                marginLeft: 12,
+                                color: '#00ff0d',
+                                textShadowColor: COLORS.black,
+                                textShadowOffset: {width: 1, height: 1},
+                                textShadowRadius: 5,
                               }}>
                               {food.tag}
                             </Text>
                           </View>
-                          <View style={{ flexDirection: 'row', marginLeft: 10 }}>
+                          <View style={{flexDirection: 'row', marginLeft: 10}}>
                             <Icon name="star" size={22} color={COLORS.yellow} />
                             <Text
                               style={{
@@ -240,7 +255,7 @@ const XFood = props => {
                                 marginLeft: 10,
                                 color: COLORS.yellow,
                                 textShadowColor: COLORS.black,
-                                textShadowOffset: { width: 1, height: 1 },
+                                textShadowOffset: {width: 1, height: 1},
                                 textShadowRadius: 5,
                               }}>
                               {food.star}
@@ -258,7 +273,7 @@ const XFood = props => {
                     }}>
                     {food.name}
                   </Text>
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{flexDirection: 'row'}}>
                     <View
                       style={{
                         justifyContent: 'space-between',
@@ -270,12 +285,12 @@ const XFood = props => {
                           flexDirection: 'row',
                           marginTop: 5,
                         }}>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{flexDirection: 'row'}}>
                           <Text
                             style={{
-                              paddingTop:1,
-                              justifyContent:'center',
-                              alignItems:'center',
+                              paddingTop: 1,
+                              justifyContent: 'center',
+                              alignItems: 'center',
                               fontSize: 12,
                               fontWeight: '700',
                               color: COLORS.black,
@@ -283,7 +298,7 @@ const XFood = props => {
                             Calo : {food.calo}
                           </Text>
                           <IIcon
-                            style={{ marginLeft: 15 }}
+                            style={{marginLeft: 15}}
                             name="clock"
                             size={18}
                             color={COLORS.red}
@@ -295,7 +310,7 @@ const XFood = props => {
                               marginLeft: 10,
                               color: COLORS.xGreen,
                               textShadowColor: COLORS.white,
-                              textShadowOffset: { width: 1, height: 1 },
+                              textShadowOffset: {width: 1, height: 1},
                               textShadowRadius: 4,
                             }}>
                             {food.time} phút
@@ -307,12 +322,32 @@ const XFood = props => {
                 </TouchableOpacity>
               ))}
           </View>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+        </ScrollView>
+      </View>
+
+      {showScrollToTop && (
+        <TouchableOpacity
+          style={styles.scrollToTopButton}
+          onPress={handleScrollToTop}>
+          <Text style={styles.scrollToTopButtonText}>GHJK</Text>
+        </TouchableOpacity>
+      )}
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
+  scrollToTopButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: COLORS.red,
+    borderRadius: 50,
+    padding: 10,
+  },
+  scrollToTopButtonText: {
+    color: COLORS.white,
+    fontWeight: 'bold',
+  },
   name: {
     fontSize: 17,
     color: COLORS.dark,
