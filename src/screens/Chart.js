@@ -102,8 +102,21 @@ const Chart = props => {
   if (!Array.isArray(data) || data.length === 0) {
     return (
       <View style={{ justifyContent: 'center', alignItems: 'center', height: height, alignSelf: 'center' }}>
-        <Text>Chưa có thông tin sức khỏe</Text>
-        <Text>Nên chúng tôi chưa thể load biểu đồ </Text>
+        <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Chưa có thông tin sức khỏe</Text>
+        <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Nên chúng tôi chưa có thông tin để hiển thị biểu đồ </Text>
+        <TouchableOpacity
+          onPress={() => navigate('ProfileEditHealth')}
+          style={{
+            marginTop: 20,
+            padding: 14,
+            marginHorizontal: 70,
+            backgroundColor: COLORS.primary,
+            marginVertical: 20,
+            borderRadius: 10,
+            elevation: 12,
+          }}>
+          <Text style={styles.btnLoginText}>Nhấn vào đây để thêm thông tin</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -164,6 +177,13 @@ const Chart = props => {
   );
 };
 const styles = StyleSheet.create({
+  btnLoginText: {
+    fontWeight: '900',
+    color: COLORS.black,
+    textAlign: 'center',
+    fontSize: 12,
+    fontFamily: fonts.POPPINS_BOLD,
+  },
   note: {
     justifyContent: 'center',
     alignSelf: 'flex-end',

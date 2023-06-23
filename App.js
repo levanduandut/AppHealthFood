@@ -27,45 +27,46 @@ import DetailFoodMain from './src/components/HomeCom/DetailFoodMain';
 import Recommendations from './src/screens/Recom/Recommendations';
 import DetailExe from './src/screens/Recom/DetailExe';
 import ProFileEat from './src/screens/Profile/ProFileEat';
+import ProfileEditAccount from './src/screens/Profile/ProfileEditAccount';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [showHomepage, setShowHomePage] = useState(false);
-  // const buttonLabel = label => {
-  //   return (
-  //     <View style={styles.buttonLabelView}>
-  //       <Text style={styles.buttonLabelText}>{label}</Text>
-  //     </View>
-  //   );
-  // };
-  // if (!showHomepage) {
-  //   return (
-  //     <AppIntroSlider
-  //       data={slides}
-  //       renderItem={({ item }) => {
-  //         return (
-  //           <View style={styles.view}>
-  //             <Image
-  //               source={item.image}
-  //               style={styles.image}
-  //               resizeMode="contain"
-  //             />
-  //             <Text style={styles.title}>{item.title}</Text>
-  //             <Text style={styles.description}>{item.description}</Text>
-  //           </View>
-  //         );
-  //       }}
-  //       activeDotStyle={styles.activeDot}
-  //       showSkipButton
-  //       renderNextButton={() => buttonLabel('Next')}
-  //       renderSkipButton={() => buttonLabel('Skip')}
-  //       renderDoneButton={() => buttonLabel('Done')}
-  //       onDone={() => {
-  //         setShowHomePage(true);
-  //       }}
-  //     />
-  //   );
-  // }
+  const buttonLabel = label => {
+    return (
+      <View style={styles.buttonLabelView}>
+        <Text style={styles.buttonLabelText}>{label}</Text>
+      </View>
+    );
+  };
+  if (!showHomepage) {
+    return (
+      <AppIntroSlider
+        data={slides}
+        renderItem={({ item }) => {
+          return (
+            <View style={styles.view}>
+              <Image
+                source={item.image}
+                style={styles.image}
+                resizeMode="contain"
+              />
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.description}>{item.description}</Text>
+            </View>
+          );
+        }}
+        activeDotStyle={styles.activeDot}
+        showSkipButton
+        renderNextButton={() => buttonLabel('Next')}
+        renderSkipButton={() => buttonLabel('Skip')}
+        renderDoneButton={() => buttonLabel('Done')}
+        onDone={() => {
+          setShowHomePage(true);
+        }}
+      />
+    );
+  }
 
   return (
     // <LoginRes />
@@ -90,6 +91,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Chart" component={Chart} />
         <Stack.Screen name="ProfileAccount" component={ProfileAccount} />
+        <Stack.Screen name="ProfileEditAccount" component={ProfileEditAccount} />
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
         <Stack.Screen name="ProfileHistory" component={ProfileHistory} />
         <Stack.Screen name="ProFileEat" component={ProFileEat} />

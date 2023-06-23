@@ -13,6 +13,7 @@ import {
 import fonts from '../../constants/fonts';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IIcon from 'react-native-vector-icons/Ionicons';
+import { URL_IMAGE } from '@env';
 const { height } = Dimensions.get('window');
 const { width } = Dimensions.get('screen');
 
@@ -24,7 +25,7 @@ const CartSick = props => {
             onPress={() => navigation.navigate('DetailSick', sick)}
         >
             <ScrollView>
-                <ImageBackground style={styles.imgBack} source={{ uri: `https://storage.googleapis.com/healthfood-do/${sick.image}` }}>
+                <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${sick.image}` }}>
                     <Text
                         style={{
                             color: COLORS.white,

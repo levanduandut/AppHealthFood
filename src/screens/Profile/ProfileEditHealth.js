@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Dimensions,
@@ -7,20 +7,20 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {SIZES, COLORS} from '../../constants/theme';
-import {Text, View} from 'react-native';
+import { SIZES, COLORS } from '../../constants/theme';
+import { Text, View } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import fonts from '../../constants/fonts';
 import HeaderBar from '../../components/HeaderBar';
-import {SelectList} from 'react-native-dropdown-select-list';
-import {get_sick_list, user_health_update} from '../../api/user_api';
+import { SelectList } from 'react-native-dropdown-select-list';
+import { get_sick_list, user_health_update } from '../../api/user_api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const {height} = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 const ProfileEditHealth = props => {
-  const {navigation, route} = props;
-  const {navigate, goBack} = navigation;
+  const { navigation, route } = props;
+  const { navigate, goBack } = navigation;
   const [selected, setSelected] = useState('');
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState(0);
@@ -165,29 +165,30 @@ const ProfileEditHealth = props => {
     }
   }
   function setMes(value) {
-    if (value < 18.1) {
-      setErrorMessage('Gầy');
-    } else if (value >= 18.5 && value < 25) {
-      setErrorMessage('Bình thường');
-    } else if (value >= 25 && value < 30) {
-      setErrorMessage('Thừa cân');
-    } else if (value >= 30 && value < 35) {
-      setErrorMessage('Béo phì độ 1');
-    } else if (value >= 35 && value < 40) {
-      setErrorMessage('Béo phì độ 2');
-    } else if (value > 40 && value < 1000) {
-      setErrorMessage('Béo phì độ 3');
-    } else {
-      setErrorMessage('Bạn nhập sai !');
+    let errorMessage = '';
+
+    if (value < 18.5) {
+      errorMessage = 'Gầy';
+    } else if (value < 25) {
+      errorMessage = 'Bình thường';
+    } else if (value < 30) {
+      errorMessage = 'Thừa cân';
+    } else if (value < 35) {
+      errorMessage = 'Béo phì độ 1';
+    } else if (value < 40) {
+      errorMessage = 'Béo phì độ 2';
+    } else if (value >= 40) {
+      errorMessage = 'Béo phì độ 3';
     }
+    setErrorMessage(errorMessage);
   }
   return (
     <SafeAreaView>
       <HeaderBar navigation={navigation} />
       <Text style={styles.title}>Nhập thông tin sức khỏe</Text>
-      <View style={{padding: 20}}>
-        <Text style={{color: COLORS.black}}>Chọn bệnh</Text>
-        <View style={{padding: 5}}>
+      <View style={{ padding: 20 }}>
+        <Text style={{ color: COLORS.black }}>Chọn bệnh</Text>
+        <View style={{ padding: 5 }}>
           <SelectList
             onSelect={() => getIndexSick(selected)}
             setSelected={setSelected}
@@ -205,11 +206,11 @@ const ProfileEditHealth = props => {
               borderColor: COLORS.black,
               alignItems: 'center',
             }} //override default styles
-            defaultOption={{key: '1', value: 'Không'}} //default selected option
+            defaultOption={{ key: '1', value: 'Không' }} //default selected option
           />
         </View>
-        <View style={{flexDirection: 'column'}}>
-          <Text style={{color: COLORS.black}}>Cân nặng</Text>
+        <View style={{ flexDirection: 'column' }}>
+          <Text style={{ color: COLORS.black }}>Cân nặng</Text>
           <View style={styles.viewText}>
             <TextInput
               keyboardType="numeric"
@@ -219,8 +220,8 @@ const ProfileEditHealth = props => {
             <Text style={styles.inputText}>Kg</Text>
           </View>
         </View>
-        <View style={{flexDirection: 'column'}}>
-          <Text style={{color: COLORS.black}}>Chiều cao</Text>
+        <View style={{ flexDirection: 'column' }}>
+          <Text style={{ color: COLORS.black }}>Chiều cao</Text>
           <View style={styles.viewText}>
             <TextInput
               keyboardType="numeric"
@@ -230,8 +231,8 @@ const ProfileEditHealth = props => {
             <Text style={styles.inputText}>Cm</Text>
           </View>
         </View>
-        <View style={{flexDirection: 'column'}}>
-          <Text style={{color: COLORS.black}}>BMI</Text>
+        <View style={{ flexDirection: 'column' }}>
+          <Text style={{ color: COLORS.black }}>BMI</Text>
           <View style={styles.viewText}>
             <Text
               style={{
@@ -243,12 +244,12 @@ const ProfileEditHealth = props => {
               {((weight * 10000) / (height * height)).toFixed(2)}
             </Text>
           </View>
-          <Text style={{alignSelf: 'flex-end', color: COLORS.green}}>
+          <Text style={{ alignSelf: 'flex-end', color: COLORS.green }}>
             {errorMessage}
           </Text>
         </View>
-        <View style={{flexDirection: 'column'}}>
-          <Text style={{color: COLORS.black}}>Huyết áp</Text>
+        <View style={{ flexDirection: 'column' }}>
+          <Text style={{ color: COLORS.black }}>Huyết áp</Text>
           <View style={styles.viewText1}>
             <TextInput
               keyboardType="numeric"
@@ -271,8 +272,8 @@ const ProfileEditHealth = props => {
             {errorMessage2}
           </Text>
         </View>
-        <View style={{flexDirection: 'column'}}>
-          <Text style={{color: COLORS.black}}>Đường huyết</Text>
+        <View style={{ flexDirection: 'column' }}>
+          <Text style={{ color: COLORS.black }}>Đường huyết</Text>
           <View style={styles.viewText}>
             <TextInput
               keyboardType="numeric"

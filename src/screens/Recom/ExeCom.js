@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { URL_IMAGE } from '@env';
 const { height } = Dimensions.get('window');
 const { width } = Dimensions.get('screen');
 
@@ -45,7 +46,7 @@ const ExeCom = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailExe', exe)}>
-      <ImageBackground style={styles.imgBack} source={{ uri: `https://storage.googleapis.com/healthfood-do/${exe.image}` }}>
+      <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${exe.image}` }}>
         <View
           style={{
             flex: 1,

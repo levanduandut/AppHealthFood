@@ -5,6 +5,7 @@ import {
     SafeAreaView,
     ScrollView,
     StyleSheet,
+    TouchableOpacity,
     TextInput,
 } from 'react-native';
 import { SIZES, COLORS } from '../../constants/theme';
@@ -55,7 +56,7 @@ const ProFileEat = props => {
     const ComHistory = props => {
         const { data } = props;
         return (
-            <View style={{ backgroundColor: COLORS.yellow, borderRadius: 10 , marginBottom:10}}>
+            <View style={{ backgroundColor: COLORS.yellow, borderRadius: 10, marginBottom: 10 }}>
                 <View
                     style={{
                         flexDirection: 'column',
@@ -147,17 +148,42 @@ const ProFileEat = props => {
             </View>
         );
     };
+    if (data.length === 0) {
+        return (
+            <SafeAreaView>
+                <View style={{ justifyContent: 'center', alignItems: 'center', height: height, alignSelf: 'center' }}>
+                    <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Chưa có thông tin sức khỏe</Text>
+                    <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Nên chúng tôi chưa có lịch sử sức khỏe </Text>
+                    <TouchableOpacity
+                        onPress={() => navigate('XMap')}
+                        style={{
+                            marginTop: 20,
+                            padding: 14,
+                            marginHorizontal: 70,
+                            backgroundColor: COLORS.primary,
+                            marginVertical: 20,
+                            borderRadius: 10,
+                            elevation: 12,
+                        }}>
+                        <Text style={styles.btnLoginText}>Nhấn vào đây để thêm thông tin</Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        )
+    }
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{height:'110%'}}>
             <HeaderBar navigation={navigation} />
-            <Text style={styles.title}>Lịch sử ăn uống</Text>
-            <View style={{ paddingVertical: 5, paddingHorizontal: 20 }}>
-                <ScrollView style={{ paddingBottom: 10, height: '85%' }}>
-                    {data &&
-                        data.map((item, index) => {
-                            return <ComHistory data={item} key={index} />;
-                        })}
-                </ScrollView>
+            <View>
+                <Text style={styles.title}>Lịch sử ăn uống</Text>
+                <View style={{ paddingVertical: 5, paddingHorizontal: 20 }}>
+                    <ScrollView style={{ paddingBottom: 10, height: '85%' }}>
+                        {data &&
+                            data.map((item, index) => {
+                                return <ComHistory data={item} key={index} />;
+                            })}
+                    </ScrollView>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -168,7 +194,7 @@ const styles = StyleSheet.create({
         color: COLORS.primary,
         textAlign: 'center',
         justifyContent: 'center',
-        fontWeight:'bold',
+        fontWeight: 'bold',
     },
 });
 

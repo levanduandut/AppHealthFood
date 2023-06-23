@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import { URL_IMAGE } from '@env';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const { height } = Dimensions.get('window');
 const { width } = Dimensions.get('screen');
@@ -45,7 +46,7 @@ const FoodCom = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', food)}>
-      <ImageBackground style={styles.imgBack} source={{ uri: `https://storage.googleapis.com/healthfood-do/${food.image}` }}>
+      <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${food.image}` }}>
         <View
           style={{
             flex: 1,

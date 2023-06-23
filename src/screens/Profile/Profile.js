@@ -7,20 +7,17 @@ import fonts from '../../constants/fonts';
 import UserAvatar from 'react-native-user-avatar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { user_info } from '../../api/user_api';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 const { height } = Dimensions.get('window');
 
 const Profile = props => {
   const { navigation, route } = props;
-  const [token, setToken] = useState('token');
-  const [email, setEmail] = useState('email');
-  const [name, setName] = useState('name');
-  const [id, setId] = useState('');
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('age');
-  const [address, setAddress] = useState('address');
+  const [token, setToken] = useState();
+  const [email, setEmail] = useState();
+  const [name, setName] = useState();
+  const isFocused = useIsFocused();
   const [avatar, setAvatar] = useState(
     '',
   );
@@ -28,9 +25,11 @@ const Profile = props => {
   useEffect(() => {
     AsyncStorage.getItem('AccessToken').then(async value => {
       await setToken(value);
-      getInfoUser(value);
     });
-  }, []);
+    if (token) {
+      getInfoUser(token);
+    }
+  }, [isFocused, token]);
   const getInfoUser = async token => {
     const tk = await AsyncStorage.getItem('AccessToken');
     setToken(tk);
@@ -39,12 +38,8 @@ const Profile = props => {
     })
       .then(async res => {
         if (!res.data.message) {
-          setGender(res.data.user.gender);
-          setId(res.data.user.id);
           setEmail(res.data.user.email);
           setName(res.data.user.fullName);
-          setAge(res.data.user.age);
-          setAddress(res.data.user.address);
           setAvatar(res.data.user.avatar);
         }
       })
@@ -52,19 +47,11 @@ const Profile = props => {
         console.log(err);
       });
   };
-  const info1 = {
-    gender: gender,
-    age: age,
-    address: address,
-    email: email,
-    name: name,
-    avatar: avatar,
-  }
   const clickInfo = () => {
-    navigation.navigate('ProfileAccount', info1);
+    navigation.navigate('ProfileAccount');
   };
   const clickEdit = () => {
-    navigation.navigate('ProfileHistory', info1);
+    navigation.navigate('ProfileHistory');
   };
   const clickHealth = () => {
     navigation.navigate('ProfileHealth');
@@ -129,7 +116,7 @@ const Profile = props => {
           onPress={() => clickInfo()}
           activeOpacity={0.5}
           style={{
-            paddingLeft:82,
+            paddingLeft: 82,
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: COLORS.white,
@@ -153,7 +140,7 @@ const Profile = props => {
           onPress={() => clickHealth()}
           activeOpacity={0.5}
           style={{
-            paddingLeft:85,
+            paddingLeft: 85,
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: COLORS.white,
@@ -173,7 +160,7 @@ const Profile = props => {
           onPress={() => clickEdit()}
           activeOpacity={0.5}
           style={{
-            paddingLeft:85,
+            paddingLeft: 85,
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: COLORS.white,
@@ -190,10 +177,10 @@ const Profile = props => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() =>  navigation.navigate('ProFileEat', info1)}
+          onPress={() => navigation.navigate('ProFileEat')}
           activeOpacity={0.5}
           style={{
-            paddingLeft:85,
+            paddingLeft: 85,
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: COLORS.white,

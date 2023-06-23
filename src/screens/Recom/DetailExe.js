@@ -13,6 +13,7 @@ import {
   ImageBackground,
   ScrollView,
 } from 'react-native';
+import { URL_IMAGE } from '@env';
 import fonts from '../../constants/fonts';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IIcon from 'react-native-vector-icons/Feather';
@@ -43,7 +44,7 @@ const DetailExe = props => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <StatusBar translucent backgroundColor={COLORS.grey}></StatusBar>
-      <ImageBackground style={{ flex: 0.5 }} source={{ uri: `https://storage.googleapis.com/healthfood-do/${x.image}` }}>
+      <ImageBackground style={{ flex: 0.5 }} source={{ uri: `${URL_IMAGE}${x.image}` }}>
         <View style={styles.header}>
           <Icon
             name="arrow-back"
@@ -90,18 +91,41 @@ const DetailExe = props => {
         <View style={styles.iconContainer}>
           <Icon name="bookmark" color={COLORS.primary} size={30} />
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10 }}>
-          <IIcon name="tag" size={28} color={COLORS.xGreen} />
-          <Text
-            style={{
-              marginLeft: 5,
-              fontSize: 20,
-              fontWeight: 'bold',
-              color: COLORS.primary,
-            }}>
-            {categories}
-          </Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <IIcon name="tag" size={28} color={COLORS.xGreen} />
+            <Text
+              style={{
+                marginLeft: 5,
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: COLORS.primary,
+              }}>
+              {categories}
+            </Text>
+          </View>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <IIcon
+              style={{ marginLeft: 15, alignItems: 'center' }}
+              name="clock"
+              size={18}
+              color={COLORS.red}
+            />
+            <Text
+              style={{
+                fontWeight: 'bold',
+                flexDirection: 'row',
+                marginLeft: 10,
+                color: COLORS.xGreen,
+                textShadowColor: COLORS.white,
+                textShadowOffset: { width: 1, height: 1 },
+                textShadowRadius: 4,
+              }}>
+              {x.time} phút
+            </Text>
+          </View>
         </View>
+
         <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 20 }}>
           Bài tập thể dục
         </Text>

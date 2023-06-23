@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Dimensions, SafeAreaView, StyleSheet } from 'react-native';
-import images from '../../constants/images';
+import { Alert, Dimensions, StyleSheet } from 'react-native';
 import { SIZES, COLORS } from '../../constants/theme';
 
 import {
   Text,
   View,
-  Image,
   ImageBackground,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import fonts from '../../constants/fonts';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import IIcon from 'react-native-vector-icons/Ionicons';
-const { height } = Dimensions.get('window');
+import { URL_IMAGE } from '@env';
 const { width } = Dimensions.get('screen');
 
 const CartFood = props => {
@@ -24,7 +20,7 @@ const CartFood = props => {
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', food)}>
       <ScrollView>
-        <ImageBackground style={styles.imgBack} source={food.image ? { uri: `https://storage.googleapis.com/healthfood-do/${food.image}` } : { uri: 'https://vapa.vn/wp-content/uploads/2022/12/anh-nen-mau-trang-001.jpg' }}>
+        <ImageBackground style={styles.imgBack} source={food.image ? { uri: `${URL_IMAGE}${food.image}` } : { uri: 'https://vapa.vn/wp-content/uploads/2022/12/anh-nen-mau-trang-001.jpg' }}>
           <Text
             style={{
               color: COLORS.white,

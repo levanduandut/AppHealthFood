@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Dimensions, SafeAreaView, StyleSheet } from 'react-native';
-import images from '../../constants/images';
 import { SIZES, COLORS } from '../../constants/theme';
 import {
   Text,
   View,
-  Image,
   ImageBackground,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
-import fonts from '../../constants/fonts';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { URL_IMAGE } from '@env';
 const { height } = Dimensions.get('window');
 const { width } = Dimensions.get('screen');
 
@@ -21,7 +18,7 @@ const CartLife = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', lifestyle)}>
-      <ImageBackground style={styles.imgBack} source={{ uri: `https://storage.googleapis.com/healthfood-do/${lifestyle.image}` }}>
+      <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${lifestyle.image}` }}>
         <Text
           style={{
             color: COLORS.yellow,

@@ -5,6 +5,7 @@ import {
     SafeAreaView,
     ScrollView,
     StyleSheet,
+    TouchableOpacity,
     TextInput,
 } from 'react-native';
 import { SIZES, COLORS } from '../../constants/theme';
@@ -116,24 +117,55 @@ const ProfileHistory = props => {
             </View>
         );
     };
-    return (
+    if (data.length === 0) {
         <SafeAreaView>
             <HeaderBar navigation={navigation} />
-            <Text style={styles.title}>Lịch sử sức khỏe</Text>
-            <View style={{ paddingVertical: 5, paddingHorizontal: 20 }}>
-                <ScrollView style={{ paddingBottom: 10, height: '85%' }}>
-                    {data &&
-                        data.map((item, index) => {
-                            return (
-                                <ComHistory data={item} key={index} sickId={item.sickId - 1} />
-                            );
-                        })}
-                </ScrollView>
+            <View style={{ justifyContent: 'center', alignItems: 'center', height: height, alignSelf: 'center' }}>
+                <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Chưa có thông tin sức khỏe</Text>
+                <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Nên chúng tôi chưa có lịch sử sức khỏe </Text>
+                <TouchableOpacity
+                    onPress={() => navigate('ProfileEditHealth')}
+                    style={{
+                        marginTop: 20,
+                        padding: 14,
+                        marginHorizontal: 70,
+                        backgroundColor: COLORS.primary,
+                        marginVertical: 20,
+                        borderRadius: 10,
+                        elevation: 12,
+                    }}>
+                    <Text style={styles.btnLoginText}>Nhấn vào đây để thêm thông tin</Text>
+                </TouchableOpacity>
             </View>
+        </SafeAreaView>
+    }
+    return (
+        <SafeAreaView style={{height:'110%'}}>
+            <HeaderBar navigation={navigation} />
+                <View>
+                    <Text style={styles.title}>Lịch sử sức khỏe</Text>
+                    <View style={{ paddingVertical: 5, paddingHorizontal: 20 }}>
+                        <ScrollView style={{ paddingBottom: 10, height: '85%' }}>
+                            {data &&
+                                data.map((item, index) => {
+                                    return (
+                                        <ComHistory data={item} key={index} sickId={item.sickId - 1} />
+                                    );
+                                })}
+                        </ScrollView>
+                    </View>
+                </View>
         </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
+    btnLoginText: {
+        fontWeight: '900',
+        color: COLORS.black,
+        textAlign: 'center',
+        fontSize: 12,
+        fontFamily: fonts.POPPINS_BOLD,
+    },
     title: {
         fontSize: 30,
         color: COLORS.primary,

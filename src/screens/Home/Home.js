@@ -9,13 +9,12 @@ import {
   TextInput,
 } from 'react-native';
 import { SIZES, COLORS } from '../../constants/theme';
-import { lifestyles } from '../../data/lifestyle';
 import IIcon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View, ScrollView } from 'react-native';
 import CartLife from '../../components/HomeCom/CartLife';
 import CartFood from '../../components/HomeCom/CartFood';
-import { getBlog, get_sick_list, user_health_info, user_status_info } from '../../api/user_api';
+import { getBlog, get_calo_info, get_sick_list, user_health_info, user_status_info } from '../../api/user_api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import CartSick from '../../components/HomeCom/CartSick';
@@ -30,15 +29,13 @@ const Home = props => {
   const [tips, setTips] = useState([]);
   const [status, setStatus] = useState(0);
   const [sickId, setSickId] = useState();
-  const [search, setSearch] = useState();
   const [lifestyles, setLifestyles] = useState([]);
   const isFocused = useIsFocused();
-  const [arrSick, setArrSick] = useState([]);
   const [sick, setSick] = useState();
   const [sick1, setSick1] = useState();
   const [token, setToken] = useState();
+  const [calo, setCalo] = useState();
   const [searchText, setSearchText] = useState('');
-  const [data, setData] = useState({});
 
   useEffect(() => {
     (async () => getInfoToken())();
@@ -47,6 +44,7 @@ const Home = props => {
     }
     if (token && status === 1) {
       (async () => getInfoHealth(token))();
+      (async () => getInfoCalo(token))();
       (async () => getInfoSick(sickId))();
     }
   }, [isFocused, sickId, token, status]);
@@ -63,6 +61,19 @@ const Home = props => {
     AsyncStorage.getItem('AccessToken').then(async value => {
       await setToken(value);
     });
+  };
+  const getInfoCalo = async token => {
+    await get_calo_info({
+      token: token,
+    })
+      .then(async res => {
+        if (res.data.errCode === 0) {
+          setCalo(res.data.calo);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   const getInfoStatus = async token => {
     await user_status_info({
@@ -178,7 +189,13 @@ const Home = props => {
     navigate('XExercise');
   };
   const clickScan = () => {
-    navigate('XScan');
+    if (calo) {
+      navigate('XScan', calo);
+    }
+    else {
+      Alert.alert('Thông báo', 'Vui lòng nhập thông tin sức khỏe trước!');
+    }
+
   };
   const clickMap = () => {
     navigate('XMap');
@@ -198,7 +215,7 @@ const Home = props => {
     />,
     <Icon
       onPress={() => clickScan()}
-      name="qrcode"
+      name="calendar-plus-o"
       size={25}
       color={COLORS.xGreen}
     />,
@@ -243,13 +260,22 @@ const Home = props => {
         <View style={styles.header1}>
           <View style={styles.viewNotice}>
             <Icon name="exclamation-triangle" size={15} color={COLORS.yellow} />
-            <Text
-              style={styles.text}
-              onPress={() => {
-                navigate('ProfileEditHealth');
-              }}>
-              Bạn chưa nhập thông tin sức khỏe
-            </Text>
+            <View>
+              <Text
+                style={styles.text}
+                onPress={() => {
+                  navigate('ProfileEditHealth');
+                }}>
+                Bạn chưa nhập thông tin sức khỏe
+              </Text>
+              <Text
+                style={styles.text}
+                onPress={() => {
+                  navigate('ProfileEditHealth');
+                }}>
+                Nhấn vào đây để chuyển đến màn hình nhập
+              </Text>
+            </View>
           </View>
         </View>
       )}
@@ -265,6 +291,14 @@ const Home = props => {
               Bạn đang khỏe mạnh
             </Text>
           </View>
+          {calo && (
+            <View style={styles.viewNotice}>
+              <Text
+                style={styles.text}>
+                Calo tối thiểu cần cho cơ thể : {calo.toFixed(2)}
+              </Text>
+            </View>
+          )}
         </View>
       )}
       {sickId !== 1 && status !== 0 && (
@@ -291,6 +325,15 @@ const Home = props => {
                 }}>
                 Vui lòng chú ý chế độ ăn khuyến nghị !
               </Text>
+              {calo && (
+                <Text
+                  style={styles.text}
+                  onPress={() => {
+                    navigate('Recommendations');
+                  }}>
+                  Calo tối thiểu cần cho cơ thể : {calo.toFixed(2)}
+                </Text>
+              )}
             </View>
           </View>
         </View>
@@ -402,7 +445,7 @@ const styles = StyleSheet.create({
   text: {
     color: COLORS.black,
     fontWeight: 'bold',
-    paddingLeft: 5,
+    paddingLeft: 10,
   },
   secondTitle: {
     marginHorizontal: 20,
@@ -448,7 +491,7 @@ const styles = StyleSheet.create({
   header1: {
     paddingHorizontal: 2,
     paddingVertical: 5,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: COLORS.xGreen,
     alignItems: 'center',

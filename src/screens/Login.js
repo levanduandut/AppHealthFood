@@ -44,7 +44,7 @@ const Login = props => {
     })
       .then(async res => {
         if (res.data.message !== null) {
-          alert(res.data.message);
+          Alert.alert('Thông báo', res.data.message);
         } else {
           await AsyncStorage.setItem('AccessToken', res.data.token);
           AsyncStorage.setItem('Status', `${res.data.status}`);

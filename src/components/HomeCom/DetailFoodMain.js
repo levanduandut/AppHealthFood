@@ -18,6 +18,7 @@ import {
 import fonts from '../../constants/fonts';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IIcon from 'react-native-vector-icons/Feather';
+import { URL_IMAGE } from '@env';
 const { height } = Dimensions.get('window');
 
 const DetailFoodMain = props => {
@@ -28,7 +29,7 @@ const DetailFoodMain = props => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <StatusBar translucent backgroundColor={COLORS.grey}></StatusBar>
-      <ImageBackground style={{ flex: 0.5 }} source={{ uri: `https://storage.googleapis.com/healthfood-do/${x.image}` }}>
+      <ImageBackground style={{ flex: 0.5 }} source={{ uri: `${URL_IMAGE}${x.image}` }}>
         <View style={styles.header}>
           <Icon
             name="arrow-back"

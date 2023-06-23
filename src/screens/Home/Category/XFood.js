@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Alert,
   Dimensions,
@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import {SIZES, COLORS} from '../../../constants/theme';
+import { SIZES, COLORS } from '../../../constants/theme';
 import {
   Text,
   View,
@@ -19,21 +19,21 @@ import XIcon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Feather';
 import IIcon from 'react-native-vector-icons/FontAwesome5';
 import UserAvatar from 'react-native-user-avatar';
-import {foods} from '../../../data/foods';
+import { URL_IMAGE } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   get_category_food_list,
   get_food_list_by_category,
   user_info,
 } from '../../../api/user_api';
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 const XFood = props => {
   const [activeCategory, setActiveCategory] = useState(0);
   const scrollViewRef = useRef();
   const [showScrollToTop, setShowScrollToTop] = useState(false);
-  const {navigation, food} = props;
-  const {navigate, goBack} = navigation;
+  const { navigation, food } = props;
+  const { navigate, goBack } = navigation;
   const [name, setName] = useState('name');
   const [categoryFoods, setCategoryFoods] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -70,7 +70,7 @@ const XFood = props => {
     await get_category_food_list()
       .then(async res => {
         if (res.data.errCode === 0) {
-          const allCategory = [{id: 'ALL', name: 'Tất cả'}];
+          const allCategory = [{ id: 'ALL', name: 'Tất cả' }];
           const updatedCategories = allCategory.concat(res.data.foodCa);
           setCategories(updatedCategories);
         }
@@ -96,14 +96,14 @@ const XFood = props => {
     setSearchQuery(query);
   };
   const handleScrollToTop = () => {
-    scrollViewRef.current.scrollTo({y: 0, animated: true});
+    scrollViewRef.current.scrollTo({ y: 0, animated: true });
   };
 
   return (
     <SafeAreaView>
-      <View style={{padding: 20}}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{ padding: 20 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TouchableOpacity
               onPress={() => goBack()}
               style={{
@@ -112,7 +112,7 @@ const XFood = props => {
                 alignItems: 'center',
               }}>
               <XIcon name="arrow-back" size={28} color={COLORS.xGreen} />
-              <Text style={{fontSize: 20, color: COLORS.xGreen}}>Back</Text>
+              <Text style={{ fontSize: 20, color: COLORS.xGreen }}>Back</Text>
             </TouchableOpacity>
           </View>
           <View
@@ -132,7 +132,7 @@ const XFood = props => {
               </View>
             ) : (
               <Image
-                source={{uri: avatar}}
+                source={{ uri: avatar }}
                 style={{
                   width: 35,
                   height: 35,
@@ -144,8 +144,8 @@ const XFood = props => {
             <Text style={styles.name}>{name}</Text>
           </View>
         </View>
-        <View style={{width: '60%', marginTop: 20}}>
-          <Text style={{fontSize: 30, fontWeight: '700', color: COLORS.black}}>
+        <View style={{ width: '60%', marginTop: 20 }}>
+          <Text style={{ fontSize: 30, fontWeight: '700', color: COLORS.black }}>
             Bạn muốn nấu món gì ?
           </Text>
         </View>
@@ -153,7 +153,7 @@ const XFood = props => {
           <Icon name="search" size={20} color={COLORS.black} />
           <TextInput
             placeholder="Nhập để tìm kiếm"
-            style={{color: COLORS.black}}
+            style={{ color: COLORS.black }}
             value={searchQuery}
             onChangeText={handleSearch}
           />
@@ -161,7 +161,7 @@ const XFood = props => {
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           {categories.map((category, index) => (
             <TouchableOpacity
-              style={{marginRight: 30, height: 30}}
+              style={{ marginRight: 30, height: 30 }}
               onPress={() => {
                 setActiveCategory(index);
                 getFoodsByCategory(category.id); // Gọi hàm để lấy danh sách món ăn của category
@@ -188,6 +188,7 @@ const XFood = props => {
         <ScrollView>
           <View
             style={{
+              marginBottom: 600,
               marginTop: 30,
               flexDirection: 'row',
               flexWrap: 'wrap',
@@ -201,7 +202,7 @@ const XFood = props => {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => navigation.navigate('DetailFoodMain', food)}
-                  style={{width: width / 2 - 30, marginBottom: 15}}
+                  style={{ width: width / 2 - 30, marginBottom: 15 }}
                   key={food.id}>
                   <View>
                     <ImageBackground
@@ -212,7 +213,7 @@ const XFood = props => {
                         height: width / 2 - 15,
                       }}
                       source={{
-                        uri: `https://storage.googleapis.com/healthfood-do/${food.image}`,
+                        uri: `${URL_IMAGE}${food.image}`,
                       }}>
                       <View
                         style={{
@@ -226,9 +227,9 @@ const XFood = props => {
                             flexDirection: 'row',
                             marginTop: 10,
                           }}>
-                          <View style={{flexDirection: 'row'}}>
+                          <View style={{ flexDirection: 'row' }}>
                             <Icon
-                              style={{marginLeft: 15}}
+                              style={{ marginLeft: 15 }}
                               name="tag"
                               size={22}
                               color={COLORS.title}
@@ -240,13 +241,13 @@ const XFood = props => {
                                 marginLeft: 12,
                                 color: '#00ff0d',
                                 textShadowColor: COLORS.black,
-                                textShadowOffset: {width: 1, height: 1},
+                                textShadowOffset: { width: 1, height: 1 },
                                 textShadowRadius: 5,
                               }}>
                               {food.tag}
                             </Text>
                           </View>
-                          <View style={{flexDirection: 'row', marginLeft: 10}}>
+                          <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                             <Icon name="star" size={22} color={COLORS.yellow} />
                             <Text
                               style={{
@@ -255,7 +256,7 @@ const XFood = props => {
                                 marginLeft: 10,
                                 color: COLORS.yellow,
                                 textShadowColor: COLORS.black,
-                                textShadowOffset: {width: 1, height: 1},
+                                textShadowOffset: { width: 1, height: 1 },
                                 textShadowRadius: 5,
                               }}>
                               {food.star}
@@ -273,7 +274,7 @@ const XFood = props => {
                     }}>
                     {food.name}
                   </Text>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <View
                       style={{
                         justifyContent: 'space-between',
@@ -285,7 +286,7 @@ const XFood = props => {
                           flexDirection: 'row',
                           marginTop: 5,
                         }}>
-                        <View style={{flexDirection: 'row'}}>
+                        <View style={{ flexDirection: 'row' }}>
                           <Text
                             style={{
                               paddingTop: 1,
@@ -298,7 +299,7 @@ const XFood = props => {
                             Calo : {food.calo}
                           </Text>
                           <IIcon
-                            style={{marginLeft: 15}}
+                            style={{ marginLeft: 15 }}
                             name="clock"
                             size={18}
                             color={COLORS.red}
@@ -310,7 +311,7 @@ const XFood = props => {
                               marginLeft: 10,
                               color: COLORS.xGreen,
                               textShadowColor: COLORS.white,
-                              textShadowOffset: {width: 1, height: 1},
+                              textShadowOffset: { width: 1, height: 1 },
                               textShadowRadius: 4,
                             }}>
                             {food.time} phút
@@ -324,14 +325,6 @@ const XFood = props => {
           </View>
         </ScrollView>
       </View>
-
-      {showScrollToTop && (
-        <TouchableOpacity
-          style={styles.scrollToTopButton}
-          onPress={handleScrollToTop}>
-          <Text style={styles.scrollToTopButtonText}>GHJK</Text>
-        </TouchableOpacity>
-      )}
     </SafeAreaView>
   );
 };

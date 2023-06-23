@@ -200,3 +200,25 @@ export const get_ingre_list_by_sick = async data => {
     return error.response.data;
   }
 };
+export const get_calo_info = async data => {
+  try {
+    const res = await api('user/get-calo', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const user_edit_info = async data => {
+  try {
+    const res = await api('user/edit-info', {
+      method: 'POST',
+      data: data,
+    });
+    return res;
+  } catch (error) {
+    return error.response.data;
+  }
+};

@@ -19,7 +19,7 @@ import XIcon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Feather';
 import IIcon from 'react-native-vector-icons/FontAwesome5';
 import UserAvatar from 'react-native-user-avatar';
-import { foods } from '../../../data/foods';
+import { URL_IMAGE } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { get_category_exe_list, get_category_food_list, get_exe_list_by_category, get_food_list_by_category, user_info } from '../../../api/user_api';
 const { height, width } = Dimensions.get('window');
@@ -154,7 +154,7 @@ const XExercise = props => {
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           {categories.map((category, index) => (
             <TouchableOpacity
-              style={{ marginRight: 30 }}
+              style={{ marginRight: 30, height: 30 }}
               onPress={() => {
                 setActiveCategory(index);
                 getExesByCategory(category.id); // Gọi hàm để lấy danh sách món ăn của category
@@ -181,6 +181,7 @@ const XExercise = props => {
         <ScrollView>
           <View
             style={{
+              marginBottom:600,
               marginTop: 30,
               flexDirection: 'row',
               flexWrap: 'wrap',
@@ -199,9 +200,9 @@ const XExercise = props => {
                         width: '100%',
                         borderRadius: 20,
                         overflow: 'hidden',
-                        height: width / 2,
+                        height: width / 2 - 20,
                       }}
-                      source={{ uri: `https://storage.googleapis.com/healthfood-do/${exe.image}` }}>
+                      source={{ uri: `${URL_IMAGE}${exe.image}` }}>
                       <View
                         style={{
                           justifyContent: 'space-between',
@@ -211,29 +212,9 @@ const XExercise = props => {
                         <View
                           style={{
                             width: '100%',
-                            flexDirection: 'row',
+                            flexDirection: 'row-reverse',
                             marginTop: 10,
                           }}>
-                          <View style={{ flexDirection: 'row' }}>
-                            <Icon
-                              style={{ marginLeft: 15 }}
-                              name="tag"
-                              size={22}
-                              color={COLORS.title}
-                            />
-                            <Text
-                              style={{
-                                fontWeight: 'bold',
-                                flexDirection: 'row',
-                                marginLeft: 10,
-                                color: COLORS.red,
-                                textShadowColor: COLORS.white,
-                                textShadowOffset: { width: 1, height: 1 },
-                                textShadowRadius: 4,
-                              }}>
-                              {exe.tag}
-                            </Text>
-                          </View>
                           <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                             <Icon name="star" size={22} color={COLORS.yellow} />
                             <Text
@@ -241,6 +222,7 @@ const XExercise = props => {
                                 fontWeight: 'bold',
                                 flexDirection: 'row',
                                 marginLeft: 10,
+                                paddingRight: 20,
                                 color: COLORS.yellow,
                                 textShadowColor: COLORS.black,
                                 textShadowOffset: { width: 1, height: 1 },
@@ -270,7 +252,7 @@ const XExercise = props => {
                       <View
                         style={{
                           width: '100%',
-                          alignItems:'flex-end',
+                          alignItems: 'flex-end',
                           marginTop: 5,
                         }}>
                         <View style={{ flexDirection: 'row' }}>
@@ -306,6 +288,18 @@ const XExercise = props => {
   );
 };
 const styles = StyleSheet.create({
+  scrollToTopButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: COLORS.red,
+    borderRadius: 50,
+    padding: 10,
+  },
+  scrollToTopButtonText: {
+    color: COLORS.white,
+    fontWeight: 'bold',
+  },
   name: {
     fontSize: 17,
     color: COLORS.dark,
