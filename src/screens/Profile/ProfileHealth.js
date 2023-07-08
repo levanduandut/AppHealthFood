@@ -111,8 +111,8 @@ const ProfileHealth = props => {
             <CartInfo title={'Cân nặng'} data={data.weight} colorBack={'#9fbaf0'} />
             <CartInfo title={'Chiều cao'} data={data.height} colorBack={'#f09f9f'} />
             <CartInfo title={'BMI'} data={data.bmi} colorBack={'#f0d09f'} />
-            <CartInfo title={'Huyết áp Tâm trương'} data={data.haTruong} colorBack={'#a9f09f'} />
-            <CartInfo title={'Huyết áp Tâm thu'} data={data.haThu} colorBack={'#a9f09f'} />
+            <CartInfo title={'Huyết áp Tâm thu'} data={data.haTruong} colorBack={'#a9f09f'} />
+            <CartInfo title={'Huyết áp Tâm trương'} data={data.haThu} colorBack={'#a9f09f'} />
             <CartInfo title={'Đường huyết'} data={data.duongH} colorBack={'#9fe4f0'} />
             <CartInfo title={'Bệnh'} data={sick} colorBack={'#f09fe5'} />
           </ScrollView>

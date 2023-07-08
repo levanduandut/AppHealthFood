@@ -23,6 +23,7 @@ const { height } = Dimensions.get('window');
 const XMap = props => {
   const { navigation, route } = props;
   const { navigate, goBack } = navigation;
+  const x = route.params;
 
   const [isLoading, setLoading] = useState(true);
   const [showFlatList, setShowFlatList] = useState(false);
@@ -46,7 +47,6 @@ const XMap = props => {
     try {
       let res = await translate_x({ text: text, lang: 'en' });
       await setText1(res.data);
-      console.log(text1);
     } catch (error) {
       // Handle error
     }
@@ -68,7 +68,6 @@ const XMap = props => {
         });
         if (response.data.length > 0) {
           setData(response.data);
-          console.log(response.data);
           setShowFlatList(true); // Hiển thị FlatList
         } else {
           alert('Nhấn để thử lại!');
@@ -218,6 +217,11 @@ const XMap = props => {
               }}>
               Tổng
             </Text>
+            {x > totalData.totalCalo && (
+              <Text style={{ fontSize: 12, color: COLORS.red, justifyContent: 'center', alignSelf: 'center' }}>
+                Cần ăn thêm {x - totalData.totalCalo} calo để đạt múc calo tối thiểu trong ngày !
+              </Text>
+            )}
             <View style={styles.totalContainer}>
               <View style={{ flex: 1 }}>
                 <Text style={styles.totalText}>

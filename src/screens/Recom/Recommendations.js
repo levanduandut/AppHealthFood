@@ -74,7 +74,7 @@ const Recommendations = props => {
       (async () => getIngre(sickId))();
     }
     (async () => getInfoSick2())();
-  }, [sickId]);
+  }, [sickId,isFocused]);
 
   const getInfoToken = async () => {
     AsyncStorage.getItem('AccessToken').then(async value => {

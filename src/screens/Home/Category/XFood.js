@@ -212,8 +212,11 @@ const XFood = props => {
                         overflow: 'hidden',
                         height: width / 2 - 15,
                       }}
+                      // source={{
+                      //   uri: `${URL_IMAGE}${food.image}`,
+                      // }}>
                       source={{
-                        uri: `${URL_IMAGE}${food.image}`,
+                        uri: `${food.image}`,
                       }}>
                       <View
                         style={{

@@ -61,6 +61,17 @@ const ProfileEditAccount = props => {
   return (
     <SafeAreaView>
       <HeaderBar navigation={navigation}></HeaderBar>
+      <Text
+        style={{
+          marginTop: -35,
+          color: COLORS.black,
+          fontWeight: 'bold',
+          fontSize: 20,
+          alignSelf: 'center',
+          textAlign: 'center',
+        }}>
+        Chỉnh sửa thông tin cá nhân{' '}
+      </Text>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Tên</Text>
         <TextInput

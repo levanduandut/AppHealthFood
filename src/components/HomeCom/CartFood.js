@@ -20,7 +20,8 @@ const CartFood = props => {
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', food)}>
       <ScrollView>
-        <ImageBackground style={styles.imgBack} source={food.image ? { uri: `${URL_IMAGE}${food.image}` } : { uri: 'https://vapa.vn/wp-content/uploads/2022/12/anh-nen-mau-trang-001.jpg' }}>
+        {/* <ImageBackground style={styles.imgBack} source={food.image ? { uri: `${URL_IMAGE}${food.image}` } : { uri: 'https://vapa.vn/wp-content/uploads/2022/12/anh-nen-mau-trang-001.jpg' }}> */}
+        <ImageBackground style={styles.imgBack} source={food.image ? { uri: `${food.image}` } : { uri: 'https://vapa.vn/wp-content/uploads/2022/12/anh-nen-mau-trang-001.jpg' }}>
           <Text
             style={{
               color: COLORS.white,

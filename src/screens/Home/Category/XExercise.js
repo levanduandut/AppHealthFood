@@ -181,7 +181,7 @@ const XExercise = props => {
         <ScrollView>
           <View
             style={{
-              marginBottom:600,
+              marginBottom: 600,
               marginTop: 30,
               flexDirection: 'row',
               flexWrap: 'wrap',
@@ -202,88 +202,89 @@ const XExercise = props => {
                         overflow: 'hidden',
                         height: width / 2 - 20,
                       }}
-                      source={{ uri: `${URL_IMAGE}${exe.image}` }}>
-                      <View
-                        style={{
-                          justifyContent: 'space-between',
-                          alignItems: 'flex-end',
-                          flex: 1,
-                        }}>
-                        <View
-                          style={{
-                            width: '100%',
-                            flexDirection: 'row-reverse',
-                            marginTop: 10,
-                          }}>
-                          <View style={{ flexDirection: 'row', marginLeft: 10 }}>
-                            <Icon name="star" size={22} color={COLORS.yellow} />
-                            <Text
-                              style={{
-                                fontWeight: 'bold',
-                                flexDirection: 'row',
-                                marginLeft: 10,
-                                paddingRight: 20,
-                                color: COLORS.yellow,
-                                textShadowColor: COLORS.black,
-                                textShadowOffset: { width: 1, height: 1 },
-                                textShadowRadius: 5,
-                              }}>
-                              {exe.star}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                    </ImageBackground>
-                  </View>
-                  <Text
+                      // source={{ uri: `${URL_IMAGE}${exe.image}` }}>
+                      source={{ uri: `${exe.image}` }}>
+                  <View
                     style={{
-                      fontSize: 15,
-                      fontWeight: '700',
-                      color: COLORS.black,
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-end',
+                      flex: 1,
                     }}>
-                    {exe.name}
-                  </Text>
-                  <View style={{ flexDirection: 'row' }}>
                     <View
                       style={{
-                        justifyContent: 'space-between',
-                        flex: 1,
+                        width: '100%',
+                        flexDirection: 'row-reverse',
+                        marginTop: 10,
                       }}>
-                      <View
-                        style={{
-                          width: '100%',
-                          alignItems: 'flex-end',
-                          marginTop: 5,
-                        }}>
-                        <View style={{ flexDirection: 'row' }}>
-                          <IIcon
-                            style={{ marginLeft: 15 }}
-                            name="clock"
-                            size={18}
-                            color={COLORS.red}
-                          />
-                          <Text
-                            style={{
-                              fontWeight: 'bold',
-                              flexDirection: 'row',
-                              marginLeft: 10,
-                              color: COLORS.xGreen,
-                              textShadowColor: COLORS.white,
-                              textShadowOffset: { width: 1, height: 1 },
-                              textShadowRadius: 4,
-                            }}>
-                            {exe.time} phút
-                          </Text>
-                        </View>
+                      <View style={{ flexDirection: 'row', marginLeft: 10 }}>
+                        <Icon name="star" size={22} color={COLORS.yellow} />
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            flexDirection: 'row',
+                            marginLeft: 10,
+                            paddingRight: 20,
+                            color: COLORS.yellow,
+                            textShadowColor: COLORS.black,
+                            textShadowOffset: { width: 1, height: 1 },
+                            textShadowRadius: 5,
+                          }}>
+                          {exe.star}
+                        </Text>
                       </View>
                     </View>
                   </View>
-                </TouchableOpacity>
-              ))}
+                </ImageBackground>
+                  </View>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: '700',
+              color: COLORS.black,
+            }}>
+            {exe.name}
+          </Text>
+          <View style={{ flexDirection: 'row' }}>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flex: 1,
+              }}>
+              <View
+                style={{
+                  width: '100%',
+                  alignItems: 'flex-end',
+                  marginTop: 5,
+                }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <IIcon
+                    style={{ marginLeft: 15 }}
+                    name="clock"
+                    size={18}
+                    color={COLORS.red}
+                  />
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      flexDirection: 'row',
+                      marginLeft: 10,
+                      color: COLORS.xGreen,
+                      textShadowColor: COLORS.white,
+                      textShadowOffset: { width: 1, height: 1 },
+                      textShadowRadius: 4,
+                    }}>
+                    {exe.time} phút
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
-        </ScrollView>
+        </TouchableOpacity>
+              ))}
       </View>
-    </SafeAreaView>
+    </ScrollView>
+      </View >
+    </SafeAreaView >
 
   );
 };

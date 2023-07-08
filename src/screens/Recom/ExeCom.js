@@ -46,7 +46,8 @@ const ExeCom = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailExe', exe)}>
-      <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${exe.image}` }}>
+      {/* <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${exe.image}` }}> */}
+      <ImageBackground style={styles.imgBack} source={{ uri: `${exe.image}` }}>
         <View
           style={{
             flex: 1,

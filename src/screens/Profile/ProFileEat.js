@@ -151,9 +151,10 @@ const ProFileEat = props => {
     if (data.length === 0) {
         return (
             <SafeAreaView>
+                <HeaderBar navigation={navigation} />
                 <View style={{ justifyContent: 'center', alignItems: 'center', height: height, alignSelf: 'center' }}>
-                    <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Chưa có thông tin sức khỏe</Text>
-                    <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Nên chúng tôi chưa có lịch sử sức khỏe </Text>
+                    <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Chưa có thông tin ăn uống</Text>
+                    <Text style={{ color: COLORS.red, fontWeight: 'bold', fontSize: 15 }}>Nên chúng tôi chưa có lịch sử ăn uống</Text>
                     <TouchableOpacity
                         onPress={() => navigate('XMap')}
                         style={{
@@ -172,7 +173,7 @@ const ProFileEat = props => {
         )
     }
     return (
-        <SafeAreaView style={{height:'110%'}}>
+        <SafeAreaView style={{ height: '110%' }}>
             <HeaderBar navigation={navigation} />
             <View>
                 <Text style={styles.title}>Lịch sử ăn uống</Text>

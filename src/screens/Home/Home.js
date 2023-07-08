@@ -195,10 +195,14 @@ const Home = props => {
     else {
       Alert.alert('Thông báo', 'Vui lòng nhập thông tin sức khỏe trước!');
     }
-
   };
   const clickMap = () => {
-    navigate('XMap');
+    if (calo) {
+      navigate('XMap', calo);
+    }
+    else {
+      Alert.alert('Thông báo', 'Vui lòng nhập thông tin sức khỏe trước!');
+    }
   };
   const categoryIcons = [
     <IIcon

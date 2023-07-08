@@ -46,7 +46,8 @@ const FoodCom = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', food)}>
-      <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${food.image}` }}>
+      {/* <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${food.image}` }}> */}
+      <ImageBackground style={styles.imgBack} source={{ uri: `${food.image}` }}>
         <View
           style={{
             flex: 1,

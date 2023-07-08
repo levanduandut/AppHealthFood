@@ -29,7 +29,8 @@ const DetailFoodMain = props => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <StatusBar translucent backgroundColor={COLORS.grey}></StatusBar>
-      <ImageBackground style={{ flex: 0.5 }} source={{ uri: `${URL_IMAGE}${x.image}` }}>
+      {/* <ImageBackground style={{ flex: 0.5 }} source={{ uri: `${URL_IMAGE}${x.image}` }}> */}
+      <ImageBackground style={{ flex: 0.5 }} source={{ uri: `${x.image}` }}>
         <View style={styles.header}>
           <Icon
             name="arrow-back"

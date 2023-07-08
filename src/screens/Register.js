@@ -73,7 +73,10 @@ const Register = props => {
         })
             .then(async res => {
                 if (res.data.errCode !== 0) {
-                    alert(res.data.message);
+                    Alert.alert(
+                        'Đăng kí không thành công !',
+                        res.data.message,
+                    );
                 } else {
                     Alert.alert(
                         'Đăng kí thành công',

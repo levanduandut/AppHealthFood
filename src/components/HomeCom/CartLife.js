@@ -18,7 +18,8 @@ const CartLife = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => navigation.navigate('DetailFood', lifestyle)}>
-      <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${lifestyle.image}` }}>
+      {/* <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${lifestyle.image}` }}> */}
+      <ImageBackground style={styles.imgBack} source={{ uri: `${lifestyle.image}` }}>
         <Text
           style={{
             color: COLORS.yellow,

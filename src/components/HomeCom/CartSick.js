@@ -25,7 +25,8 @@ const CartSick = props => {
             onPress={() => navigation.navigate('DetailSick', sick)}
         >
             <ScrollView>
-                <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${sick.image}` }}>
+                {/* <ImageBackground style={styles.imgBack} source={{ uri: `${URL_IMAGE}${sick.image}` }}> */}
+                <ImageBackground style={styles.imgBack} source={{ uri: `${sick.image}` }}>
                     <Text
                         style={{
                             color: COLORS.white,
