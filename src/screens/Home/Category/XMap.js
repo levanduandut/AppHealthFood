@@ -18,6 +18,7 @@ import axios from 'axios';
 import { post_absorb, translate_x } from '../../../api/user_api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderBar from '../../../components/HeaderBar';
+import { API_HOST, API_KEY,URL_DET } from '@env';
 const { height } = Dimensions.get('window');
 
 const XMap = props => {
@@ -57,13 +58,13 @@ const XMap = props => {
       try {
         const response = await axios.request({
           method: 'GET',
-          url: 'https://nutrition-by-api-ninjas.p.rapidapi.com/v1/nutrition',
+          url: URL_DET,
           params: {
             query: `${text1}`,
           },
           headers: {
-            'X-RapidAPI-Key': '10a70d537bmsh80e40618efcf552p179c73jsn70e5aa136bdc',
-            'X-RapidAPI-Host': 'nutrition-by-api-ninjas.p.rapidapi.com',
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': API_HOST,
           },
         });
         if (response.data.length > 0) {
